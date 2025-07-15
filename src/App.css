@@ -1,0 +1,7 @@
+@import "./LettronixTheme.css";
+
+@layer base {
+  html {
+    @apply bg-lettronix-bg mx-45 my-2 p-0;
+  }
+}
