@@ -2,10 +2,11 @@ import "./LettronixTheme.css";
 import "./App.css";
 
 import HeaderRender from "./components/HeaderRender";
-// import HomeWindowRender from "./components/HomeWindow";
+import HomeWindowRender from "./components/HomeWindow";
 import FootRender from "./components/FooterRender";
 import ControlCenterRender from "./components/ControlCenterRender";
 // import "./index.css";
+
 function App() {
   return (
     <>

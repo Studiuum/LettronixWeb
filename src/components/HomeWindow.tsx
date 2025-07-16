@@ -6,7 +6,7 @@ const card =
 const titleCard =
   "flex items-center justify-between border-b-1 border-lettronix-title-border pb-2";
 
-const titleName = " text-xl tracking-widest";
+const titleName = "font-medium text-xl tracking-widest";
 
 interface SensorCardProps {
   label: string;
