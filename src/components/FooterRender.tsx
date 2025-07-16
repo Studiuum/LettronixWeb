@@ -2,7 +2,7 @@ import "../LettronixTheme.css";
 const navBtn = " flex flex-row flex-1 gap-5 justify-center";
 
 const btn =
-  " bg-lettronix-head-foot-bg hover:bg-lettronix-hover active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx disabled:bg-lettronix-btn-disabled";
+  " bg-lettronix-head-foot-bg hover:bg-lettronix-hover hover:drop-shadow-all-fx active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx disabled:bg-lettronix-btn-disabled";
 
 function FootRender() {
   return (

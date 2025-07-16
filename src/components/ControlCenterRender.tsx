@@ -9,12 +9,13 @@ const titleCard =
 const titleName = " font-medium text-xl tracking-widest";
 
 const controlBtn =
-  "px-[20px] py-[10px] rounded-[20px] drop-shadow-btn-fx bg-lettronix-btn hover:bg-lettronix-hover active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
+  "px-[20px] py-[10px] rounded-[20px] drop-shadow-btn-fx bg-lettronix-btn hover:drop-shadow-all-fx hover:bg-lettronix-hover active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
 
 const otherControlBtn =
-  "flex-1 px-[20px] py-[8px] rounded-[20px] drop-shadow-btn-fx bg-lettronix-btn hover:bg-lettronix-hover active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
+  "flex-1 px-[20px] py-[8px] rounded-[20px] drop-shadow-btn-fx bg-lettronix-btn  hover:drop-shadow-all-fx hover:bg-lettronix-hover active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
 
 const helpBTN = "w-4 hover:scale-120 active:scale-80 transition duration-200";
+
 function ControlCenterRender() {
   return (
     <>

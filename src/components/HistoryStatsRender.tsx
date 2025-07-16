@@ -38,7 +38,7 @@ function RenderSensorReadingsCard({ label, value }: SensorCardProps) {
 }
 
 const controlBtn =
-  "px-[20px] py-[10px] rounded-[20px] drop-shadow-btn-fx bg-lettronix-btn hover:bg-lettronix-hover active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
+  "px-[20px] py-[10px] rounded-[20px] text-xl drop-shadow-btn-fx active:drop-shadow-none hover:drop-shadow-all-fx active:inset-shadow-inward-all-fx active:animate-pulse[10] disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
 
 function HistoryStatRender() {
   return (
@@ -46,7 +46,7 @@ function HistoryStatRender() {
       <div className="flex flex-1 w-full h-full justify-center gap-10">
         {/* LEFT SIDE */}
         <div className={`${card} w-1/2 justify-between`}>
-          {/* OVERVIEW LINE */}
+          {/* IMAGE and CLASSFICATION LINE */}
           <div className={`${titleCard}`}>
             <div className={`${titleName}`}>IMAGE AND CLASSIFICATIONS</div>
             <img src="icons/overview-icon.svg" />
@@ -54,7 +54,7 @@ function HistoryStatRender() {
 
           {/* DAYS - GROUP */}
           <div className=" flex flex-col justify-center gap-0">
-            <div className="flex-1 font-bold text-3xl">DAY</div>
+            <div className="flex-1 font-bold text-2xl">READING DATE</div>
             <div className="flex items-center justify-center ml-4 gap-5">
               {/* FUNCION HERE */}
               <input
@@ -94,7 +94,76 @@ function HistoryStatRender() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex flex-col w-1/2  gap-3 justify-center"></div>
+        <div className={`${card} flex flex-col w-1/2  gap-3 justify-center`}>
+          {/* OVERVIEW LINE */}
+          <div className={`${titleCard}`}>
+            <div className={`${titleName}`}>SENSOR DATA LOG</div>
+            <img src="icons/stats-graph-param-icon.svg" />
+          </div>
+
+          {/* SELECT PARAMETR GROUP */}
+          <div className="flex flex-col justify-center gap-2 ">
+            <div className="font-bold text-2xl ">SELECT A PARAMETER:</div>
+            <div className="flex flex-col mx-10 gap-2">
+              {/* TDS */}
+              <input
+                type="radio"
+                name="parameter"
+                value="TDS"
+                id="TDS RADIO"
+                className="form-radio hidden"
+              />
+              <label
+                htmlFor="TDS RADIO"
+                className={`${controlBtn} flex justify-center bg-TDS-param hover:bg-lettronix-hover  active:bg-TDS-param`}
+              >
+                TDS READING
+              </label>
+              {/* TDS */}
+              <input
+                type="radio"
+                name="parameter"
+                value="pH"
+                id="pH RADIO"
+                className="form-radio hidden"
+              />
+              <label
+                htmlFor="pH RADIO"
+                className={`${controlBtn} flex justify-center bg-pH-param hover:bg-lettronix-hover  active:bg-pH-param`}
+              >
+                pH READING
+              </label>
+              {/* TEMP */}
+              <input
+                type="radio"
+                name="parameter"
+                value="TEMP"
+                id="TEMP RADIO"
+                className="form-radio hidden"
+              />
+              <label
+                htmlFor="TEMP RADIO"
+                className={`${controlBtn} flex justify-center bg-TEMP-param hover:bg-lettronix-hover  active:bg-TEMP-param`}
+              >
+                TEMPERATURE READING
+              </label>
+              {/* HUM */}
+              <input
+                type="radio"
+                name="parameter"
+                value="HUM"
+                id="HUM RADIO"
+                className="form-radio hidden"
+              />
+              <label
+                htmlFor="HUM RADIO"
+                className={`${controlBtn} flex justify-center bg-HUM-param hover:bg-lettronix-hover  active:bg-HUM-param`}
+              >
+                HUMIDITY READING
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
