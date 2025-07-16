@@ -4,23 +4,37 @@
 
 @theme {
   /* COLORS */
-  --color-lettronix-bg: #e9f5db;
-  --color-lettronix_card_bg: #eff8e6;
-  --color-lettronix_head_foot_bg: #cfe1a9;
-  --color-lettronix_selected: #71835559;
-  --color-lettronix_btn: #87986a;
-  --color-lettronix-bnt-disabled: #0000004d;
-  --color-lettronix_status_act: #37ff00;
-  --color-lettronix_status_pause: #fb970c;
-  --color-lettronix_status_stop: #ff1a1a;
-  --color-lettronix_title_border: #00000019;
-  --color-lettronix_img_class: #cfe1b91e;
+  --color-lettronix-bg: #eff8e6;
+  --color-lettronix-card-bg: #f0f4e3;
+  --color-lettronix-card-border: #d2e3c5;
+  --color-lettronix-head-foot-bg: #cfe1a9;
+
+  --color-lettronix-selected: #afc09c;
+  --color-lettronix-hover: #eff7e5;
+  --color-lettronix-btn: #cdd9bf;
+  --color-lettronix-btn-disabled: #b2b5af;
+  --color-lettronix-status-act: #37ff00;
+  --color-lettronix-status-pause: #fb970c;
+  --color-lettronix-status-stop: #ff1a1a;
+  --color-lettronix-title-border: #00000019;
+  --color-lettronix-img-class: #cfe1b91e;
+
   /* PROGRESS BAR COLORS */
-  --color-lettronix_progressbar_bg: #97a97c;
-  --color-lettronix_progressbar_fg: #718355;
+  --color-lettronix-progressbar-bg: #97a97c;
+  --color-lettronix-progressbar-fg: #718355;
+
+  /* ACTIVITY STATUS COLORS */
+  --color-status-active: #0cd66b;
+  --color-status-pause: #f2c913;
+  --color-status-stop: #d30d5e;
+
+  /* FOOTER BUTTON */
+  --color-lettronix-footer-hover: #eff7e5;
+  --color-lettronix-footer-selected: #eff7e5;
   /* EFFECTS */
-  --drop-shadow-all-fx: 4px 4px 4px rgba(0, 0, 0, 0.25);
-  --inset-shadow-all-fx: 6px 6px 6px rgba(0, 0, 0, 0.25);
+  --drop-shadow-all-fx: 2px 2px 2px rgba(0, 0, 0, 0.25);
+  --drop-shadow-btn-fx: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  --inset-shadow-inward-all-fx: inset 2px 2px 2px rgba(0, 0, 0, 0.25);
 
   /* FONT STYLES */
   --font-Inter: Inter, Times;
