@@ -56,7 +56,7 @@ function HomeWindowRender() {
             <div className="flex-1 font-bold text-3xl">DAY</div>
             <div className="flex items-center justify-center ml-4 gap-5">
               {/* FUNCION HERE */}
-              <div className="shrink-0 w-1/6 font-bold text-7xl text-center">
+              <div className="shrink-0 w-1/5 font-bold text-7xl text-center overflow-hidden text-ellipsis whitespace-nowrap">
                 30
               </div>
               <div className="flex flex-col w-full h-full text-[16px]">
