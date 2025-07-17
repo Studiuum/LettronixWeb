@@ -19,7 +19,7 @@ const helpBTN = "w-4 hover:scale-120 active:scale-80 transition duration-200";
 function ControlCenterRender() {
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-1 flex-col gap-3 ">
         <div className={`${card} flex-row  items-align`}>
           <div className="w-1/2 flex flex-row items-center gap-2">
             <div className={`${titleName}`}>MAIN CONTROL</div>

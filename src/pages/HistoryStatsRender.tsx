@@ -40,7 +40,7 @@ function RenderSensorReadingsCard({ label, value }: SensorCardProps) {
 const controlBtn =
   "px-[20px] py-[10px] rounded-[20px] text-xl drop-shadow-btn-fx active:drop-shadow-none hover:drop-shadow-all-fx active:inset-shadow-inward-all-fx active:animate-pulse[10] disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
 
-function HistoryStatRender() {
+function HistoryStatsRender() {
   return (
     <>
       <div className="flex flex-1 w-full h-full justify-center gap-10">
@@ -169,4 +169,4 @@ function HistoryStatRender() {
   );
 }
 
-export default HistoryStatRender;
+export default HistoryStatsRender;

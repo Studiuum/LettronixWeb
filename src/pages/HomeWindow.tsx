@@ -43,7 +43,7 @@ const controlBtn =
 function HomeWindowRender() {
   return (
     <>
-      <div className="flex flex-1 w-full h-full justify-center gap-10">
+      <div className="flex flex-1 h-full justify-center gap-10 min-h-0">
         {/* LEFT SIDE */}
         <div className={`${card} w-1/2 justify-between`}>
           {/* OVERVIEW LINE */}
@@ -91,7 +91,7 @@ function HomeWindowRender() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex flex-col w-1/2  gap-3 justify-center">
+        <div className="flex flex-col w-1/2 gap-3 justify-between">
           {/* SENSOR READINGS */}
           <div className={`${card} flex-1`}>
             {/* SENSOR READINGS LINE */}
