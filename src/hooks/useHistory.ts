@@ -47,5 +47,6 @@ export function useHistory() {
   }
 
   console.log(historyData);
+
   return { historyData, loadData, setloadData, indexNumber, setIndexNumber };
 }

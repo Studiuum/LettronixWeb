@@ -2,7 +2,7 @@
 export type PreferencesProp = {
   date_time: string;
   age: number;
-  lettce_classify: number;
+  lettuce_classify: number;
   lettuce_pic_url: string;
 };
 

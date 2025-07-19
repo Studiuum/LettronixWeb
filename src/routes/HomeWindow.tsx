@@ -1,4 +1,3 @@
-import { useLoaderData } from "react-router-dom";
 import HomeWindowRender from "../pages/HomeWindow";
 
 export function loader() {

@@ -28,8 +28,11 @@ export const MemoHeaderStatus = memo(({ status }: { status: number }) => {
 });
 
 export const MemoTDS = memo(({ value }: { value: number }) => {
-  const stringVal = value === 0 ? "0000" : value.toString().padStart(4, "-");
-  return <div className="flex-1 text-2xl font-medium">{stringVal}</div>;
+  return (
+    <div className="width-full text-2xl font-medium">
+      {value} <span className="text-sm">ppm</span>
+    </div>
+  );
 });
 
 export const MemopH = memo(({ value }: { value: number }) => {

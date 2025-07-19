@@ -1,5 +1,5 @@
 import { memo } from "react";
-import type { RPIControlSetupFunctions } from "../../data/dataProps/dataProps";
+
 import { supabase } from "../../supabase";
 
 async function HandleBTNClicks(label: string, value: number) {

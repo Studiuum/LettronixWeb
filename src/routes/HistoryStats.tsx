@@ -1,4 +1,3 @@
-import { useLoaderData } from "react-router";
 import HistoryStatsRender from "../pages/HomeWindow";
 
 export function loader() {

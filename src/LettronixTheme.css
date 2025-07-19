@@ -30,8 +30,8 @@
   /* PARAMETER COLORS */
   --color-TDS-param: #5eead4;
   --color-pH-param: #f9a8d4;
-  --color-TEMP-param: #fcd34d;
-  --color-HUM-param: #7dd3fc;
+  --color-TEMPERATURE-param: #fcd34d;
+  --color-HUMIDITY-param: #7dd3fc;
   /* FOOTER BUTTON */
   --color-lettronix-footer-hover: #eff7e5;
   --color-lettronix-footer-selected: #eff7e5;

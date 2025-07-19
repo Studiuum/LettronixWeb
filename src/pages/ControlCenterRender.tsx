@@ -5,7 +5,6 @@ import type {
 } from "../data/dataProps/dataProps";
 import "../LettronixTheme.css";
 import { MemoBtn, MemoOtherBtn } from "../hooks/memos/ActuatorMemos";
-import { supabase } from "../supabase";
 
 const card =
   "flex p-5 bg-lettronix-card-bg drop-shadow-all-fx font-Inter rounded-2xl border-0.25 border-lettronix-card-border";

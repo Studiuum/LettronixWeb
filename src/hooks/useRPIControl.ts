@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
+
 import type {
   RPIControlSetupFunctions,
   RPIControlStatusProp,

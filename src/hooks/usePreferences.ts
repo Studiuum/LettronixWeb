@@ -6,7 +6,7 @@ export function usePreferences() {
   const [preferencesData, setPreferencesData] = useState<PreferencesProp>({
     date_time: "--/--/-- --:--",
     age: 0,
-    lettce_classify: 4,
+    lettuce_classify: 4,
     lettuce_pic_url:
       "https://i.pinimg.com/1200x/50/3d/74/503d7489014506873e2cdea8a64492b6.jpg",
   });
@@ -56,5 +56,6 @@ export function usePreferences() {
     payload.date_time = dateTime;
     setPreferencesData(payload);
   }
+
   return preferencesData;
 }

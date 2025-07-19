@@ -1,4 +1,3 @@
-import { useContext, type FC } from "react";
 import { MemoHum, MemopH, MemoTDS, MemoTemp } from "../hooks/memos/SensorMemos";
 import "../LettronixTheme.css";
 import { MemoTank } from "../hooks/memos/TankLevelMemos";
@@ -66,10 +65,11 @@ function HomeWindowRender() {
 
   // CONTROL DATA
   const rpiControlData = contextData.values;
-  const setStatus = contextData.setFunctions.setStatus;
 
   // PREFERENCE DATA
   const preferenceData = usePreferences();
+  console.log("PREFENCE DATA: ", preferenceData.lettuce_classify);
+
   return (
     <>
       <div className="flex h-full justify-center gap-10 min-h-0">
@@ -119,7 +119,7 @@ function HomeWindowRender() {
           {/* IMAGE + CLASSIFICATION */}
           <div className="flex flex-col flex-1 rounded-[15px] gap-0 border-1 border-lettronix-selected hover:scale-105 hover:animation-pulse transition-transform duration-5000">
             <img
-              src="https://i.pinimg.com/1200x/50/3d/74/503d7489014506873e2cdea8a64492b6.jpg"
+              src={preferenceData.lettuce_pic_url}
               alt={"src/assets/WIN_20250331_18_16_58_Pro.jpg"}
               className="h-80 object-cover rounded-t-[15px]"
             />
@@ -128,7 +128,10 @@ function HomeWindowRender() {
                 CLASSIFICATION:
               </div>
               <div className="flex-1 font-regular text-2xl text-center tracking-wider">
-                MODERATE DEFICIENT
+                {preferenceData.lettuce_classify === 4 && "NORMAL"}
+                {preferenceData.lettuce_classify === 3 && "SLIGHT DEFICIENCY"}
+                {preferenceData.lettuce_classify === 2 && "MODERATE DEFICIENCY"}
+                {preferenceData.lettuce_classify === 1 && "SEVERE DEFICIENCY"}
               </div>
             </div>
           </div>
