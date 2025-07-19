@@ -1,4 +1,4 @@
-import MainLayout from "./routes/_MainLayout";
+import MainLayout from "./global/_MainLayout.tsx";
 import HomeWindow, {
   loader as homeloader,
   meta as homemeta,

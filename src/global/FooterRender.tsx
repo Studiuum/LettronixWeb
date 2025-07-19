@@ -17,13 +17,13 @@ function FootRender() {
     <div className="fixed bottom-2 left-0 right-0 mx-70 bg-lettronix-head-foot-bg rounded-full shadow drop-shadow-btn-fx z-50">
       <nav className="flex flex-row divide-x divide-lettronix-title-border">
         {[
-          { icon: "/icons/nav-home-icon.svg", label: "HOME" },
+          { icon: "src/assets/icons/nav-home-icon.svg", label: "HOME" },
           {
-            icon: "/icons/nav-control-center-icon.svg",
+            icon: "src/assets/icons/nav-control-center-icon.svg",
             label: "CONTROL CENTER",
           },
           {
-            icon: "/icons/nav-stats-icon.svg",
+            icon: "src/assets/icons/nav-stats-icon.svg",
             label: "HISTORY AND STATISTICS",
           },
         ].map((item, index) => (
@@ -37,7 +37,7 @@ function FootRender() {
             ${index === 2 ? "rounded-r-full" : ""}
             ${
               isActive
-                ? " bg-lettronix-selected inset-shadow-inward-all-fx "
+                ? " bg-lettronix-selected inset-shadow-inward-all-fx pointer-events-none"
                 : ""
             }`
             }
