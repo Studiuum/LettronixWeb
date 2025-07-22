@@ -1,33 +1,18 @@
 import { useOutletContext } from "react-router";
-import type {
-  RPIControlStatusProp,
-  RPIControlSetupFunctions,
-} from "../data/dataProps/dataProps";
+import type { OutletContextProp } from "../data/dataProps/dataProps";
 import "../LettronixTheme.css";
 import { MemoBtn, MemoOtherBtn } from "../hooks/memos/ActuatorMemos";
 
 const card =
   "flex p-5 bg-lettronix-card-bg drop-shadow-all-fx font-Inter rounded-2xl border-0.25 border-lettronix-card-border";
 
-const titleCard =
-  "flex items-center justify-between border-b-1 border-lettronix-title-border pb-2";
-
 const titleName = " font-medium text-xl tracking-widest";
-
-const controlBtn =
-  "px-[20px] py-[10px] rounded-[20px] drop-shadow-btn-fx bg-lettronix-btn hover:drop-shadow-all-fx hover:bg-lettronix-hover active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
-
-const otherControlBtn =
-  "flex-1 px-[20px] py-[8px] rounded-[20px] drop-shadow-btn-fx bg-lettronix-btn  hover:drop-shadow-all-fx hover:bg-lettronix-hover active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
 
 const helpBTN =
   "w-4 hover:scale-120 hover:animation-pulse transition duration-200";
 
 function ControlCenterRender() {
-  const contextData: {
-    values: RPIControlStatusProp;
-    setFunctions: RPIControlSetupFunctions;
-  } = useOutletContext();
+  const { contextData } = useOutletContext<OutletContextProp>();
 
   // CONTROL DATA
   const rpiControlData = contextData.values;

@@ -55,3 +55,11 @@ export type DailyDataProp = {
   classification: number;
 };
 /////////////////////////////////////////
+// GLOBAL TYPES
+export type OutletContextProp = {
+  contextData: {
+    values: RPIControlStatusProp;
+    setFunctions: RPIControlSetupFunctions;
+  };
+  preferenceData: PreferencesProp;
+};

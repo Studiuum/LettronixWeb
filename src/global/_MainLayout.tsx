@@ -1,17 +1,26 @@
-import { Outlet } from "react-router-dom";
-import { useRPIControl } from "../hooks/useRPIControl";
+import { Outlet, useLoaderData } from "react-router-dom";
+
 import HeaderRender from "./HeaderRender";
 import FootRender from "./FooterRender";
+import { Suspense } from "react";
+import { useRPIControl } from "../hooks/useRPIControl";
 
 function MainLayout() {
-  const contextData = useRPIControl();
+  // Fetch initial data from the loader
+  const { initialControlData, preferenceData } = useLoaderData();
+  const contextData = useRPIControl(initialControlData);
+
   return (
     <>
       <div className="flex min-h-[668px] flex-col justify-center gap-y-2 mx-45 my-2">
-        <HeaderRender val={contextData.values.status} />
-        <Outlet context={contextData} />
+        <Suspense fallback={<div>Loading header...</div>}>
+          <HeaderRender val={contextData.values.status} />
+        </Suspense>
+        <Outlet context={{ contextData, preferenceData }} />
       </div>
-      <FootRender />
+      <Suspense fallback={<div>Loading header...</div>}>
+        <FootRender />
+      </Suspense>
     </>
   );
 }

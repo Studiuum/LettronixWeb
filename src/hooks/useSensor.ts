@@ -2,37 +2,37 @@ import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 import type { SensorDataProp } from "../data/dataProps/dataProps";
 
-export function useSensor() {
+export function useSensor(intialSensorData: SensorDataProp) {
   const [rpiSensorData, setRPISensorData] = useState<SensorDataProp>({
-    tds: 0,
-    pH: 0,
-    temp: 0,
-    hum: 0,
-    nutrient_tank: false,
-    foliar_tank: false,
-    cal_tank: false,
-    npk_tank: false,
-    mag_tank: false,
-    ph_up_tank: false,
-    ph_down_tank: false,
-    cal_mag_tank: false,
+    tds: intialSensorData.tds,
+    pH: intialSensorData.pH,
+    temp: intialSensorData.temp,
+    hum: intialSensorData.hum,
+    nutrient_tank: intialSensorData.nutrient_tank,
+    foliar_tank: intialSensorData.foliar_tank,
+    cal_tank: intialSensorData.cal_tank,
+    npk_tank: intialSensorData.npk_tank,
+    mag_tank: intialSensorData.mag_tank,
+    ph_up_tank: intialSensorData.ph_up_tank,
+    ph_down_tank: intialSensorData.ph_down_tank,
+    cal_mag_tank: intialSensorData.cal_mag_tank,
   });
 
-  // FETCHING
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase.from("realtimeDB").select();
-      if (error) {
-        console.log("ERROR", error);
-      } else if (data && data.length > 0) {
-        const row = data[0];
-        handleSensorPayload(row);
-      }
-    };
-    console.log("FETCH COMPLETE");
-    fetchData();
-    // Do not return a promise from useEffect
-  }, []);
+  // // FETCHING
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const { data, error } = await supabase.from("realtimeDB").select();
+  //     if (error) {
+  //       console.log("ERROR", error);
+  //     } else if (data && data.length > 0) {
+  //       const row = data[0];
+  //       handleSensorPayload(row);
+  //     }
+  //   };
+  //   console.log("FETCH COMPLETE");
+  //   fetchData();
+  //   // Do not return a promise from useEffect
+  // }, []);
 
   // LISTENER
   useEffect(() => {

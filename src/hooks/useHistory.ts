@@ -16,6 +16,7 @@ export function useHistory() {
   ]);
 
   const [loadData, setloadData] = useState<DailyDataProp>(historyData[0]);
+
   const [indexNumber, setIndexNumber] = useState<number | string>(
     historyData[0].age
   );

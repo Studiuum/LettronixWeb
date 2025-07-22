@@ -2,14 +2,14 @@ import { MemoHum, MemopH, MemoTDS, MemoTemp } from "../hooks/memos/SensorMemos";
 import "../LettronixTheme.css";
 import { MemoTank } from "../hooks/memos/TankLevelMemos";
 import { MemoBtn } from "../hooks/memos/ActuatorMemos";
-import { useOutletContext } from "react-router";
+import { useLoaderData, useOutletContext } from "react-router";
 import type {
-  RPIControlSetupFunctions,
-  RPIControlStatusProp,
+  OutletContextProp,
   SensorDataProp,
 } from "../data/dataProps/dataProps";
 import { useSensor } from "../hooks/useSensor";
-import { usePreferences } from "../hooks/usePreferences";
+
+import type { FC } from "react";
 
 const card =
   "flex flex-col p-5 bg-lettronix-card-bg drop-shadow-all-fx font-Inter rounded-2xl border-0.25 border-lettronix-card-border gap-2";
@@ -54,21 +54,15 @@ function RenderSensorReadingsCard({
     </div>
   );
 }
+
 function HomeWindowRender() {
-  const contextData: {
-    values: RPIControlStatusProp;
-    setFunctions: RPIControlSetupFunctions;
-  } = useOutletContext();
-
-  // SENSOR DATA
-  const sensorData: SensorDataProp = useSensor();
-
-  // CONTROL DATA
+  const { contextData, preferenceData } = useOutletContext<OutletContextProp>();
   const rpiControlData = contextData.values;
 
-  // PREFERENCE DATA
-  const preferenceData = usePreferences();
-  console.log("PREFENCE DATA: ", preferenceData.lettuce_classify);
+  // SENSOR DATA AND PREFERENCE DATA
+  const initialSensorData = useLoaderData();
+  // // SENSOR DATA
+  const sensorData: SensorDataProp = useSensor(initialSensorData);
 
   return (
     <>

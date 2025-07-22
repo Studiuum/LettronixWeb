@@ -1,9 +1,12 @@
-import { useEffect, useState, type ChangeEvent } from "react";
-import type { DailyDataProp } from "../data/dataProps/dataProps";
-import { useHistory } from "../hooks/useHistory";
-import { usePreferences } from "../hooks/usePreferences";
+import { useState, type ChangeEvent } from "react";
+import type {
+  DailyDataProp,
+  OutletContextProp,
+} from "../data/dataProps/dataProps";
+
 import "../LettronixTheme.css";
 import { useGraph } from "../hooks/useGraph";
+import { useLoaderData, useOutletContext } from "react-router";
 
 const card =
   "flex flex-col p-5 bg-lettronix-card-bg drop-shadow-all-fx font-Inter rounded-2xl border-0.25 border-lettronix-card-border gap-2";
@@ -17,12 +20,17 @@ const controlBtn =
   "rounded-[20px] text-[16px] py-2 px-1 drop-shadow-btn-fx active:drop-shadow-none hover:drop-shadow-all-fx active:inset-shadow-inward-all-fx active:animate-pulse[10] disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
 
 function HistoryStatsRender() {
-  const { historyData, loadData, setloadData, indexNumber, setIndexNumber } =
-    useHistory();
-  const prefeferenceData = usePreferences();
-  console.log(loadData);
-  console.log(loadData.pic);
+  const { preferenceData } = useOutletContext<OutletContextProp>();
+
+  const historyData: DailyDataProp[] = useLoaderData();
+  console.log("HISTORY DATA", historyData);
+  const [loadData, setloadData] = useState<DailyDataProp>(
+    historyData[historyData.length - 1]
+  );
+  const [indexNumber, setIndexNumber] = useState<number | string>(loadData.age);
+
   const [param, setParam] = useState("TDS");
+
   function inputTextHandler(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.value !== "") {
       const num = Number(e.target.value);
@@ -102,14 +110,14 @@ function HistoryStatsRender() {
                           100
                         )}%`,
                       }}
-                      className="h-full
+                      className="h-full drop-shadow-lettronix-title-border
                        bg-lettronix-progressbar-fg overflow-visible rounded-full text-lettronix-progressbar-fg transition-all duration-1500 transformation-gpu ease-in-out"
                     ></div>
                   </div>
                 </div>
                 <div className="font-bold flex-1 ">START DATE TIME:</div>
                 <div className="flex-1 text-center">
-                  {prefeferenceData.date_time}
+                  {preferenceData.date_time}
                 </div>
               </div>
             </div>
