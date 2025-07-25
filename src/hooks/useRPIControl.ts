@@ -5,7 +5,6 @@ import type {
   RPIControlStatusProp,
 } from "../data/dataProps/dataProps";
 import { supabase } from "../supabase";
-import { loader } from "../routes/ControlCenter";
 
 export function useRPIControl(loaderData: RPIControlStatusProp) {
   const [status, setStatus] = useState(loaderData.status);

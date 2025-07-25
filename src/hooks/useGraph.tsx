@@ -29,7 +29,7 @@ export function useGraph(historyData: DailyDataProp[], param: string) {
 
   return (
     <>
-      <div className="transition-all duration-500 transform-gpu">
+      <div className=" transition-all duration-500 transform-gpu">
         <Chart
           options={{
             chart: {

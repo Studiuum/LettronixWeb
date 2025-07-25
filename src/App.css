@@ -1,7 +1,7 @@
 @import "./LettronixTheme.css";
-
+/* @plugin  */
 @layer base {
   html {
-    @apply bg-lettronix-bg;
+    @apply bg-green-200 font-Inter;
   }
 }

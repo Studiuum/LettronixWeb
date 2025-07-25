@@ -10,14 +10,17 @@ import type {
 import { useSensor } from "../hooks/useSensor";
 
 import type { FC } from "react";
+import TitleCard from "../components/TitleCards";
 
 const card =
-  "flex flex-col p-5 bg-lettronix-card-bg drop-shadow-all-fx font-Inter rounded-2xl border-0.25 border-lettronix-card-border gap-2";
+  "flex flex-col p-3 sm:p-4 md:p-5 min-1024-768:p-3 gap-2 rounded-2xl border-lettronix-card-border bg-lettronix-card-bg drop-shadow-all-fx font-Inter";
 
 const titleCard =
-  "flex items-center justify-between border-b-1 border-lettronix-title-border pb-2";
+  "flex items-center justify-between border-b-1 border-lettronix-title-border pb-1 md:pb-2";
 
-const titleName = "font-medium text-xl tracking-widest";
+const titleName =
+  "font-medium text-[14px] sm:text-[16px] md:text-xl tracking-widest";
+const icon = "w-4 h-4 sm:w-5 sm:h-5 md:w-auto md:h-auto";
 
 function RenderSensorReadingsCard({
   label,
@@ -44,12 +47,12 @@ function RenderSensorReadingsCard({
     }
   }
   return (
-    <div className="flex flex-col flex-1 justify-center items-center font-bold gap-2">
+    <div className="flex flex-1 flex-col items-center justify-center gap-1 font-bold md:gap-2">
       <img
         src={`src/assets/icons/${fileName}-reading-icon.svg`}
-        className="w-12 h-12"
+        className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12"
       />
-      <div className="flex-1 text-xl">{label}</div>
+      <div className="large-body-sub-title flex">{label}</div>
       <Func value={value} />
     </div>
   );
@@ -66,28 +69,31 @@ function HomeWindowRender() {
 
   return (
     <>
-      <div className="flex h-full justify-center gap-10 min-h-0">
+      <div className="flex min-h-0 flex-grow flex-col justify-center gap-2 lg:gap-3 xl:flex-row xl:gap-10 min-1024-768:flex-row">
         {/* LEFT SIDE */}
-        <div className={`${card} w-1/2 justify-between`}>
+        <div
+          className={`main-card flex-grow justify-between xl:w-1/2 xl:justify-start min-1024-768:w-1/2`}
+        >
           {/* OVERVIEW LINE */}
-          <div className={`${titleCard}`}>
-            <div className={`${titleName}`}>OVERVIEW</div>
-            <img src="src/assets/icons/overview-icon.svg" />
-          </div>
+          <TitleCard label={"overview"} />
 
           {/* DAYS - GROUP */}
-          <div className=" flex flex-col justify-center gap-0">
-            <div className="flex-1 font-bold text-2xl">DAY</div>
-            <div className="flex items-center justify-center ml-4 gap-5">
+          <div className="justfiy-start flex flex-grow-0 flex-col gap-0">
+            <div className="large-body-sub-title">
+              {/* sm:text-[1rem] md:flex-1 md:text-2xl */}
+              DAY
+            </div>
+            <div className="ml-2 flex h-full gap-2 md:ml-4 md:gap-5">
               {/* FUNCION HERE */}
-              <div className="shrink-0 h-[72px] w-1/5 font-bold text-7xl text-center overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-200 transformation-gpu ease-in-out">
-                {preferenceData.age}
+              <div className="h2-day-number">
+                {/* {preferenceData.age} */}
+                99
               </div>
-              <div className="flex flex-col w-full h-full text-[16px]">
+              <div className="flex w-full flex-1 flex-col justify-center text-[12px] md:text-[16px]">
                 {/* PROGRESS BAR */}
-                <div className="flex flex-1 h-4">
+                <div className="flex h-4 flex-1">
                   {/* FUNCION HERE  */}
-                  <div className="flex-1 bg-lettronix-progressbar-bg rounded-full color-let overflow-hidden ">
+                  <div className="color-let flex-1 overflow-hidden rounded-full bg-lettronix-progressbar-bg">
                     <div
                       style={{
                         width: `${Math.min(
@@ -96,32 +102,35 @@ function HomeWindowRender() {
                               ? preferenceData.age
                               : 30)) *
                             100,
-                          100
+                          100,
                         )}%`,
                       }}
-                      className="h-full bg-lettronix-progressbar-fg  rounded-full text-lettronix-progressbar-fg p-0.5 transition-all duration-1500 transformation-gpu ease-in-out"
+                      className="transformation-gpu h-full rounded-full bg-lettronix-progressbar-fg p-0.5 text-lettronix-progressbar-fg transition-all duration-1500 ease-in-out"
                     ></div>
                   </div>
                 </div>
-                <div className="font-bold flex-1 ">START DATE TIME:</div>
-                <div className="flex-1 text-center">
+                <div className="flex-1 text-[12px] font-bold sm:text-[14px] lg:text-[16px]">
+                  START DATE TIME:
+                </div>
+                <div className="flex-1 text-center text-[12px] sm:text-[14px] lg:text-[16px]">
                   {preferenceData.date_time}
                 </div>
               </div>
             </div>
           </div>
           {/* IMAGE + CLASSIFICATION */}
-          <div className="flex flex-col flex-1 rounded-[15px] gap-0 border-1 border-lettronix-selected hover:scale-105 hover:animation-pulse transition-transform duration-5000">
+          <div className="hover:animation-pulse flex flex-grow flex-col gap-0 rounded-[8px] border-1 border-lettronix-selected transition-transform duration-5000 hover:scale-105 md:rounded-[15px] md:hover:scale-103">
             <img
-              src={preferenceData.lettuce_pic_url}
+              src={"src/assets/WIN_20250331_18_16_58_Pro.jpg"}
+              // {preferenceData.lettuce_pic_url}
               alt={"src/assets/WIN_20250331_18_16_58_Pro.jpg"}
-              className="h-80 object-cover rounded-t-[15px]"
+              className="h-65 flex-grow rounded-t-[8px] object-cover sm:h-100 md:h-140 md:rounded-t-[15px] lg:h-160 xl:h-80 min-1024-768:h-65"
             />
-            <div className="flex flex-col justify-center bg-lettronix-bg rounded-b-[15px] pb-2">
-              <div className="flex-1 font-bold text-[16px] ml-5">
+            <div className="flex flex-col justify-center rounded-b-[8px] bg-lettronix-bg md:rounded-b-[15px] md:pb-2 xl:flex-grow min-1024-768:flex-grow-0">
+              <div className="ml-2 flex-1 text-[12px] font-bold sm:text-[14px] md:ml-5 md:text-[16px]">
                 CLASSIFICATION:
               </div>
-              <div className="flex-1 font-regular text-2xl text-center tracking-wider">
+              <div className="font-regular flex-1 text-center text-[14px] tracking-wider sm:text-[16px] md:text-2xl">
                 {preferenceData.lettuce_classify === 4 && "NORMAL"}
                 {preferenceData.lettuce_classify === 3 && "SLIGHT DEFICIENCY"}
                 {preferenceData.lettuce_classify === 2 && "MODERATE DEFICIENCY"}
@@ -132,44 +141,41 @@ function HomeWindowRender() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex flex-col w-1/2 gap-3 justify-between">
+        <div className="flex flex-col gap-2 md:justify-between lg:gap-3 xl:w-1/2 min-1024-768:w-1/2">
           {/* SENSOR READINGS */}
-          <div className={`${card} flex-1`}>
+          <div className={`main-card`}>
             {/* SENSOR READINGS LINE */}
-            <div className={`${titleCard}`}>
-              <div className={`${titleName}`}>SENSOR READINGS</div>
-              <img src="src/assets/icons/sensor-reading-icon.svg" />
-            </div>
-            <div className="flex flex-row flex-1 justify-center items-center">
-              <RenderSensorReadingsCard label="TDS" value={sensorData.tds} />
-              <RenderSensorReadingsCard label="pH" value={sensorData.pH} />
-              <RenderSensorReadingsCard label="TEMP" value={sensorData.temp} />
-              <RenderSensorReadingsCard label="HUM" value={sensorData.hum} />
+            <TitleCard label={"sensor readings"} />
+            <div className="flex flex-1 flex-row items-center justify-center gap-0">
+              <RenderSensorReadingsCard label="TDS" value={9999} />
+              <RenderSensorReadingsCard label="pH" value={99.99} />
+              <RenderSensorReadingsCard label="TEMP" value={99.99} />
+              <RenderSensorReadingsCard label="HUM" value={99.99} />
             </div>
           </div>
           {/* WATER LEVEL SENSOR */}
-          <div className=" flex-1 grid grid-cols-2 grid-rows-5 gap-x-5 gap-y-0 p-5 bg-lettronix-card-bg drop-shadow-all-fx font-Inter rounded-[15px]">
-            {/* WATER LEVEL SENSOR LINE */}
-            <div className={`${titleCard} col-span-2`}>
-              <div className={`${titleName}`}>TANK LEVEL</div>
-              <img src="src/assets/icons/waterlevel-icon.svg" />
+          <div className="@container/water_level flex flex-1">
+            <div className="main-card @container/water_levels grid flex-1 grid-cols-2 grid-rows-5 gap-x-5 gap-y-0 rounded-[15px]">
+              {/* WATER LEVEL SENSOR LINE */}
+              <TitleCard classNames={"col-span-2"} label={"tank level"} />
+              <MemoTank
+                label="NUTRIENT TANK"
+                value={sensorData.nutrient_tank}
+              />
+              <MemoTank label="FOLIAR TANK" value={sensorData.foliar_tank} />
+              <MemoTank label="CALCIUM TANK" value={sensorData.cal_tank} />
+              <MemoTank label="NPK TANK" value={sensorData.npk_tank} />
+              <MemoTank label="MAG TANK" value={sensorData.mag_tank} />
+              <MemoTank label="pH UP TANK" value={sensorData.ph_up_tank} />
+              <MemoTank label="pH DOWN TANK" value={sensorData.ph_up_tank} />
+              <MemoTank label="CAL-MAG TANK" value={sensorData.cal_mag_tank} />
             </div>
-            <MemoTank label="NUTRIENT TANK" value={sensorData.nutrient_tank} />
-            <MemoTank label="FOLIAR TANK" value={sensorData.foliar_tank} />
-            <MemoTank label="CALCIUM TANK" value={sensorData.cal_tank} />
-            <MemoTank label="NPK TANK" value={sensorData.npk_tank} />
-            <MemoTank label="MAG TANK" value={sensorData.mag_tank} />
-            <MemoTank label="pH UP TANK" value={sensorData.ph_up_tank} />
-            <MemoTank label="pH DOWN TANK" value={sensorData.ph_up_tank} />
-            <MemoTank label="CAL-MAG TANK" value={sensorData.cal_mag_tank} />
           </div>
-          <div className={`${card}`}>
+          <div className={`main-card`}>
             {/* SENSOR READINGS LINE */}
-            <div className={`${titleCard}`}>
-              <div className={`${titleName}`}>MAIN CONTROL</div>
-              <img src="src/assets/icons/main-control-icon.svg" />
-            </div>
-            <div className="flex flex-row justify-center gap-3 items-center mx-10">
+            {/* WATER LEVEL SENSOR LINE */}
+            <TitleCard label={"main control"} />
+            <div className="flex flex-row items-center justify-center gap-3 sm:gap-7 md:mx-10">
               <MemoBtn
                 label="START CYCLE"
                 isActive={

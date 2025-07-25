@@ -9,6 +9,7 @@ import type {
 import { supabase } from "../supabase";
 
 export const fetchControlData = async () => {
+  console.log("FETCHING CONTROl DATA");
   const { data, error } = await supabase.from("rpi_control").select();
   if (error || data.length === 0 || data === null) {
     console.log(
@@ -40,6 +41,7 @@ export const fetchControlData = async () => {
 };
 
 export const fetchPreferencesData = async () => {
+  console.log("FETCHING PREFERENCES DATA");
   const { data, error } = await supabase.from("preferences").select();
   if (error || data.length === 0 || data === null) {
     console.log(
@@ -62,12 +64,24 @@ export const fetchPreferencesData = async () => {
     return defaultData;
   } else if (data && data.length > 0) {
     const row = data[0];
-
+    const dateTime = new Date(row.date_time.replace(" ", "T")).toLocaleString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "long", // e.g., July
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }
+    );
+    row.date_time = dateTime;
     return row;
   }
 };
 
 export const fetchSensorData = async () => {
+  console.log("FETCHING SENSOR DATA");
   const { data, error } = await supabase.from("realtimeDB").select();
   if (error || data.length === 0 || data === null) {
     console.log(

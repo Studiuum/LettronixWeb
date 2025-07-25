@@ -9,7 +9,7 @@ export const MemoHeaderStatus = memo(({ status }: { status: number }) => {
 
   return (
     <svg
-      className={`flex justify-center items-center w-2 h-2 md:w-3 md:h-3 xl:w-4 xl:h-4 ${color}`}
+      className={`flex h-2 w-2 items-center justify-center md:h-3 md:w-3 xl:h-4 xl:w-4 ${color}`}
       xmlns="http://www.w3.org/2000/svg"
       width="12"
       height="12"
@@ -29,8 +29,11 @@ export const MemoHeaderStatus = memo(({ status }: { status: number }) => {
 
 export const MemoTDS = memo(({ value }: { value: number }) => {
   return (
-    <div className="width-full text-2xl font-medium">
-      {value} <span className="text-sm">ppm</span>
+    <div className="width-full text-[1rem] font-medium sm:text-xl md:text-[1.526rem]">
+      {value}{" "}
+      <span className="text-sm leading-none md:text-lg xl:text-[1rem]">
+        ppm
+      </span>
     </div>
   );
 });
@@ -40,7 +43,11 @@ export const MemopH = memo(({ value }: { value: number }) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);
-  return <div className="flex-1 text-2xl font-medium">{formatter}</div>;
+  return (
+    <div className="width-full text-[1rem] font-medium sm:text-xl md:text-2xl">
+      {formatter}
+    </div>
+  );
 });
 
 export const MemoTemp = memo(({ value }: { value: number }) => {
@@ -48,7 +55,11 @@ export const MemoTemp = memo(({ value }: { value: number }) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);
-  return <div className="flex-1 text-2xl font-medium">{formatter}°C</div>;
+  return (
+    <div className="width-full text-[1rem] font-medium sm:text-xl md:text-2xl">
+      {formatter}°C
+    </div>
+  );
 });
 
 export const MemoHum = memo(({ value }: { value: number }) => {
@@ -56,5 +67,9 @@ export const MemoHum = memo(({ value }: { value: number }) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);
-  return <div className="flex-1 text-2xl font-medium">{formatter}%</div>;
+  return (
+    <div className="width-full text-[1rem] font-medium sm:text-xl md:text-2xl">
+      {formatter}%
+    </div>
+  );
 });

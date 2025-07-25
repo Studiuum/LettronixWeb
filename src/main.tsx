@@ -1,3 +1,4 @@
+import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
@@ -19,7 +20,7 @@ const routes = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={<div>Loading layout...</div>}>
+      <Suspense fallback={<div>Loading Main Layout...</div>}>
         <MainLayout />
       </Suspense>
     ),
@@ -31,32 +32,20 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback={<div>Loading Home...</div>}>
-            <HomePage />
-          </Suspense>
-        ),
+        element: <HomePage />,
         loader: fetchSensorData,
       },
       {
         path: "control-center",
-        element: (
-          <Suspense fallback={<div>Loading Control Center...</div>}>
-            <ControlCenter />
-          </Suspense>
-        ),
+        element: <ControlCenter />,
       },
       {
         path: "history-statistics",
-        element: (
-          <Suspense fallback={<div>Loading History Statistics...</div>}>
-            <HistoryStatsPage />
-          </Suspense>
-        ),
+        element: <HistoryStatsPage />,
         loader: fetchHistoryData,
       },
     ],
-  }, // ← ✅ this comma was missing
+  },
   {
     path: "*",
     element: <div>404 Not Found</div>,
@@ -65,6 +54,8 @@ const routes = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={routes} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <RouterProvider router={routes} />
+    </Suspense>
   </StrictMode>
 );

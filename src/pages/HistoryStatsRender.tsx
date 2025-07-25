@@ -47,6 +47,13 @@ function HistoryStatsRender() {
   }
 
   function ParamButtons({ label }: { label: string }) {
+    const bgColorMap: Record<string, string> = {
+      TDS: "bg-TDS-param",
+      pH: "bg-pH-param",
+      TEMPERATURE: "bg-TEMPERATURE-param",
+      HUMIDITY: "bg-HUMIDITY-param",
+    };
+
     return (
       <>
         <input
@@ -58,7 +65,7 @@ function HistoryStatsRender() {
         />
         <label
           htmlFor={`${label} RADIO`}
-          className={`${controlBtn} flex flex-1 justify-center items-center bg-${label}-param hover:bg-lettronix-hover  active:bg-${label}-param`}
+          className={`${controlBtn} flex flex-1 justify-center items-center ${bgColorMap[label]} hover:bg-lettronix-hover  active:${bgColorMap[label]}`}
           onClick={() => {
             setParam(label);
           }}
@@ -71,7 +78,7 @@ function HistoryStatsRender() {
 
   return (
     <>
-      <div className="flex flex-1 w-full h-full justify-center gap-10">
+      <div className="flex flex-1 w-full justify-center gap-10">
         {/* LEFT SIDE */}
         <div className={`${card} w-1/2 justify-between`}>
           {/* IMAGE AND CLASSIFICATION LINE */}
@@ -92,9 +99,12 @@ function HistoryStatsRender() {
                   inputTextHandler(e);
                 }}
                 onBlur={() => setIndexNumber(loadData.age)}
-                className="shrink-0 h-[72px] w-1/5 py-0 font-bold text-7xl text-center overflow-hidden text-ellipsis whitespace-nowrap focus:bg-white 
-                drop-shadow-btn-fx border-0.5 border-lettronix-title-border outline-0 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
-                transsition-all duration-200"
+                className="shrink-0 h-[72px] w-1/5 py-0 font-bold text-7xl  focus:bg-white 
+                
+                sm:h-[60px] sm:text-5xl  
+                md:h-[72px] md:text-7xl 
+                border-lettronix-title-border outline-0 drop-shadow-btn-fx border-0.5 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
+                text-center overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-200 transformation-gpu ease-in-out "
               />
               <div className="flex flex-col w-full h-full text-[16px]">
                 {/* PROGRESS BAR */}
@@ -147,7 +157,9 @@ function HistoryStatsRender() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className={`${card} flex flex-col w-1/2  gap-4 justify-center`}>
+        <div
+          className={`${card} flex-grow flex flex-col w-1/2  gap-4 justify-center xl:justify-start`}
+        >
           {/* OVERVIEW LINE */}
           <div className={`${titleCard}`}>
             <div className={`${titleName}`}>SENSOR DATA LOG</div>
@@ -155,7 +167,7 @@ function HistoryStatsRender() {
           </div>
 
           {/* SELECT PARAMETR GROUP */}
-          <div className="flex flex-col justify-center gap-2 ">
+          <div className="flex-grow-1 flex flex-col justify-center gap-2 ">
             <div className="font-bold text-2xl ">SELECT A PARAMETER:</div>
             <div className="grid grid-cols-2 grid-rows-2 mx-5 gap-2">
               {/* TDS */}
@@ -164,8 +176,8 @@ function HistoryStatsRender() {
               <ParamButtons label="TEMPERATURE" />
               <ParamButtons label="HUMIDITY" />
             </div>
-            {useGraph(historyData, param)}
           </div>
+          {useGraph(historyData, param)}
         </div>
       </div>
     </>

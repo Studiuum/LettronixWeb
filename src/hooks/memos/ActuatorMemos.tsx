@@ -8,7 +8,8 @@ async function HandleBTNClicks(label: string, value: number) {
   // FIXED: use label.includes(...) instead of "TEXT".includes(label)
   if (label.includes("PUMP")) change = "pump_status";
   else if (label.includes("LIGHT")) change = "light_status";
-  else if (label.includes("FOLIAR")) change = "run_foliar"; // fixed casing
+  else if (label.includes("FOLIAR"))
+    change = "run_foliar"; // fixed casing
   else if (label.includes("SPRINKLER"))
     change = "run_sprinkler"; // fixed casing
   else if (label.includes("DRAIN")) change = "run_drain";
@@ -38,18 +39,13 @@ export const MemoBtn = memo(
         <button
           disabled={!isActive}
           onClick={() => HandleBTNClicks(label, val)}
-          className={`px-[20px] py-[10px] rounded-[20px] drop-shadow-btn-fx bg-lettronix-btn 
-            hover:bg-lettronix-hover hover:drop-shadow-all-fx 
-            active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx 
-         
-            disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:pointer-events-none disaled:scale-10 
-            transition  duration-300"`}
+          className="disaled:scale-10 disabled:text-opacity-[20%] rounded-[18px] bg-green-800 px-[0.625rem] py-[0.5rem] text-[0.75rem] font-semibold text-green-100 duration-300 hover:bg-green-700 focus-visible:bg-green-900 focus-visible:outline-5 focus-visible:outline-green-700 active:bg-green-900 active:outline-none disabled:pointer-events-none disabled:bg-disabled-main-btn disabled:text-green-900/30 sm:rounded-[12px] sm:px-[20px] sm:py-[10px] sm:text-[14px] md:text-[1rem] lg:px-[45px] xl:px-5 xl:py-[0.625rem]"
         >
           {label}
         </button>
       </>
     );
-  }
+  },
 );
 
 export const MemoOtherBtn = memo(
@@ -68,16 +64,11 @@ export const MemoOtherBtn = memo(
         <button
           disabled={!isActive}
           onClick={() => HandleBTNClicks(label, val)}
-          className={`flex-1 px-[20px] py-[8px] rounded-[20px] drop-shadow-btn-fx bg-lettronix-btn
-            hover:bg-lettronix-hover hover:drop-shadow-all-fx 
-            active:bg-lettronix-selected active:drop-shadow-none active:inset-shadow-inward-all-fx 
-
-            disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:pointer-events-none disaled:scale-10 
-            transition  duration-300"`}
+          className="disaled:scale-10 duration:500 flex-1 rounded-[18px] bg-green-200 px-[20px] py-[8px] font-semibold text-green-800 outline-1 outline-green-800 transition-all duration-300 hover:bg-green-600 focus-visible:outline-4 active:bg-green-700 disabled:pointer-events-none disabled:bg-disabled-main-btn disabled:text-green-800/30 disabled:outline-2 sm:rounded-[12px]"
         >
           {label}
         </button>
       </>
     );
-  }
+  },
 );

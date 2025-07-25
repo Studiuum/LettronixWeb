@@ -54,22 +54,22 @@ function ControlCenterRender() {
   }
   return (
     <>
-      <div className="flex flex-1 flex-col gap-3 ">
-        <div className={`${card} flex-row  items-align`}>
-          <div className="w-1/2 flex flex-row items-center gap-2 ">
+      <div className="flex flex-1 flex-col gap-3">
+        <div className={`${card} items-align flex-row`}>
+          <div className="flex w-1/2 flex-row items-center gap-2">
             <div className={`${titleName}`}>MAIN CONTROL</div>
-            <div className="relative group">
+            <div className="group relative">
               <img
                 src="src/assets/icons/help-icon.svg"
                 className={`${helpBTN}`}
               />
-              <div className="absolute hidden  group-hover:inline-block left-full bottom-full p-3  rounded-2xl w-120 group-active:inline-block bg-gray-900 text-white z-[100]">
+              <div className="absolute bottom-full left-full z-[100] hidden w-120 rounded-2xl bg-gray-900 p-3 text-white group-hover:inline-block group-active:inline-block">
                 Control the hydroponic automation—start, pause, resume, or end.
                 Ending the cycle means the lettuce is ready for harvest.
               </div>
             </div>
           </div>
-          <div className=" w-1/2 flex flex-row justify-between px-15">
+          <div className="flex w-1/2 flex-row justify-between px-15">
             <MemoBtn
               label="START CYCLE"
               isActive={
@@ -89,22 +89,22 @@ function ControlCenterRender() {
             />
           </div>
         </div>
-        <div className={`${card} flex-col items-align overflow-visible`}>
+        <div className={`${card} items-align flex-col overflow-visible`}>
           <div
-            className={`${titleName} pb-2 border-b-1 border-lettronix-title-border`}
+            className={`${titleName} border-b-1 border-lettronix-title-border pb-2`}
           >
             OTHER CONTROLS
           </div>
-          <div className="grid grid-cols-[2fr_2fr_3fr] grid-rows-6 h-full items-center gap-y-7 p-2 ml-5">
+          <div className="ml-5 grid h-full grid-cols-[2fr_2fr_3fr] grid-rows-6 items-center gap-y-7 p-2">
             {/* Name + Help Icon */}
-            <div className="flex gap-2 items-center ">
+            <div className="flex items-center gap-2">
               <div className="text-xl font-normal">Pump Control</div>
-              <div className="relative group">
+              <div className="group relative">
                 <img
                   src="src/assets/icons/help-icon.svg"
                   className={`${helpBTN}`}
                 />
-                <div className="absolute hidden  group-hover:inline-block left-full bottom-full p-3  rounded-2xl w-120 group-active:inline-block bg-gray-900 text-white z-[100]">
+                <div className="absolute bottom-full left-full z-[100] hidden w-120 rounded-2xl bg-gray-900 p-3 text-white group-hover:inline-block group-active:inline-block">
                   Pump toggles are overridden when automation is running. Pause
                   automation to manually control the pump.
                 </div>
@@ -112,12 +112,12 @@ function ControlCenterRender() {
             </div>
 
             {/* Status */}
-            <div className="italic  ">
+            <div className="italic">
               {StatusMSG(
                 "PUMP",
                 rpiControlData.run_mix === 1 || rpiControlData.run_drain === 1
                   ? 2
-                  : rpiControlData.pump_status
+                  : rpiControlData.pump_status,
               )}
             </div>
 
@@ -146,14 +146,14 @@ function ControlCenterRender() {
             </div>
 
             {/* Name + Help Icon */}
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <div className="text-xl font-normal">Light Control</div>
-              <div className="relative group">
+              <div className="group relative">
                 <img
                   src="src/assets/icons/help-icon.svg"
                   className={`${helpBTN}`}
                 />
-                <div className="absolute hidden  group-hover:inline-block left-full bottom-full p-3  rounded-2xl w-120 group-active:inline-block bg-gray-900 text-white z-[100]">
+                <div className="absolute bottom-full left-full z-[100] hidden w-120 rounded-2xl bg-gray-900 p-3 text-white group-hover:inline-block group-active:inline-block">
                   The light will stay ON or OFF regardless of whether the
                   automation process is running or not.
                 </div>
@@ -161,7 +161,7 @@ function ControlCenterRender() {
             </div>
 
             {/* Status */}
-            <div className="italic ">
+            <div className="italic">
               {StatusMSG("LIGHT", rpiControlData.light_status)}
             </div>
 
@@ -182,14 +182,14 @@ function ControlCenterRender() {
             </div>
 
             {/* Name + Help Icon */}
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <div className="text-xl font-normal">Run Foliar</div>
-              <div className="relative group">
+              <div className="group relative">
                 <img
                   src="src/assets/icons/help-icon.svg"
                   className={`${helpBTN}`}
                 />
-                <div className="absolute hidden  group-hover:inline-block left-full bottom-full p-3  rounded-2xl w-120 group-active:inline-block bg-gray-900 text-white z-[100]">
+                <div className="absolute bottom-full left-full z-[100] hidden w-120 rounded-2xl bg-gray-900 p-3 text-white group-hover:inline-block group-active:inline-block">
                   The foliar system uses the sprinkler but adds Cal-Mag to
                   deliver nutrients directly to the leaves.
                 </div>
@@ -202,12 +202,12 @@ function ControlCenterRender() {
                 "FOLIAR",
                 rpiControlData.run_sprinkler === 1
                   ? 2
-                  : rpiControlData.run_foliar
+                  : rpiControlData.run_foliar,
               )}
             </div>
 
             {/* Buttons */}
-            <div className="flex justify-center gap-5 px-5">
+            <div className="mx-25 flex justify-center gap-5 px-5">
               <MemoOtherBtn
                 label="START FOLIAR"
                 isActive={
@@ -220,14 +220,14 @@ function ControlCenterRender() {
             </div>
 
             {/* Name + Help Icon */}
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <div className="text-xl font-normal">Run Sprinkler</div>
-              <div className="relative group">
+              <div className="group relative">
                 <img
                   src="src/assets/icons/help-icon.svg"
                   className={`${helpBTN}`}
                 />
-                <div className="absolute hidden  group-hover:inline-block left-full bottom-full p-3  rounded-2xl w-120 group-active:inline-block bg-gray-900 text-white z-[100]">
+                <div className="absolute bottom-full left-full z-[100] hidden w-120 rounded-2xl bg-gray-900 p-3 text-white group-hover:inline-block group-active:inline-block">
                   The sprinkler system sprays water without added nutrients.
                   It's used for temperature regulation.
                 </div>
@@ -240,12 +240,12 @@ function ControlCenterRender() {
                 "SPRINKLER",
                 rpiControlData.run_foliar === 1
                   ? 2
-                  : rpiControlData.run_sprinkler
+                  : rpiControlData.run_sprinkler,
               )}
             </div>
 
             {/* Buttons */}
-            <div className="flex justify-center gap-5 px-5">
+            <div className="mx-25 flex justify-center gap-5 px-5">
               <MemoOtherBtn
                 label="START SPRINKLER"
                 isActive={
@@ -258,14 +258,14 @@ function ControlCenterRender() {
             </div>
 
             {/* Name + Help Icon */}
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <div className="text-xl font-normal">Run Drain</div>
-              <div className="relative group">
+              <div className="group relative">
                 <img
                   src="src/assets/icons/help-icon.svg"
                   className={`${helpBTN}`}
                 />
-                <div className="absolute hidden  group-hover:inline-block left-full bottom-full p-3  rounded-2xl w-120 group-active:inline-block bg-gray-900 text-white z-[100]">
+                <div className="absolute bottom-full left-full z-[100] hidden w-120 rounded-2xl bg-gray-900 p-3 text-white group-hover:inline-block group-active:inline-block">
                   Draining removes the current nutrient solution from the
                   system.
                 </div>
@@ -276,12 +276,12 @@ function ControlCenterRender() {
             <div className="italic">
               {StatusMSG(
                 "DRAIN",
-                rpiControlData.run_mix === 1 ? 2 : rpiControlData.run_drain
+                rpiControlData.run_mix === 1 ? 2 : rpiControlData.run_drain,
               )}
             </div>
 
             {/* Buttons */}
-            <div className="flex justify-center gap-5 px-5">
+            <div className="mx-25 flex justify-center gap-5 px-5">
               <MemoOtherBtn
                 label="START DRAIN"
                 isActive={
@@ -293,14 +293,14 @@ function ControlCenterRender() {
             </div>
 
             {/* Name + Help Icon */}
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <div className="text-xl font-normal">Run Drain and Mix</div>
-              <div className="relative group">
+              <div className="group relative">
                 <img
                   src="src/assets/icons/help-icon.svg"
                   className={`${helpBTN}`}
                 />
-                <div className="absolute hidden  group-hover:inline-block left-full bottom-full p-3  rounded-2xl w-120 group-active:inline-block bg-gray-900 text-white z-[100]">
+                <div className="absolute bottom-full left-full z-[100] hidden w-120 rounded-2xl bg-gray-900 p-3 text-white group-hover:inline-block group-active:inline-block">
                   Drain + Mix removes the existing solution and immediately
                   mixes a new batch. This changes the entire nutrient
                   composition.
@@ -312,12 +312,12 @@ function ControlCenterRender() {
             <div className="italic">
               {StatusMSG(
                 "MIX",
-                rpiControlData.run_drain === 1 ? 2 : rpiControlData.run_mix
+                rpiControlData.run_drain === 1 ? 2 : rpiControlData.run_mix,
               )}
             </div>
 
             {/* Buttons */}
-            <div className="flex justify-center gap-5 px-5">
+            <div className="mx-25 flex justify-center gap-5 px-5">
               <MemoOtherBtn
                 label="START DRAIN AND MIX"
                 isActive={

@@ -18,23 +18,7 @@ export function useSensor(intialSensorData: SensorDataProp) {
     cal_mag_tank: intialSensorData.cal_mag_tank,
   });
 
-  // // FETCHING
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const { data, error } = await supabase.from("realtimeDB").select();
-  //     if (error) {
-  //       console.log("ERROR", error);
-  //     } else if (data && data.length > 0) {
-  //       const row = data[0];
-  //       handleSensorPayload(row);
-  //     }
-  //   };
-  //   console.log("FETCH COMPLETE");
-  //   fetchData();
-  //   // Do not return a promise from useEffect
-  // }, []);
-
-  // LISTENER
+  // REALTIME DATABASE LISTENER
   useEffect(() => {
     const SensorChannel = supabase
       .channel("Sensor-channel")
@@ -43,11 +27,14 @@ export function useSensor(intialSensorData: SensorDataProp) {
         { event: "UPDATE", schema: "public", table: "realtimeDB" },
         (payload) => handleSensorPayload(payload.new as SensorDataProp)
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log("Realtime connection status:", status);
+      });
     return () => {
       SensorChannel.unsubscribe();
     };
   }, []);
+
   function handleSensorPayload(payload: SensorDataProp) {
     setRPISensorData(payload);
   }
