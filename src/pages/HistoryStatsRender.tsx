@@ -5,8 +5,10 @@ import type {
 } from "../data/dataProps/dataProps";
 
 import "../LettronixTheme.css";
-import { useGraph } from "../hooks/useGraph";
+import { ParamGraph } from "../components/ParamGraph";
 import { useLoaderData, useOutletContext } from "react-router";
+import TitleCard from "../components/TitleCards";
+import ImageClassCard from "../components/ImageClassCard";
 
 const card =
   "flex flex-col p-5 bg-lettronix-card-bg drop-shadow-all-fx font-Inter rounded-2xl border-0.25 border-lettronix-card-border gap-2";
@@ -25,7 +27,7 @@ function HistoryStatsRender() {
   const historyData: DailyDataProp[] = useLoaderData();
   console.log("HISTORY DATA", historyData);
   const [loadData, setloadData] = useState<DailyDataProp>(
-    historyData[historyData.length - 1]
+    historyData[historyData.length - 1],
   );
   const [indexNumber, setIndexNumber] = useState<number | string>(loadData.age);
 
@@ -47,11 +49,18 @@ function HistoryStatsRender() {
   }
 
   function ParamButtons({ label }: { label: string }) {
-    const bgColorMap: Record<string, string> = {
-      TDS: "bg-TDS-param",
-      pH: "bg-pH-param",
-      TEMPERATURE: "bg-TEMPERATURE-param",
-      HUMIDITY: "bg-HUMIDITY-param",
+    const borderColorMap: Record<string, string> = {
+      TDS: "border-TDS-param",
+      pH: "border-pH-param",
+      TEMPERATURE: "border-TEMPERATURE-param",
+      HUMIDITY: "border-HUMIDITY-param",
+    };
+
+    const activeColorMap: Record<string, string> = {
+      TDS: "active:bg-TDS-param",
+      pH: "active:bg-pH-param",
+      TEMPERATURE: "active:bg-TEMPERATURE-param",
+      HUMIDITY: "active:bg-HUMIDITY-param",
     };
 
     return (
@@ -65,7 +74,7 @@ function HistoryStatsRender() {
         />
         <label
           htmlFor={`${label} RADIO`}
-          className={`${controlBtn} flex flex-1 justify-center items-center ${bgColorMap[label]} hover:bg-lettronix-hover  active:${bgColorMap[label]}`}
+          className={`rounded-[10px] border-3 ${borderColorMap[label]} ${activeColorMap[label]} px-[0.5rem] py-[0.5rem] text-center text-[0.625rem] font-medium hover:outline-2 active:outline-none sm:rounded-[12px] sm:px-[1rem] sm:py-[0.625rem] sm:text-[0.875rem] md:text-[0.875rem] xl:px-3 xl:py-[0.625rem]`}
           onClick={() => {
             setParam(label);
           }}
@@ -78,98 +87,29 @@ function HistoryStatsRender() {
 
   return (
     <>
-      <div className="flex flex-1 w-full justify-center gap-10">
+      <div className="flex h-full w-full flex-1 flex-grow justify-center gap-10 overflow-hidden bg-violet-600">
         {/* LEFT SIDE */}
-        <div className={`${card} w-1/2 justify-between`}>
+        <div className="main-card flex-grow justify-start overflow-hidden xl:w-1/2">
           {/* IMAGE AND CLASSIFICATION LINE */}
-          <div className={`${titleCard}`}>
-            <div className={`${titleName}`}>IMAGES AND CLASSIFICATION</div>
-            <img src="src/assets/icons/stats-history-icon.svg" />
-          </div>
-
-          {/* DAYS - GROUP */}
-          <div className=" flex flex-col justify-center gap-0">
-            <div className="flex-1 font-bold text-2xl">SELECT A DAY</div>
-            <div className="flex items-center justify-center ml-4 gap-5">
-              {/* FUNCION HERE */}
-              <input
-                type="number"
-                value={indexNumber}
-                onChange={(e) => {
-                  inputTextHandler(e);
-                }}
-                onBlur={() => setIndexNumber(loadData.age)}
-                className="shrink-0 h-[72px] w-1/5 py-0 font-bold text-7xl  focus:bg-white 
-                
-                sm:h-[60px] sm:text-5xl  
-                md:h-[72px] md:text-7xl 
-                border-lettronix-title-border outline-0 drop-shadow-btn-fx border-0.5 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
-                text-center overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-200 transformation-gpu ease-in-out "
-              />
-              <div className="flex flex-col w-full h-full text-[16px]">
-                {/* PROGRESS BAR */}
-                <div className="flex flex-1 h-4">
-                  {/* FUNCION HERE  */}
-                  <div className="flex-1 items-end bg-lettronix-progressbar-bg rounded-full color-let overflow-auto">
-                    <div
-                      style={{
-                        width: `${Math.min(
-                          (loadData.age /
-                            (loadData.age > 30 ? loadData.age : 30)) *
-                            100,
-                          100
-                        )}%`,
-                      }}
-                      className="h-full drop-shadow-lettronix-title-border
-                       bg-lettronix-progressbar-fg overflow-visible rounded-full text-lettronix-progressbar-fg transition-all duration-1500 transformation-gpu ease-in-out"
-                    ></div>
-                  </div>
-                </div>
-                <div className="font-bold flex-1 ">START DATE TIME:</div>
-                <div className="flex-1 text-center">
-                  {preferenceData.date_time}
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* IMAGE + CLASSIFICATION */}
-          <div
-            className="flex flex-col flex-1 rounded-[15px] gap-0 border-1 border-lettronix-selected hover:scale-105 hover:animation-pulse transition-transform duration-5000
-          "
-          >
-            <img
-              src={loadData.pic}
-              alt="LETTUCE PLANT"
-              className="h-80 object-cover rounded-t-[15px]"
-            />
-            <div className="flex flex-col justify-center bg-lettronix-bg rounded-b-[15px] pb-2">
-              <div className="flex-1 font-bold text-[16px] ml-5">
-                CLASSIFICATION:
-              </div>
-              <div className="flex-1 font-regular text-2xl text-center tracking-wider transition-all duration-300">
-                {loadData.classification === 4 && "NORMAL"}
-                {loadData.classification === 3 && "SLIGHT DEFICIENCY"}
-                {loadData.classification === 2 && "MODERATE DEFICIENCY"}
-                {loadData.classification === 1 && "SEVERE DEFICIENCY"}
-              </div>
-            </div>
-          </div>
+          <TitleCard label={"images and classification"} />
+          <ImageClassCard
+            preferenceData={preferenceData}
+            indexNumber={indexNumber}
+            setIndexNumber={setIndexNumber}
+            loadData={loadData}
+            inputTextHandler={inputTextHandler}
+          />
         </div>
 
         {/* RIGHT SIDE */}
-        <div
-          className={`${card} flex-grow flex flex-col w-1/2  gap-4 justify-center xl:justify-start`}
-        >
+        <div className="main-card flex flex-grow flex-col overflow-hidden xl:w-1/2">
           {/* OVERVIEW LINE */}
-          <div className={`${titleCard}`}>
-            <div className={`${titleName}`}>SENSOR DATA LOG</div>
-            <img src="src/assets/icons/stats-graph-param-icon.svg" />
-          </div>
+          <TitleCard label={"sensor data log"} />
 
           {/* SELECT PARAMETR GROUP */}
-          <div className="flex-grow-1 flex flex-col justify-center gap-2 ">
-            <div className="font-bold text-2xl ">SELECT A PARAMETER:</div>
-            <div className="grid grid-cols-2 grid-rows-2 mx-5 gap-2">
+          <div className="flex flex-shrink-0 flex-col justify-center gap-2">
+            <div className="large-body-sub-title">SELECT A PARAMETER:</div>
+            <div className="mx-5 grid grid-cols-2 grid-rows-2 gap-2">
               {/* TDS */}
               <ParamButtons label="TDS" />
               <ParamButtons label="pH" />
@@ -177,7 +117,9 @@ function HistoryStatsRender() {
               <ParamButtons label="HUMIDITY" />
             </div>
           </div>
-          {useGraph(historyData, param)}
+          <div className="h-full w-full flex-1 overflow-hidden">
+            <ParamGraph historyData={historyData} param={param} />
+          </div>
         </div>
       </div>
     </>

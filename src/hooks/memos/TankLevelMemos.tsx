@@ -7,16 +7,16 @@ export const MemoTank = memo(
       : "src/assets/icons/waterlevel-bad-icon.svg";
     return (
       <>
-        <div className="flex flex-row items-center justify-between md:w-auto md:h-auto">
-          <div className="text-[12px] sm:text-[14px] md:text-s lg:text-[18px]">
+        <div className="flex flex-row items-center justify-between md:h-auto md:w-auto">
+          <div className="md:text-s text-[0.625rem] font-[400] sm:text-[0.875rem] lg:text-[1rem]">
             {label}
           </div>
           <img
             src={path}
-            className="w-4 h-4 center sm:w-5 sm:h-5 md:w-auto md:h-auto"
+            className="center h-4 w-4 sm:h-5 sm:w-5 md:h-auto md:w-auto"
           />
         </div>
       </>
     );
-  }
+  },
 );

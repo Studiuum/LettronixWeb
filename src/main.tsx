@@ -26,8 +26,8 @@ const routes = createBrowserRouter([
     ),
     loader: async () => {
       const initialControlData = await fetchControlData();
-      const preferenceData: DailyDataProp = await fetchPreferencesData();
-      return { initialControlData, preferenceData };
+      const initialpreferenceData: DailyDataProp = await fetchPreferencesData();
+      return { initialControlData, initialpreferenceData };
     },
     children: [
       {
@@ -57,5 +57,5 @@ createRoot(document.getElementById("root")!).render(
     <Suspense fallback={<div>Loading...</div>}>
       <RouterProvider router={routes} />
     </Suspense>
-  </StrictMode>
+  </StrictMode>,
 );

@@ -4,12 +4,14 @@ import HeaderRender from "./HeaderRender";
 import FootRender from "./FooterRender";
 import { Suspense } from "react";
 import { useRPIControl } from "../hooks/useRPIControl";
+import { usePreferences } from "../hooks/usePreferences";
 
 function MainLayout() {
   // Fetch initial data from the loader
-  const { initialControlData, preferenceData } = useLoaderData();
+  const { initialControlData, initialpreferenceData } = useLoaderData();
   const contextData = useRPIControl(initialControlData);
-
+  const preferenceData = usePreferences(initialpreferenceData);
+  // console.log("MAIN LAYOUT:", preferenceData, initialpreferenceData);
   const { pathname } = useLocation();
 
   const getFallback = () => {
@@ -22,7 +24,7 @@ function MainLayout() {
   };
   return (
     <>
-      <div className="mx-7 mt-15 flex flex-col pb-12 sm:mx-9 sm:mt-18 md:mx-12 md:mt-20 lg:mt-30 xl:mx-15 xl:mt-2 xl:gap-3 xl:pb-0 mid-xl-2xl-1500:mx-40 mid-xl-2xl-1500:justify-evenly 2xl:mx-50 min-1024-768:mt-3 min-1024-768:h-[93vh] min-1024-768:gap-3">
+      <div className="mx-7 mt-15 flex flex-col gap-1 bg-red-400 pb-12 sm:mx-9 sm:mt-18 md:mx-12 md:mt-20 lg:mt-26 xl:mx-15 xl:mt-3 xl:h-[calc(100vh_-_(0.75rem)_-_(2.375rem)_-_(0.75rem)_-_(0.75rem))] xl:gap-3 xl:pb-0 mid-xl-2xl-1500:mx-40 mid-xl-2xl-1500:justify-evenly 2xl:mx-50">
         <Suspense fallback={<div>Loading header...</div>}>
           <HeaderRender val={contextData.values.status} />
         </Suspense>

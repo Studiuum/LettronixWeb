@@ -24,7 +24,7 @@ function FootRender() {
         ].map((item, index) => (
           <NavLink
             to={getRoute(index)}
-            key={index}
+            key={`footer-${index}`}
             className={({ isActive }) =>
               `x:text-x1 cursor-events-none active: flex flex-1 items-center justify-center bg-green-600 py-1 font-medium duration-300 hover:bg-green-700 active:drop-shadow-none lg:gap-4 lg:py-2 xl:px-4 xl:py-2.25 ${index === 0 ? "rounded-l-full" : ""} ${index === 2 ? "rounded-r-full" : ""} ${
                 isActive
