@@ -13,6 +13,7 @@ export const MemoTank = memo(
           </div>
           <img
             src={path}
+            alt={value ? "good level icon" : "bad level icon"}
             className="center h-4 w-4 sm:h-5 sm:w-5 md:h-auto md:w-auto"
           />
         </div>

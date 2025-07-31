@@ -14,6 +14,7 @@ export default function TitleCard({
       </div>
       <img
         src={`src/assets/icons/${label.trim().replaceAll(" ", "-")}-icon.svg`}
+        alt={`${label} icon`}
         className="h-4 w-4 sm:h-5 sm:w-5 md:h-auto md:w-auto"
       />
     </div>

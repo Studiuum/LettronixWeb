@@ -17,10 +17,10 @@ export const fetchControlData = async () => {
       error
         ? error.message
         : data === null
-        ? "DATA FETCH ERROR"
-        : data.length === 0
-        ? "No data found"
-        : "UNKNOWN ERROR"
+          ? "DATA FETCH ERROR"
+          : data.length === 0
+            ? "No data found"
+            : "UNKNOWN ERROR",
     );
     const defaultControlData: RPIControlStatusProp = {
       id: 1,
@@ -36,7 +36,7 @@ export const fetchControlData = async () => {
     return defaultControlData;
   } else if (data && data.length > 0) {
     const row = data[0];
-    return row;
+    return row as RPIControlStatusProp;
   }
 };
 
@@ -49,10 +49,10 @@ export const fetchPreferencesData = async () => {
       error
         ? error.message
         : data === null
-        ? "DATA FETCH ERROR"
-        : data.length === 0
-        ? "No data found"
-        : "UNKNOWN ERROR"
+          ? "DATA FETCH ERROR"
+          : data.length === 0
+            ? "No data found"
+            : "UNKNOWN ERROR",
     );
     const defaultData: PreferencesProp = {
       date_time: "--/--/-- --:--",
@@ -73,10 +73,10 @@ export const fetchPreferencesData = async () => {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
-      }
+      },
     );
     row.date_time = dateTime;
-    return row;
+    return row as PreferencesProp;
   }
 };
 
@@ -89,10 +89,10 @@ export const fetchSensorData = async () => {
       error
         ? error.message
         : data === null
-        ? "DATA FETCH ERROR"
-        : data.length === 0
-        ? "No data found"
-        : "UNKNOWN ERROR"
+          ? "DATA FETCH ERROR"
+          : data.length === 0
+            ? "No data found"
+            : "UNKNOWN ERROR",
     );
     const defaultData: SensorDataProp = {
       tds: 0,
@@ -111,7 +111,7 @@ export const fetchSensorData = async () => {
     return defaultData;
   } else if (data && data.length > 0) {
     const row = data[0];
-    return row;
+    return row as SensorDataProp;
   }
 };
 
@@ -128,10 +128,10 @@ export const fetchHistoryData = async () => {
       error
         ? error.message
         : data === null
-        ? "DATA FETCH ERROR"
-        : data.length === 0
-        ? "No data found"
-        : "UNKNOWN ERROR"
+          ? "DATA FETCH ERROR"
+          : data.length === 0
+            ? "No data found"
+            : "UNKNOWN ERROR",
     );
     const defaultData: DailyDataProp[] = [
       {
@@ -146,6 +146,6 @@ export const fetchHistoryData = async () => {
     ];
     return defaultData;
   } else if (data && data.length > 0) {
-    return data as SensorDataProp[];
+    return data as DailyDataProp[];
   }
 };

@@ -79,7 +79,7 @@ function HistoryStatsRender() {
             setParam(label);
           }}
         >
-          {`${label} READING`}
+          {`${label}`}
         </label>
       </>
     );
@@ -87,7 +87,7 @@ function HistoryStatsRender() {
 
   return (
     <>
-      <div className="flex h-full w-full flex-1 flex-grow justify-center gap-10 overflow-hidden bg-violet-600">
+      <div className="flex w-full flex-1 flex-col justify-center gap-2 overflow-hidden lg:gap-3 xl:flex-row xl:gap-10">
         {/* LEFT SIDE */}
         <div className="main-card flex-grow justify-start overflow-hidden xl:w-1/2">
           {/* IMAGE AND CLASSIFICATION LINE */}
@@ -102,7 +102,7 @@ function HistoryStatsRender() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="main-card flex flex-grow flex-col overflow-hidden xl:w-1/2">
+        <div className="main-card flex flex-[1_1_auto] flex-col xl:w-1/2 xl:overflow-hidden">
           {/* OVERVIEW LINE */}
           <TitleCard label={"sensor data log"} />
 
@@ -117,7 +117,7 @@ function HistoryStatsRender() {
               <ParamButtons label="HUMIDITY" />
             </div>
           </div>
-          <div className="h-full w-full flex-1 overflow-hidden">
+          <div className="max-h-[30vh] min-h-[30vh] w-full flex-1 sm:min-h-[50vh] xl:h-full xl:overflow-hidden">
             <ParamGraph historyData={historyData} param={param} />
           </div>
         </div>

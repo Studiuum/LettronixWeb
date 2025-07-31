@@ -42,7 +42,7 @@ export default function ImageClassCard({
             }
             onBlur={setIndexNumber ? () => setIndexNumber(age) : () => {}}
             disabled={loadData ? false : true}
-            className="border-0.5 w-[2.5ch] flex-shrink transform-gpu appearance-none overflow-hidden border-lettronix-title-border py-0 text-center text-5xl leading-none font-bold text-ellipsis whitespace-nowrap outline-0 drop-shadow-btn-fx transition-all duration-200 ease-in-out focus:bg-white sm:h-[60px] sm:text-6xl md:h-[72px] md:text-7xl xl:text-[4.6875rem]"
+            className="focus: border-0.5 w-[2.5ch] flex-shrink transform-gpu appearance-none overflow-hidden border-lettronix-title-border py-0 text-center text-5xl leading-none font-bold text-ellipsis whitespace-nowrap outline-0 drop-shadow-btn-fx transition-all duration-200 ease-in-out focus:bg-white sm:h-[60px] sm:text-6xl md:h-[72px] md:text-7xl xl:text-[4.6875rem]"
           />
           {/* {preferenceData.age} */}
           {/* 99 */}
@@ -72,7 +72,7 @@ export default function ImageClassCard({
       {/* IMAGE + CLASSIFICATION */}
       <div className="flex flex-1 flex-col overflow-hidden rounded-[8px] border-1 border-lettronix-selected transition-transform duration-5000 hover:scale-105 md:rounded-[15px] md:hover:scale-103">
         {/* Image block */}
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex flex-col overflow-hidden sm:h-125 md:h-110 xl:flex-1">
           <img
             src={loadData ? loadData.pic : preferenceData.lettuce_pic_url}
             alt="LETTUCE PLANT"

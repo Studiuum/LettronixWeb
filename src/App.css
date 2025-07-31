@@ -2,6 +2,7 @@
 /* @plugin  */
 @layer base {
   html {
+    height: -webkit-fill-available;
     @apply bg-green-200 font-Inter;
   }
 }

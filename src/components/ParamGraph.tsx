@@ -40,6 +40,10 @@ export function ParamGraph({
           type: "area",
           height: "100%",
           width: "100%",
+          toolbar: {
+            show: true,
+            tools: { download: false, zoom: false, pan: false },
+          },
           animations: {
             enabled: true,
             speed: 50,
@@ -163,7 +167,7 @@ export function ParamGraph({
         stroke: {
           curve: "smooth",
           lineCap: "round",
-          width: 6,
+          width: 3,
         },
         dataLabels: { enabled: false },
       }}

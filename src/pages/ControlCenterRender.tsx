@@ -137,6 +137,7 @@ function ControlCenterRender() {
             <div className="group relative">
               <img
                 src="src/assets/icons/help-icon.svg"
+                alt="help button"
                 className={`${helpBTN}`}
               />
               <div
@@ -212,6 +213,7 @@ function ControlCenterRender() {
             <div className="group relative">
               <img
                 src="src/assets/icons/help-icon.svg"
+                alt="help icon"
                 className={`${helpBTN}`}
               />
               <div
