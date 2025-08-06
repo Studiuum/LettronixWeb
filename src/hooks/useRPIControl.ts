@@ -1,4 +1,4 @@
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type {
   RPIControlSetupFunctions,
@@ -16,7 +16,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
   const [runDrain, setRunDrain] = useState(loaderData.run_drain);
   const [runMix, setRunMix] = useState(loaderData.run_mix);
 
-  const channelStatusRef = useRef<String | null>(null);
+  const isCleanup = useRef<Boolean>(false);
   const channelRef = useRef<any>(null);
   const reconnectAttempts = useRef(0);
   const maxReconnectAttempts = 10;
@@ -30,52 +30,56 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
       channelRef.current = null;
     }
 
-    const controlChannel = supabase.channel("rpi_control_changes");
+    const controlChannel = supabase.channel("rpi_control_changes").on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "rpi_control",
+      },
+      (payload) => {
+        handlePayload(payload.new as RPIControlStatusProp);
+      },
+    );
+
     channelRef.current = controlChannel;
-    controlChannel
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "rpi_control",
-        },
-        (payload) => {
-          handlePayload(payload.new as RPIControlStatusProp);
-        },
-      )
-      .subscribe(async (status) => {
-        console.log("CONTROL Subscription Status:", status);
+    controlChannel.subscribe(async (status) => {
+      console.log("CONTROL SUBSCRIPTION STATUS:", status);
+      if (status === "SUBSCRIBED") {
+        reconnectAttempts.current = 0;
 
-        if (status === "SUBSCRIBED") {
-          reconnectAttempts.current = 0;
+        if (retryRef.current) {
+          const initialData = await fetchControlData();
+          console.log("CONTROL FETCHED DATA:", initialData);
+          handlePayload(initialData as RPIControlStatusProp);
 
-          channelStatusRef.current = status;
-          if (retryRef.current) {
-            const initialData = await fetchControlData();
-            console.log("FETCHED DATA:", initialData);
-            handlePayload(initialData as RPIControlStatusProp);
-
-            clearTimeout(retryRef.current);
-            retryRef.current = null;
-          }
-        } else if (status === "CHANNEL_ERROR") {
-          if (!retryRef.current) {
-            console.warn("ATTEMPTING RECONNECTION");
-            attemptReconnection();
-            channelStatusRef.current = status;
-          }
-        } else if (status === "TIMED_OUT" || status === "CLOSED") {
-          channelStatusRef.current = status;
+          clearTimeout(retryRef.current);
+          retryRef.current = null;
         }
-        console.log("CONTROL STATUS:", channelStatusRef.current);
-      });
+      } else if (
+        status === "CHANNEL_ERROR" ||
+        status === "TIMED_OUT" ||
+        status === "CLOSED"
+      ) {
+        if (!retryRef.current && !isCleanup.current) {
+          console.warn("CONTROL: ATTEMPTING RECONNECTION");
+          attemptReconnection();
+        } else {
+          isCleanup.current = false;
+        }
+      }
+    });
   }
 
   function attemptReconnection() {
-    if (reconnectAttempts.current >= maxReconnectAttempts) return;
-    // const delay = 5000;
-    // EXPONENTIAL DELAY  + Jitter
+    if (reconnectAttempts.current >= maxReconnectAttempts) {
+      if (retryRef.current) {
+        clearTimeout(retryRef.current);
+        retryRef.current = null;
+      }
+      return;
+    }
+
     const delay =
       Math.min(BASE_DELAY * 2 ** reconnectAttempts.current, MAX_DELAY) +
       Math.random() * 1000;
@@ -85,12 +89,13 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
       retryRef.current = null;
     }
 
-    const retryTimeout = setTimeout(async () => {
+    const retryTimeout = setTimeout(() => {
       reconnectAttempts.current += 1;
-
-      console.warn("RECONNECTION ATTEMPT NUMBER:", reconnectAttempts.current);
+      console.warn(
+        "CONTROL: RECONNECTION ATTEMPT NUMBER:",
+        reconnectAttempts.current,
+      );
       setupControlRealtime();
-      console.log(channelStatusRef.current);
     }, delay);
     retryRef.current = retryTimeout;
   }
@@ -99,6 +104,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
     setupControlRealtime();
     return () => {
       console.log("CONTROL CLEANUP FUNCTION WORKING");
+      isCleanup.current = true;
       if (channelRef.current) {
         supabase.removeChannel(channelRef.current);
         channelRef.current = null;
@@ -109,25 +115,6 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
       }
     };
   }, []);
-
-  // //LISTENING TO DATABASE CHANGES
-  // useEffect(() => {
-  //   const channelA = supabase
-  //     .channel("listen_changes")
-  //     .on(
-  //       "postgres_changes",
-  //       { event: "UPDATE", schema: "public", table: "rpi_control" },
-  //       (payload) => handlePayload(payload.new as RPIControlStatusProp),
-  //     )
-  //     .subscribe((status) => {
-  //       console.log("CONTROL Realtime connection status:", status);
-  //     });
-  //   //Cleanup Function
-  //   return () => {
-  //     console.log("FETCH DATA LISTENER CLEANUP WORKING");
-  //     supabase.removeChannel(channelA);
-  //   };
-  // }, []);
 
   function handlePayload(payload: RPIControlStatusProp) {
     setStatus(payload.status);
@@ -158,5 +145,5 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
       setRunDrain: setRunDrain,
       setRunMix: setRunMix,
     };
-  return { values, setFunctions };
+  return { values, setFunctions, setupControlRealtime };
 }

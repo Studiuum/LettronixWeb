@@ -4,10 +4,11 @@ import { supabase } from "../supabase";
 import { fetchPreferencesData } from "./fetchInitialData";
 
 export function usePreferences(initialPreferenceData: PreferencesProp) {
-  const [preferencesData, setPreferencesData] = useState<PreferencesProp>(
+  const [preferenceData, setPreferenceData] = useState<PreferencesProp>(
     initialPreferenceData,
   );
-  const channelStatusRef = useRef<String | null>(null);
+
+  const isCleanup = useRef<Boolean>(false);
   const channelRef = useRef<any>(null);
   const reconnectAttempts = useRef(0);
   const maxReconnectAttempts = 10;
@@ -21,53 +22,58 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
       channelRef.current = null;
     }
 
-    const preferenceChannel = supabase.channel("preference_changes");
-    channelRef.current = preferenceChannel;
-    preferenceChannel
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "preferences",
-        },
-        (payload) => {
-          handlePreferencePayload(payload.new as PreferencesProp);
-        },
-      )
-      .subscribe(async (status) => {
-        console.log("PREFERENCES Subscription Status:", status);
+    const preferencesChannel = supabase.channel("preferences_changes").on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "preferences",
+      },
+      (payload) => {
+        handlePreferencePayload(payload.new as PreferencesProp);
+      },
+    );
 
-        if (status === "SUBSCRIBED") {
-          reconnectAttempts.current = 0;
+    channelRef.current = preferencesChannel;
+    preferencesChannel.subscribe(async (status) => {
+      console.log("PREFERENCES SUBSCRIPTION STATUS:", status);
+      if (status === "SUBSCRIBED") {
+        reconnectAttempts.current = 0;
 
-          channelStatusRef.current = status;
-          if (retryRef.current) {
-            const initialData = await fetchPreferencesData();
-            console.log("FETCHED DATA:", initialData);
-            handlePreferencePayload(initialData as PreferencesProp);
+        if (retryRef.current) {
+          const initialData = await fetchPreferencesData();
+          console.log("PREFERENCES FETCHED DATA:", initialData);
+          handlePreferencePayload(initialData as PreferencesProp);
 
-            clearTimeout(retryRef.current);
-            retryRef.current = null;
-          }
-        } else if (status === "CHANNEL_ERROR") {
-          if (!retryRef.current) {
-            console.warn("PREFERENCES: ATTEMPTING RECONNECTION");
-            attemptReconnection();
-            channelStatusRef.current = status;
-          }
-        } else if (status === "TIMED_OUT" || status === "CLOSED") {
-          channelStatusRef.current = status;
+          clearTimeout(retryRef.current);
+          retryRef.current = null;
         }
-      });
+      } else if (
+        status === "CHANNEL_ERROR" ||
+        status === "TIMED_OUT" ||
+        status === "CLOSED"
+      ) {
+        if (!retryRef.current && !isCleanup.current) {
+          console.warn("PREFERENCES: ATTEMPTING RECONNECTION");
+          attemptReconnection();
+        } else {
+          isCleanup.current = false;
+        }
+      }
+    });
   }
 
   function attemptReconnection() {
-    if (reconnectAttempts.current >= maxReconnectAttempts) return;
-    // const delay = 5000;
-    // EXPONENTIAL DELAY  + Jitter
+    if (reconnectAttempts.current >= maxReconnectAttempts) {
+      if (retryRef.current) {
+        clearTimeout(retryRef.current);
+        retryRef.current = null;
+      }
+      return;
+    }
+
     const delay =
-      (BASE_DELAY * 2 ** reconnectAttempts.current, MAX_DELAY) +
+      Math.min(BASE_DELAY * 2 ** reconnectAttempts.current, MAX_DELAY) +
       Math.random() * 1000;
 
     if (retryRef.current) {
@@ -89,7 +95,8 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
   useEffect(() => {
     setupPreferencesRealtime();
     return () => {
-      console.log("PREFERENCE CLEANUP FUNCTION WORKING");
+      console.log("PREFERENCES CLEANUP FUNCTION WORKING");
+      isCleanup.current = true;
       if (channelRef.current) {
         supabase.removeChannel(channelRef.current);
         channelRef.current = null;
@@ -101,26 +108,7 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const preferenceChannel = supabase
-  //     .channel("preference-channel")
-  //     .on(
-  //       "postgres_changes",
-  //       {
-  //         event: "*",
-  //         schema: "public",
-  //         table: "preferences",
-  //       },
-  //       (payload) => handlePreferencePayload(payload.new as PreferencesProp),
-  //     )
-  //     .subscribe((status) => {});
-  //   return () => {
-  //     supabase.removeChannel(preferenceChannel);
-  //   };
-  // }, []);
-
   function handlePreferencePayload(payload: PreferencesProp) {
-    console.log("DATA RECEIVED");
     const dateTime = new Date(
       payload.date_time.replace(" ", "T"),
     ).toLocaleString("en-US", {
@@ -132,8 +120,8 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
       hour12: true,
     });
     payload.date_time = dateTime;
-    setPreferencesData(payload);
+    setPreferenceData(payload);
   }
 
-  return preferencesData;
+  return { preferenceData, setupPreferencesRealtime };
 }

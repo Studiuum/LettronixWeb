@@ -3,7 +3,13 @@ import { MemoHeaderStatus } from "../hooks/memos/SensorMemos";
 import "../LettronixTheme.css";
 // "flex items-center justify-center py-4 divide-x rounded-[15px] divide-black  bg-lettronix-head-foot-bg drop-shadow-btn-fx"
 
-function HeaderRender({ val }: { val: number }) {
+function HeaderRender({
+  fullyconnected,
+  val,
+}: {
+  fullyconnected: boolean;
+  val: number;
+}) {
   return (
     <div className="fixed top-0 right-0 left-0 z-50 mx-5 flex flex-col rounded-b-[1.25rem] bg-lettronix-bg pt-2 shadow-header-only-fx sm:mx-7 md:mx-9 lg:pt-3 xl:static xl:top-auto xl:right-auto xl:left-auto xl:z-[1] xl:mx-0 xl:mt-0 xl:mb-0 xl:rounded-none xl:bg-none xl:pt-0 xl:pb-0 xl:shadow-none min-1024-768:static min-1024-768:top-auto min-1024-768:right-auto min-1024-768:left-auto min-1024-768:mx-0 min-1024-768:mt-0 min-1024-768:mb-0 min-1024-768:rounded-none min-1024-768:bg-none min-1024-768:pt-0 min-1024-768:pb-0 min-1024-768:shadow-none">
       <div className="flex items-center justify-center gap-0 divide-x divide-black rounded-[0.7rem] bg-green-600 p-3 drop-shadow-btn-fx lg:rounded-[15px] lg:py-4 xl:z-0">
@@ -26,14 +32,15 @@ function HeaderRender({ val }: { val: number }) {
           <div>
             System is{" "}
             <b className="sm:tracking-widest">
-              {val === 1 && "DISABLED"}
-              {val === 2 && "ACTIVE"}
-              {val === 3 && "SUSPENDED"}
+              {!fullyconnected && "UNAVAILABLE"}
+              {val === 1 && fullyconnected && "DISABLED"}
+              {val === 2 && fullyconnected && "ACTIVE"}
+              {val === 3 && fullyconnected && "SUSPENDED"}
             </b>
           </div>
 
           {/* FUNCTION HERE */}
-          <MemoHeaderStatus status={val} />
+          <MemoHeaderStatus status={val} fullyConnected={fullyconnected} />
         </div>
       </div>
     </div>

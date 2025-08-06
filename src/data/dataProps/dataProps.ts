@@ -62,4 +62,5 @@ export type OutletContextProp = {
     setFunctions: RPIControlSetupFunctions;
   };
   preferenceData: PreferencesProp;
+  setArraySetupRealtime: (prev: any) => void;
 };

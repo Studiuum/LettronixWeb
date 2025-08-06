@@ -26,7 +26,7 @@ const routes = createBrowserRouter([
     ),
     loader: async () => {
       const initialControlData = await fetchControlData();
-      const initialpreferenceData: DailyDataProp = await fetchPreferencesData();
+      const initialpreferenceData = await fetchPreferencesData();
       return { initialControlData, initialpreferenceData };
     },
     children: [

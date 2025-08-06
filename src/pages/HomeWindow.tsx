@@ -9,7 +9,7 @@ import type {
 } from "../data/dataProps/dataProps";
 import { useSensor } from "../hooks/useSensor";
 
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import TitleCard from "../components/TitleCards";
 import ImageClassCard from "../components/ImageClassCard";
 
@@ -51,13 +51,31 @@ function RenderSensorReadingsCard({
 }
 
 function HomeWindowRender() {
-  const { contextData, preferenceData } = useOutletContext<OutletContextProp>();
+  const { contextData, preferenceData, setArraySetupRealtime } =
+    useOutletContext<OutletContextProp>();
   const rpiControlData = contextData.values;
 
   // SENSOR DATA AND PREFERENCE DATA
   const initialSensorData = useLoaderData();
   // // SENSOR DATA
-  const sensorData: SensorDataProp = useSensor(initialSensorData);
+  const { rpiSensorData, setupSensorRealtime } = useSensor(initialSensorData);
+
+  // ATTACHED THE SETUPREALTIME CONNECTION TO ENABLE RECONNECTION
+  useEffect(() => {
+    console.log("SENSOR REALTIME LISTENER ATTACHED TO RECONNECTION");
+    setArraySetupRealtime((prev: (() => void)[]) => [
+      ...prev,
+      setupSensorRealtime,
+    ]);
+    return () => {
+      console.log("SENSOR REALTIME LISTENER REMOVED TO RECONNECTION");
+      setArraySetupRealtime((prev: (() => void)[]) =>
+        prev.filter((x) => {
+          return x !== setupSensorRealtime;
+        }),
+      );
+    };
+  }, []);
 
   return (
     <>
@@ -90,15 +108,18 @@ function HomeWindowRender() {
               {/* WATER LEVEL SENSOR LINE */}
               <MemoTank
                 label="Nutrient Tank"
-                value={sensorData.nutrient_tank}
+                value={rpiSensorData.nutrient_tank}
               />
-              <MemoTank label="Foliar Tank" value={sensorData.foliar_tank} />
-              <MemoTank label="Calcium Tank" value={sensorData.cal_tank} />
-              <MemoTank label="NPK Tank" value={sensorData.npk_tank} />
-              <MemoTank label="Magnesium Tank" value={sensorData.mag_tank} />
-              <MemoTank label="pH Up Tank" value={sensorData.ph_up_tank} />
-              <MemoTank label="pH Down Tank" value={sensorData.ph_up_tank} />
-              <MemoTank label="CAL-MAG Tank" value={sensorData.cal_mag_tank} />
+              <MemoTank label="Foliar Tank" value={rpiSensorData.foliar_tank} />
+              <MemoTank label="Calcium Tank" value={rpiSensorData.cal_tank} />
+              <MemoTank label="NPK Tank" value={rpiSensorData.npk_tank} />
+              <MemoTank label="Magnesium Tank" value={rpiSensorData.mag_tank} />
+              <MemoTank label="pH Up Tank" value={rpiSensorData.ph_up_tank} />
+              <MemoTank label="pH Down Tank" value={rpiSensorData.ph_up_tank} />
+              <MemoTank
+                label="CAL-MAG Tank"
+                value={rpiSensorData.cal_mag_tank}
+              />
             </div>
           </div>
           <div className={`main-card flex-[1_1_auto`}>

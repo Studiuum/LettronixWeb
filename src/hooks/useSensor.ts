@@ -19,7 +19,7 @@ export function useSensor(intialSensorData: SensorDataProp) {
     cal_mag_tank: intialSensorData.cal_mag_tank,
   });
 
-  const channelStatusRef = useRef<String | null>(null);
+  const isCleanup = useRef<Boolean>(false);
   const channelRef = useRef<any>(null);
   const reconnectAttempts = useRef(0);
   const maxReconnectAttempts = 10;
@@ -27,58 +27,63 @@ export function useSensor(intialSensorData: SensorDataProp) {
   const BASE_DELAY = 2000; // 2 seconds
   const MAX_DELAY = 30000; // 30 seconds
 
-  function setupSensorsRealtime() {
+  function setupSensorRealtime() {
     if (channelRef.current) {
       supabase.removeChannel(channelRef.current);
       channelRef.current = null;
     }
 
-    const sensorChannel = supabase.channel("sensor_changes");
+    const sensorChannel = supabase.channel("rpi_sensor_changes").on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "rpi_sensor",
+      },
+      (payload) => {
+        handleSensorPayload(payload.new as SensorDataProp);
+      },
+    );
+
     channelRef.current = sensorChannel;
-    sensorChannel
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "realtimeDB",
-        },
-        (payload) => {
-          handleSensorPayload(payload.new as SensorDataProp);
-        },
-      )
-      .subscribe(async (status) => {
-        console.log("SENSORS Subscription Status:", status);
+    sensorChannel.subscribe(async (status) => {
+      console.log("SENSOR SUBSCRIPTION STATUS:", status);
+      if (status === "SUBSCRIBED") {
+        reconnectAttempts.current = 0;
 
-        if (status === "SUBSCRIBED") {
-          reconnectAttempts.current = 0;
-          channelStatusRef.current = status;
-          if (retryRef.current) {
-            const initialData = await fetchSensorData();
-            console.log("FETCHED DATA:", initialData);
-            handleSensorPayload(initialData as SensorDataProp);
-
-            clearTimeout(retryRef.current);
-            retryRef.current = null;
-          }
-        } else if (status === "CHANNEL_ERROR") {
-          if (!retryRef.current) {
-            console.warn("SENSORS: ATTEMPTING RECONNECTION");
-            attemptReconnection();
-            channelStatusRef.current = status;
-          }
-        } else if (status === "TIMED_OUT" || status === "CLOSED") {
-          channelStatusRef.current = status;
+        if (retryRef.current) {
+          const initialData = await fetchSensorData();
+          console.log("SENSOR FETCHED DATA:", initialData);
+          handleSensorPayload(initialData as SensorDataProp);
+          clearTimeout(retryRef.current);
+          retryRef.current = null;
         }
-      });
+      } else if (
+        status === "CHANNEL_ERROR" ||
+        status === "TIMED_OUT" ||
+        status === "CLOSED"
+      ) {
+        if (!retryRef.current && !isCleanup.current) {
+          console.warn("SENSOR: ATTEMPTING RECONNECTION");
+          attemptReconnection();
+        } else {
+          isCleanup.current = false;
+        }
+      }
+    });
   }
 
   function attemptReconnection() {
-    if (reconnectAttempts.current >= maxReconnectAttempts) return;
-    // const delay = 5000;
-    // EXPONENTIAL DELAY  + Jitter
+    if (reconnectAttempts.current >= maxReconnectAttempts) {
+      if (retryRef.current) {
+        clearTimeout(retryRef.current);
+        retryRef.current = null;
+      }
+      return;
+    }
+
     const delay =
-      (BASE_DELAY * 2 ** reconnectAttempts.current, MAX_DELAY) +
+      Math.min(BASE_DELAY * 2 ** reconnectAttempts.current, MAX_DELAY) +
       Math.random() * 1000;
 
     if (retryRef.current) {
@@ -89,18 +94,19 @@ export function useSensor(intialSensorData: SensorDataProp) {
     const retryTimeout = setTimeout(() => {
       reconnectAttempts.current += 1;
       console.warn(
-        "SENSORS: RECONNECTION ATTEMPT NUMBER:",
+        "SENSOR: RECONNECTION ATTEMPT NUMBER:",
         reconnectAttempts.current,
       );
-      setupSensorsRealtime();
+      setupSensorRealtime();
     }, delay);
     retryRef.current = retryTimeout;
   }
 
   useEffect(() => {
-    setupSensorsRealtime();
+    setupSensorRealtime();
     return () => {
       console.log("SENSOR CLEANUP FUNCTION WORKING");
+      isCleanup.current = true;
       if (channelRef.current) {
         supabase.removeChannel(channelRef.current);
         channelRef.current = null;
@@ -112,23 +118,8 @@ export function useSensor(intialSensorData: SensorDataProp) {
     };
   }, []);
 
-  // REALTIME DATABASE LISTENER
-  // useEffect(() => {
-  //   const SensorChannel = supabase
-  //     .channel("Sensor-channel")
-  //     .on(
-  //       "postgres_changes",
-  //       { event: "UPDATE", schema: "public", table: "realtimeDB" },
-  //       (payload) => handleSensorPayload(payload.new as SensorDataProp),
-  //     )
-  //     .subscribe((status) => {});
-  //   return () => {
-  //     SensorChannel.unsubscribe();
-  //   };
-  // }, []);
-
   function handleSensorPayload(payload: SensorDataProp) {
     setRPISensorData(payload);
   }
-  return rpiSensorData;
+  return { rpiSensorData, setupSensorRealtime };
 }
