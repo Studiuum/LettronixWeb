@@ -48,7 +48,7 @@ export const MemopH = memo(({ value }: { value: number }) => {
     maximumFractionDigits: 2,
   }).format(value);
   return (
-    <div className="width-full text-[0.75rem] font-medium sm:text-[1rem] md:text-[1.25rem]">
+    <div className="width-full text-[0.75rem] font-medium whitespace-nowrap sm:text-[1rem] md:text-[1.25rem]">
       {formatter}
     </div>
   );
@@ -60,7 +60,7 @@ export const MemoTemp = memo(({ value }: { value: number }) => {
     maximumFractionDigits: 2,
   }).format(value);
   return (
-    <div className="width-full text-[0.75rem] font-medium sm:text-[1rem] md:text-[1.25rem]">
+    <div className="width-full text-[0.75rem] font-medium whitespace-nowrap sm:text-[1rem] md:text-[1.25rem]">
       {formatter}°C
     </div>
   );
@@ -72,7 +72,7 @@ export const MemoHum = memo(({ value }: { value: number }) => {
     maximumFractionDigits: 2,
   }).format(value);
   return (
-    <div className="width-full text-[0.75rem] font-medium sm:text-[1rem] md:text-[1.25rem]">
+    <div className="width-full text-[0.75rem] font-medium whitespace-nowrap sm:text-[1rem] md:text-[1.25rem]">
       {formatter}%
     </div>
   );

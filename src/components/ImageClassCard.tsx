@@ -51,7 +51,7 @@ export default function ImageClassCard({
             {/* PROGRESS BAR */}
             <div className="flex h-4 flex-1">
               {/* FUNCION HERE  */}
-              <div className="color-let flex-1 overflow-hidden rounded-full bg-green-700">
+              <div className="flex-1 overflow-hidden rounded-full bg-green-700">
                 <div
                   style={{
                     width: `${Math.min(

@@ -1,6 +1,6 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { StrictMode, Suspense, lazy } from "react";
+import { StrictMode, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import {
   fetchControlData,
@@ -8,22 +8,26 @@ import {
   fetchPreferencesData,
   fetchSensorData,
 } from "./hooks/fetchInitialData";
-import type { DailyDataProp } from "./data/dataProps/dataProps";
+import MainLayout from "./global/_MainLayout";
 
 // Lazy-loaded components
-const MainLayout = lazy(() => import("./global/_MainLayout"));
+// const MainLayout = lazy(() => import("./global/_MainLayout"));
 const HomePage = lazy(() => import("./pages/HomeWindow"));
 const ControlCenter = lazy(() => import("./pages/ControlCenterRender"));
 const HistoryStatsPage = lazy(() => import("./pages/HistoryStatsRender"));
 
+// const SkeletonHomePage = lazy(() => import("./skeleton/SkeletonHomeWindow"));
+// const SkeletonControlCenter = lazy(
+//   () => import("./skeleton/SkeletonControlCenterRender"),
+// );
+// const SkeletonHistoryStatsPage = lazy(
+//   () => import("./skeleton/SkeletonHistoryStatsRender"),
+// );
+
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <Suspense fallback={<div>Loading Main Layout...</div>}>
-        <MainLayout />
-      </Suspense>
-    ),
+    element: <MainLayout />,
     loader: async () => {
       const initialControlData = await fetchControlData();
       const initialpreferenceData = await fetchPreferencesData();
@@ -54,8 +58,6 @@ const routes = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
-      <RouterProvider router={routes} />
-    </Suspense>
+    <RouterProvider router={routes} />
   </StrictMode>,
 );

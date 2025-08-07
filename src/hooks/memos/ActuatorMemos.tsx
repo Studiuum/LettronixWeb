@@ -39,9 +39,9 @@ export const MemoBtn = memo(
         <button
           disabled={!isActive}
           onClick={() => HandleBTNClicks(label, val)}
-          className={`${label.includes("START") || label.includes("RESUME") ? "w-[14.5ch] sm:w-[16ch]" : ""} disabled:text-opacity-[20%] rounded-[10px] bg-green-800 px-[0.5rem] py-[0.5rem] text-[0.625rem] font-medium text-green-100 duration-300 hover:bg-green-700 focus-visible:bg-green-900 focus-visible:outline-5 focus-visible:outline-green-700 active:bg-green-900 active:outline-none disabled:pointer-events-none disabled:bg-disabled-main-btn disabled:text-green-900/30 sm:rounded-[12px] sm:px-[1rem] sm:py-[0.625rem] sm:text-[0.875rem] sm:font-semibold md:text-[0.875rem] xl:px-5 xl:py-[0.625rem]`}
+          className={`${label.includes("START") || label.includes("RESUME") ? "w-[14.5ch] sm:w-[16ch]" : ""} disabled:text-opacity-[20%] rounded-[10px] bg-green-800 px-[0.5rem] py-[0.5rem] text-[0.625rem] font-medium whitespace-nowrap text-green-100 duration-300 hover:bg-green-700 focus-visible:bg-green-900 focus-visible:outline-5 focus-visible:outline-green-700 active:bg-green-900 active:outline-none disabled:pointer-events-none disabled:bg-disabled-main-btn disabled:text-green-900/30 sm:rounded-[12px] sm:px-[1rem] sm:py-[0.625rem] sm:text-[0.875rem] sm:font-semibold md:text-[0.875rem] xl:px-5 xl:py-[0.625rem]`}
         >
-          {label}
+          {label || "\u00A0"}
         </button>
       </>
     );

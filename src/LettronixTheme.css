@@ -73,13 +73,16 @@
     @apply text-[0.625rem] font-bold tracking-[0rem] sm:text-[0.875rem] md:text-[1rem]/[1.20] xl:text-[1.250rem]/[1.20];
   }
   .h2-day-number {
-    @apply h-auto w-auto min-w-0 flex-shrink transform-gpu overflow-hidden text-center text-5xl leading-none font-bold text-ellipsis whitespace-nowrap transition-all duration-200 ease-in-out sm:text-6xl xl:text-[4.6875rem];
+    @apply h-auto w-auto min-w-0 flex-shrink transform-gpu overflow-hidden text-ellipsis whitespace-nowrap text-center text-5xl font-bold leading-none transition-all duration-200 ease-in-out sm:text-6xl xl:text-[4.6875rem];
+  }
+  .large-body-sub-title-skeleton {
+    @apply h-[0.625rem] sm:h-[0.875rem] md:h-[1rem] xl:h-[1.250rem];
   }
 }
 
 @layer components {
   .main-card {
-    @apply flex flex-col gap-2 rounded-2xl border-1 border-green-400 bg-green-300 p-3 font-Inter sm:p-4 md:p-5;
+    @apply border-1 font-Inter flex flex-col gap-2 rounded-2xl border-green-400 bg-green-300 p-3 sm:p-4 md:p-5;
   }
 }
 

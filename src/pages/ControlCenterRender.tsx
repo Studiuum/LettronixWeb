@@ -3,9 +3,6 @@ import type { OutletContextProp } from "../data/dataProps/dataProps";
 import "../LettronixTheme.css";
 import { MemoBtn, MemoOtherBtn } from "../hooks/memos/ActuatorMemos";
 
-const card =
-  "flex p-5 bg-lettronix-card-bg drop-shadow-all-fx font-Inter rounded-2xl border-0.25 border-lettronix-card-border";
-
 const titleName =
   "text-[0.75rem] leading-none font-medium tracking-[0rem] text-green-900 sm:text-[1rem] md:text-[1rem] lg:text-[1.250rem]";
 
@@ -129,7 +126,7 @@ function ControlCenterRender() {
     return (
       <>
         <div
-          className={`${controlText} flex-1 flex-col items-center justify-between font-normal xl:grid xl:grid-cols-[1fr_2fr_2fr] xl:grid-rows-1`}
+          className={`${controlText} flex flex-1 flex-col font-normal xl:grid xl:grid-cols-[1fr_2fr_2fr] xl:grid-rows-1 xl:items-center`}
         >
           {/* Name + Help Icon */}
           <div className="flex items-center gap-2 xl:min-w-[18ch]">
@@ -252,7 +249,7 @@ function ControlCenterRender() {
           >
             OTHER CONTROLS
           </div>
-          <div className="grid h-full flex-1 flex-col items-center gap-y-3 p-2 lg:ml-5">
+          <div className="flex flex-[1_1_auto] flex-col gap-2 lg:ml-5">
             {otherBtnData.map((data, index) => {
               return (
                 <OtherControlSetRender

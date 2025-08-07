@@ -2,10 +2,13 @@ import { Outlet, useLoaderData, useLocation } from "react-router-dom";
 
 import HeaderRender from "./HeaderRender";
 import FootRender from "./FooterRender";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRPIControl } from "../hooks/useRPIControl";
 import { usePreferences } from "../hooks/usePreferences";
 import { useIsOnline } from "../hooks/useIsOnline";
+import SkeletonHomeWindowRender from "../skeleton/SkeletonHomeWindow";
+import SkeletonControlCenterRender from "../skeleton/SkeletonControlCenterRender";
+import SkeletonHistoryStatsRender from "../skeleton/SkeletonHistoryStatsRender";
 
 function MainLayout() {
   // Fetch initial data from the loader
@@ -35,13 +38,12 @@ function MainLayout() {
   // Loading of loading screen
   const { pathname } = useLocation();
   const getFallback = () => {
-    if (pathname.toLowerCase() === "/") return <div>Loading Home...</div>;
+    if (pathname.toLowerCase() === "/") return <SkeletonHomeWindowRender />;
     if (pathname.toLowerCase() === "/control-center") {
-      return <div>Loading Control Center...</div>;
+      return <SkeletonControlCenterRender />;
     }
     if (pathname.toLowerCase() === "/history-statistics")
-      return <div>Loading History Statistics...</div>;
-    return <div>Loading page...</div>;
+      return <SkeletonHistoryStatsRender />;
   };
 
   return (

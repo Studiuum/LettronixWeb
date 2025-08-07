@@ -3,10 +3,7 @@ import "../LettronixTheme.css";
 import { MemoTank } from "../hooks/memos/TankLevelMemos";
 import { MemoBtn } from "../hooks/memos/ActuatorMemos";
 import { useLoaderData, useOutletContext } from "react-router";
-import type {
-  OutletContextProp,
-  SensorDataProp,
-} from "../data/dataProps/dataProps";
+import type { OutletContextProp } from "../data/dataProps/dataProps";
 import { useSensor } from "../hooks/useSensor";
 
 import { useEffect, type FC } from "react";
@@ -42,9 +39,9 @@ function RenderSensorReadingsCard({
       <img
         src={`src/assets/icons/${fileName}-reading-icon.svg`}
         alt={`${fileName} icon`}
-        className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12"
+        className="h-8 w-8 overflow-auto sm:h-10 sm:w-10 md:h-12 md:w-12"
       />
-      <div className="large-body-sub-title flex">{label}</div>
+      <div className="large-body-sub-title flex whitespace-nowrap">{label}</div>
       <Func value={value} />
     </div>
   );

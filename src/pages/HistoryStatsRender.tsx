@@ -10,17 +10,6 @@ import { useLoaderData, useOutletContext } from "react-router";
 import TitleCard from "../components/TitleCards";
 import ImageClassCard from "../components/ImageClassCard";
 
-const card =
-  "flex flex-col p-5 bg-lettronix-card-bg drop-shadow-all-fx font-Inter rounded-2xl border-0.25 border-lettronix-card-border gap-2";
-
-const titleCard =
-  "flex items-center justify-between border-b-1 border-lettronix-title-border pb-2";
-
-const titleName = "font-medium text-xl tracking-widest";
-
-const controlBtn =
-  "rounded-[20px] text-[16px] py-2 px-1 drop-shadow-btn-fx active:drop-shadow-none hover:drop-shadow-all-fx active:inset-shadow-inward-all-fx active:animate-pulse[10] disabled:bg-lettronix-btn-disabled disabled:drop-shadow-none disabled:inset-shadow-inward-all-fx disabled:text-white disabled:cursor-events-none transition active:scale-99 duration-300";
-
 function HistoryStatsRender() {
   const { preferenceData } = useOutletContext<OutletContextProp>();
 
