@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import type { DailyDataProp } from "../data/dataProps/dataProps";
 
 import Chart from "react-apexcharts";
