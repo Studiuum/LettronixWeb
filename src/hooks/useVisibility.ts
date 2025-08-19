@@ -1,1 +1,1 @@
-function useVisiblity() {}
+function useVisiblity(status: boolean) {}

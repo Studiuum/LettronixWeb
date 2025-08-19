@@ -92,10 +92,13 @@ function HomeWindowRender() {
             {/* SENSOR READINGS LINE */}
             <TitleCard label={"sensor readings"} />
             <div className="flex flex-1 flex-row items-center justify-center gap-0">
-              <RenderSensorReadingsCard label="TDS" value={9999} />
-              <RenderSensorReadingsCard label="pH" value={99.99} />
-              <RenderSensorReadingsCard label="TEMP" value={99.99} />
-              <RenderSensorReadingsCard label="HUM" value={99.99} />
+              <RenderSensorReadingsCard label="TDS" value={rpiSensorData.tds} />
+              <RenderSensorReadingsCard label="pH" value={rpiSensorData.pH} />
+              <RenderSensorReadingsCard
+                label="TEMP"
+                value={rpiSensorData.temp}
+              />
+              <RenderSensorReadingsCard label="HUM" value={rpiSensorData.hum} />
             </div>
           </div>
           {/* WATER LEVEL SENSOR */}

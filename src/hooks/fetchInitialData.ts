@@ -64,6 +64,7 @@ export const fetchPreferencesData = async () => {
     return defaultData;
   } else if (data && data.length > 0) {
     const row = data[0];
+
     const dateTime = new Date(row.date_time.replace(" ", "T")).toLocaleString(
       "en-US",
       {

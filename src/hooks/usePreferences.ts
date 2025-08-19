@@ -43,7 +43,7 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
         if (retryRef.current) {
           const initialData = await fetchPreferencesData();
           console.log("PREFERENCES FETCHED DATA:", initialData);
-          handlePreferencePayload(initialData as PreferencesProp);
+          setPreferenceData(initialData as PreferencesProp);
 
           clearTimeout(retryRef.current);
           retryRef.current = null;

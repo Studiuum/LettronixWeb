@@ -25,12 +25,24 @@ function MainLayout() {
   ]);
   const { fullyConnected, updateReconnectStatus } = useIsOnline();
 
+  // function forceReconnection() {
+  //   console.log("THIS IS WORKING");
+  // }
+
   useEffect(() => {
     console.log("NUMBER OF SETUPS:", arraySetupRealtime);
+
+    // document.addEventListener("visibilitychange", () => {
+    //   document.visibilityState === "visible" && forceReconnection();
+    // });
+
     const updateStatusInterval = setInterval(() => {
       updateReconnectStatus(arraySetupRealtime);
     }, 3000);
     return () => {
+      // document.removeEventListener("visibilitychange", () => {
+      //   document.visibilityState === "visible" && forceReconnection();
+      // });
       clearInterval(updateStatusInterval);
     };
   }, [arraySetupRealtime]);
@@ -38,12 +50,18 @@ function MainLayout() {
   // Loading of loading screen
   const { pathname } = useLocation();
   const getFallback = () => {
-    if (pathname.toLowerCase() === "/") return <SkeletonHomeWindowRender />;
+    if (pathname.toLowerCase() === "/") {
+      document.title = "Lettronix Web - Home";
+      return <SkeletonHomeWindowRender />;
+    }
     if (pathname.toLowerCase() === "/control-center") {
+      document.title = "Lettronix Web - Control Center";
       return <SkeletonControlCenterRender />;
     }
-    if (pathname.toLowerCase() === "/history-statistics")
+    if (pathname.toLowerCase() === "/history-statistics") {
+      document.title = "Lettronix Web - History & Statistics";
       return <SkeletonHistoryStatsRender />;
+    }
   };
 
   return (
