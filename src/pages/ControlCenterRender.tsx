@@ -209,7 +209,7 @@ function ControlCenterRender() {
             <div className={`${titleName} `}>MAIN CONTROL</div>
             <div className="group relative">
               <img
-                src="src/assets/icons/help-icon.svg"
+                src="/assets/icons/help-icon.svg"
                 alt="help icon"
                 className={`${helpBTN}`}
               />

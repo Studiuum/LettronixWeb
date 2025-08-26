@@ -12,13 +12,13 @@ function FootRender() {
     <div className="fixed right-0 bottom-2 left-0 z-50 mx-10 rounded-full sm:mx-20 lg:mx-30 xl:mx-70">
       <nav className="flex flex-row divide-x-2 divide-lettronix-title-border">
         {[
-          { icon: "src/assets/icons/nav-home-icon.svg", label: "HOME" },
+          { icon: "/assets/icons/nav-home-icon.svg", label: "HOME" },
           {
-            icon: "src/assets/icons/nav-control-center-icon.svg",
+            icon: "/assets/icons/nav-control-center-icon.svg",
             label: "CONTROL CENTER",
           },
           {
-            icon: "src/assets/icons/nav-stats-icon.svg",
+            icon: "/assets/icons/nav-stats-icon.svg",
             label: "HISTORY AND STATISTICS",
           },
         ].map((item, index) => (
