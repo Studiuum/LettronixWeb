@@ -37,7 +37,7 @@ function RenderSensorReadingsCard({
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-1 font-bold md:gap-2">
       <img
-        src={`src/assets/icons/${fileName}-reading-icon.svg`}
+        src={`/assets/icons/${fileName}-reading-icon.svg`}
         alt={`${fileName} icon`}
         className="h-8 w-8 overflow-auto sm:h-10 sm:w-10 md:h-12 md:w-12"
       />
