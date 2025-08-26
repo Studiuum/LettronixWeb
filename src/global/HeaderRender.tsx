@@ -2,7 +2,7 @@ import { MemoHeaderStatus } from "../hooks/memos/SensorMemos";
 
 import "../LettronixTheme.css";
 // "flex items-center justify-center py-4 divide-x rounded-[15px] divide-black  bg-lettronix-head-foot-bg drop-shadow-btn-fx"
-
+import logo from "../assets/lettuce.png";
 function HeaderRender({
   fullyconnected,
   val,
@@ -16,7 +16,7 @@ function HeaderRender({
         {/* LEFT SIDE: Logo + Title */}
         <div className="lg:gap-90= flex w-1/2 flex-1 items-center justify-center gap-2 sm:gap-4 xl:gap-15 2xl:gap-20">
           <img
-            src="src/assets/lettuce.png"
+            src={logo}
             alt="Lettronix Logo"
             className="flex h-4 w-4 sm:h-8 sm:w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 xl:h-11 xl:w-11 min-1024-768:h-8 min-1024-768:w-8"
           />
