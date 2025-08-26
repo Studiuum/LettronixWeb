@@ -133,7 +133,7 @@ function ControlCenterRender() {
             <div className="font-medium">{controlData.label}</div>
             <div className="group relative">
               <img
-                src="src/assets/icons/help-icon.svg"
+                src="/assets/icons/help-icon.svg"
                 alt="help button"
                 className={`${helpBTN}`}
               />

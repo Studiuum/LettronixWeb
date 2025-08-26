@@ -13,7 +13,7 @@ export default function TitleCard({
         {label.toUpperCase()}
       </div>
       <img
-        src={`src/assets/icons/${label.trim().replaceAll(" ", "-")}-icon.svg`}
+        src={`/assets/icons/${label.trim().replaceAll(" ", "-")}-icon.svg`}
         alt={`${label} icon`}
         className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6"
       />
