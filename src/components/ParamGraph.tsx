@@ -32,7 +32,7 @@ export function ParamGraph({
   }, [param, historyData]);
 
   const x = useMemo(() => historyData.map((row) => row.age), [historyData]);
-
+  console.log("dataGraph.length", dataGraph[0] === -1 ? false : true);
   return (
     <Chart
       options={{
@@ -105,7 +105,7 @@ export function ParamGraph({
           },
         },
         tooltip: {
-          enabled: true,
+          enabled: dataGraph[0] === -1 ? false : true,
           fillSeriesColor: true,
           marker: { show: true },
           custom: function ({ series, seriesIndex, dataPointIndex }) {

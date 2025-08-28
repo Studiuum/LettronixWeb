@@ -22,17 +22,41 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
       channelRef.current = null;
     }
 
-    const preferencesChannel = supabase.channel("preferences_changes").on(
-      "postgres_changes",
-      {
-        event: "UPDATE",
-        schema: "public",
-        table: "preferences",
-      },
-      (payload) => {
-        handlePreferencePayload(payload.new as PreferencesProp);
-      },
-    );
+    const preferencesChannel = supabase
+      .channel("preferences_changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "preferences",
+        },
+        (payload) => {
+          handlePreferencePayload(payload.new as PreferencesProp);
+        },
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "preferences",
+        },
+        (payload) => {
+          handlePreferencePayload(payload.new as PreferencesProp);
+        },
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "preferences",
+        },
+        () => {
+          handlePreferencePayload(null);
+        },
+      );
 
     channelRef.current = preferencesChannel;
     preferencesChannel.subscribe(async (status) => {
@@ -108,20 +132,29 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
     };
   }, []);
 
-  function handlePreferencePayload(payload: PreferencesProp) {
-    const dateTime = new Date(
-      payload.date_time.replace(" ", "T"),
-    ).toLocaleString("en-US", {
-      year: "numeric",
-      month: "long", // e.g., July
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-    payload.date_time = dateTime;
-    setPreferenceData(payload);
+  function handlePreferencePayload(payload: PreferencesProp | null) {
+    if (!payload) {
+      const defaultData: PreferencesProp = {
+        date_time: "--/--/-- --:--",
+        age: 0,
+        lettuce_classify: 0,
+        lettuce_pic_url: "",
+      };
+      setPreferenceData(defaultData);
+    } else {
+      const dateTime = new Date(
+        payload.date_time.replace(" ", "T"),
+      ).toLocaleString("en-US", {
+        year: "numeric",
+        month: "long", // e.g., July
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
+      payload.date_time = dateTime;
+      setPreferenceData(payload);
+    }
   }
-
   return { preferenceData, setupPreferencesRealtime };
 }

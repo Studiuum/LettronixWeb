@@ -6,19 +6,19 @@ export function useHistory() {
   const [historyData, setHistoryData] = useState<DailyDataProp[]>([
     {
       age: 0,
-      tds: 0,
-      pH: 0,
-      temp: 0,
-      hum: 0,
-      pic: "https://i.pinimg.com/1200x/50/3d/74/503d7489014506873e2cdea8a64492b6.jpg",
-      classification: 4,
+      tds: -1,
+      pH: -1,
+      temp: -1,
+      hum: -1,
+      pic: "",
+      classification: 0,
     },
   ]);
 
   const [loadData, setloadData] = useState<DailyDataProp>(historyData[0]);
 
   const [indexNumber, setIndexNumber] = useState<number | string>(
-    historyData[0].age
+    historyData[0].age,
   );
   // Fetching
   useEffect(() => {

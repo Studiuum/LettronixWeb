@@ -55,11 +55,10 @@ export const fetchPreferencesData = async () => {
             : "UNKNOWN ERROR",
     );
     const defaultData: PreferencesProp = {
-      date_time: "--/--/-- --:--",
+      date_time: "----/--/-- --:--",
       age: 0,
-      lettuce_classify: 4,
-      lettuce_pic_url:
-        "https://i.pinimg.com/1200x/50/3d/74/503d7489014506873e2cdea8a64492b6.jpg",
+      lettuce_classify: 0,
+      lettuce_pic_url: "",
     };
     return defaultData;
   } else if (data && data.length > 0) {
@@ -137,12 +136,12 @@ export const fetchHistoryData = async () => {
     const defaultData: DailyDataProp[] = [
       {
         age: 0,
-        tds: 0,
-        pH: 0,
-        temp: 0,
-        hum: 0,
-        pic: "https://i.pinimg.com/1200x/50/3d/74/503d7489014506873e2cdea8a64492b6.jpg",
-        classification: 4,
+        tds: -1,
+        pH: -1,
+        temp: -1,
+        hum: -1,
+        pic: "",
+        classification: 0,
       },
     ];
     return defaultData;
