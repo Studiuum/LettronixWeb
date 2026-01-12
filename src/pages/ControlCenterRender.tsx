@@ -158,7 +158,6 @@ function ControlCenterRender() {
                 label={label}
                 isActive={controlData.condition[index]}
                 val={controlData.val[index]}
-                setVal={controlData.setFunc}
               />
             ))}
           </div>
