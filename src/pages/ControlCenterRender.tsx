@@ -109,7 +109,7 @@ function ControlCenterRender() {
       generalField: "DRAIN & MIX",
       generalFieldCondition:
         rpiControlData.run_drain === 1 ? 2 : rpiControlData.run_mix,
-      buttonLabels: ["START DRAIN"],
+      buttonLabels: ["START DRAIN + MIX"],
       condition: [
         rpiControlData.run_mix === 0 && rpiControlData.run_drain === 0,
       ],
