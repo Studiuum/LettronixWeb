@@ -150,10 +150,12 @@ export const MemoOtherBtn = memo(
     label,
     isActive,
     val,
+    setVal,
   }: {
     label: string;
     isActive: boolean;
     val: number;
+    setVal: (x: number) => void;
   }) => {
     const [open, setOpen] = useState(false);
 
