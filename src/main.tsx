@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import {
   fetchControlData,
   fetchHistoryData,
+  fetchParamAutomation,
   fetchPreferencesData,
   fetchSensorData,
 } from "./hooks/fetchInitialData";
@@ -46,7 +47,11 @@ const routes = createBrowserRouter([
       {
         path: "history-statistics",
         element: <HistoryStatsPage />,
-        loader: fetchHistoryData,
+        loader: async () => {
+          const historyData = await fetchHistoryData();
+          const paramAutomationData = await fetchParamAutomation();
+          return { historyData, paramAutomationData };
+        },
       },
     ],
   },

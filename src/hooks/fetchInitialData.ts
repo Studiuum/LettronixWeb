@@ -2,6 +2,8 @@
 
 import type {
   DailyDataProp,
+  ParamAutomation,
+  ParamAutomationProp,
   PreferencesProp,
   RPIControlStatusProp,
   SensorDataProp,
@@ -147,5 +149,30 @@ export const fetchHistoryData = async () => {
     return defaultData;
   } else if (data && data.length > 0) {
     return data as DailyDataProp[];
+  }
+};
+
+export const fetchParamAutomation = async () => {
+  console.log("FETCHING PARAM AUTOMATION DATA");
+  const { data, error } = await supabase
+    .from("paramAutomation")
+    .select()
+    .order("day", { ascending: true });
+
+  if (error || data.length === 0 || data === null) {
+    console.log(
+      "FETCH PARAM AUTOMATION DATA ERROR",
+      error
+        ? error.message
+        : data === null
+          ? "PARAM AUTOMATION DATA FETCH ERROR"
+          : data.length === 0
+            ? "No data found"
+            : "UNKNOWN ERROR",
+    );
+    const defaultData: ParamAutomationProp[] = [];
+    return defaultData;
+  } else if (data && data.length > 0) {
+    return data as ParamAutomationProp[];
   }
 };

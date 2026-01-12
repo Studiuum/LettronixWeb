@@ -54,6 +54,15 @@ export type DailyDataProp = {
   pic: string;
   classification: number;
 };
+
+export type ParamAutomationProp = {
+  day: number;
+  sensor: string;
+  reading: number;
+  time: string;
+  action: string;
+};
+
 /////////////////////////////////////////
 // GLOBAL TYPES
 export type OutletContextProp = {
