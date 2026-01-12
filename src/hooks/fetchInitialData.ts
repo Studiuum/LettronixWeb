@@ -2,7 +2,6 @@
 
 import type {
   DailyDataProp,
-  ParamAutomation,
   ParamAutomationProp,
   PreferencesProp,
   RPIControlStatusProp,
