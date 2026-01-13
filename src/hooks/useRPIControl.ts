@@ -84,10 +84,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
               infoToast("Reclassification task has been ADDED!");
             } else if (newRow.plant_reclassification === 2) {
               loadingToast("Reclassification in PROCESS!");
-            } else {
-              message = `Classification has been UPDATED!`;
             }
-
             // Tasks: Drain, Foliar, Mix, Sprinkler
           } else {
             const tasks: { field: string; name: string }[] = [
