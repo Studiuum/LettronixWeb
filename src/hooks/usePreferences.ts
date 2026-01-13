@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { PreferencesProp } from "../data/dataProps/dataProps";
 import { supabase } from "../supabase";
 import { fetchPreferencesData } from "./fetchInitialData";
+import toast from "react-hot-toast";
+import { infoToast } from "../utils/toast";
 
 export function usePreferences(initialPreferenceData: PreferencesProp) {
   const [preferenceData, setPreferenceData] = useState<PreferencesProp>(
@@ -32,6 +34,10 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
           table: "preferences",
         },
         (payload) => {
+          const { old, new: newRow } = payload;
+          if (old !== newRow) {
+            if (newRow.age != 0) infoToast("Overview Details Has been Updated");
+          }
           handlePreferencePayload(payload.new as PreferencesProp);
         },
       )

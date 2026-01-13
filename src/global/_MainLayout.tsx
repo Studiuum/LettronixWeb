@@ -9,6 +9,7 @@ import { useIsOnline } from "../hooks/useIsOnline";
 import SkeletonHomeWindowRender from "../skeleton/SkeletonHomeWindow";
 import SkeletonControlCenterRender from "../skeleton/SkeletonControlCenterRender";
 import SkeletonHistoryStatsRender from "../skeleton/SkeletonHistoryStatsRender";
+import { Toaster } from "react-hot-toast";
 
 function MainLayout() {
   // Fetch initial data from the loader
@@ -72,6 +73,7 @@ function MainLayout() {
             val={contextData.values.status}
             fullyconnected={fullyConnected}
           />
+          <Toaster position="bottom-left"></Toaster>
         </Suspense>
         <Suspense fallback={getFallback()}>
           <Outlet

@@ -6,6 +6,12 @@ import type {
 } from "../data/dataProps/dataProps";
 import { supabase } from "../supabase";
 import { fetchControlData } from "./fetchInitialData";
+import {
+  infoToast,
+  loadingToast,
+  successToast,
+  warnToast,
+} from "../utils/toast";
 
 export function useRPIControl(loaderData: RPIControlStatusProp) {
   const [status, setStatus] = useState(loaderData.status);
@@ -38,6 +44,75 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
         table: "rpi_control",
       },
       (payload) => {
+        // TOAST FOR RPI_CONTROL_CHANGES
+        const { old, new: newRow } = payload;
+
+        let message = "";
+        console.log("OLD: ", old);
+        console.log("NEW: ", newRow);
+
+        if (old != newRow) {
+          // Lettuce cycle status changes
+          if (old.status !== newRow.status) {
+            if (newRow.status === 1) {
+              message = "";
+              warnToast("Lettuce Cycle is on ENDED.");
+            } else if (old.status === 3 && newRow.status === 2) {
+              message = "";
+              successToast("Lettuce Cycle has RESUMED.");
+            } else if (old.status === 1 && newRow.status === 2) {
+              message = "";
+              successToast("Lettuce Cycle has STARTED.");
+            } else if (newRow.status === 3) {
+              message = "";
+              warnToast("Lettuce Cycle is on PAUSE.");
+            }
+
+            // Water pump change
+          } else if (old.pump_status !== newRow.pump_status) {
+            message = `Water pump has been turned ${newRow.pump_status ? "ON" : "OFF"}`;
+
+            // Light change
+          } else if (old.light_status !== newRow.light_status) {
+            message = `Light has been turned ${newRow.light_status ? "ON" : "OFF"}`;
+
+            // Plant reclassification
+          } else if (
+            old.plant_reclassification !== newRow.plant_reclassification
+          ) {
+            if (newRow.plant_reclassification === 1) {
+              infoToast("Reclassification task has been ADDED!");
+            } else if (newRow.plant_reclassification === 2) {
+              loadingToast("Reclassification in PROCESS!");
+            } else {
+              message = `Classification has been UPDATED!`;
+            }
+
+            // Tasks: Drain, Foliar, Mix, Sprinkler
+          } else {
+            const tasks: { field: string; name: string }[] = [
+              { field: "run_drain", name: "DRAIN" },
+              { field: "run_foliar", name: "FOLIAR" },
+              { field: "run_mix", name: "MIX" },
+              { field: "run_prinkler", name: "SPRINKLER" },
+            ];
+
+            tasks.forEach((task) => {
+              if (old[task.field] !== newRow[task.field]) {
+                if (newRow[task.field] === 1)
+                  infoToast(`${task.name} task has been ADDED!`);
+                else if (newRow[task.field] === 2)
+                  infoToast(`${task.name} task is in PROCESS!`);
+                else if (newRow[task.field] === 0)
+                  successToast(`${task.name} task is SUCCESSFUL!`);
+              }
+            });
+          }
+        }
+
+        // Show message toast if any
+        if (message) successToast(message);
+
         handlePayload(payload.new as RPIControlStatusProp);
       },
     );

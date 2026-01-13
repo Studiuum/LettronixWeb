@@ -150,11 +150,15 @@ export default function ImageClassCard({
             )}
           </div>
           <div className="text-center text-[14px] tracking-wider sm:text-[16px] md:text-2xl">
-            {(classification === 0 || !classification) && "NOT YET CLASSIFIED"}
-            {classification === 4 && "NORMAL"}
-            {classification === 3 && "SLIGHT DEFICIENCY"}
-            {classification === 2 && "MODERATE DEFICIENCY"}
-            {classification === 1 && "SEVERE DEFICIENCY"}
+            {classification === 0
+              ? "NORMAL"
+              : classification === 1
+                ? "SLIGHT DEFICIENCY"
+                : classification === 2
+                  ? "MODERATE DEFICIENCY"
+                  : classification === 3
+                    ? "SEVERE DEFICIENCY"
+                    : "NOT YET CLASSIFIED"}
           </div>
         </div>
       </div>

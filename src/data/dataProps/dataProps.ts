@@ -15,6 +15,7 @@ export type RPIControlStatusProp = {
   run_sprinkler: number;
   run_drain: number;
   run_mix: number;
+  source?: string;
 };
 
 export type RPIControlSetupFunctions = {
