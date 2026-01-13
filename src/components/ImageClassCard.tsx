@@ -152,13 +152,11 @@ export default function ImageClassCard({
           <div className="text-center text-[14px] tracking-wider sm:text-[16px] md:text-2xl">
             {classification === 0
               ? "NORMAL"
-              : classification === 1
-                ? "SLIGHT DEFICIENCY"
-                : classification === 2
-                  ? "MODERATE DEFICIENCY"
-                  : classification === 3
-                    ? "SEVERE DEFICIENCY"
-                    : "NOT YET CLASSIFIED"}
+              : classification === 1 ||
+                  classification === 2 ||
+                  classification === 3
+                ? " DEFICIENT"
+                : "NOT YET CLASSIFIED"}
           </div>
         </div>
       </div>
