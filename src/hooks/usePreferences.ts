@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import type { PreferencesProp } from "../data/dataProps/dataProps";
 import { supabase } from "../supabase";
 import { fetchPreferencesData } from "./fetchInitialData";
-import toast from "react-hot-toast";
 import { infoToast } from "../utils/toast";
 
 export function usePreferences(initialPreferenceData: PreferencesProp) {
