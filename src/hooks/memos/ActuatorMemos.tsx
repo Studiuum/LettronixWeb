@@ -64,7 +64,7 @@ export function ConfirmDialog({
 
   let message2 = "This action <b>IRREVERSIBLE!</b>";
 
-  if (label.includes("RESUME")) {
+  if (label.includes("RESUME") || label.includes("START")) {
     message2 = "Re-check <b>WIRE & PIPE</b> connection first";
   }
 

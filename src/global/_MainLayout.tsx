@@ -73,7 +73,7 @@ function MainLayout() {
             val={contextData.values.status}
             fullyconnected={fullyConnected}
           />
-          <Toaster position="bottom-left"></Toaster>
+          <Toaster position="top-right" reverseOrder={true}></Toaster>
         </Suspense>
         <Suspense fallback={getFallback()}>
           <Outlet

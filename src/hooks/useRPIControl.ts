@@ -56,16 +56,16 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
           if (old.status !== newRow.status) {
             if (newRow.status === 1) {
               message = "";
-              warnToast("Lettuce Cycle is on ENDED.");
+              warnToast("Cycle has ENDED.");
             } else if (old.status === 3 && newRow.status === 2) {
               message = "";
-              successToast("Lettuce Cycle has RESUMED.");
+              successToast("Cycle has RESUMED.");
             } else if (old.status === 1 && newRow.status === 2) {
               message = "";
-              successToast("Lettuce Cycle has STARTED.");
+              successToast("Cycle has STARTED.");
             } else if (newRow.status === 3) {
               message = "";
-              warnToast("Lettuce Cycle is on PAUSE.");
+              warnToast("Cycle is on PAUSE.");
             }
 
             // Water pump change

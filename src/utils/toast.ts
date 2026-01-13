@@ -2,6 +2,8 @@
 import { toast } from "react-hot-toast";
 
 export const successToast = (message: string) => {
+  const width = window.innerWidth;
+  if (width <= 1024) return;
   toast(message, {
     style: {
       background: "#D6F5D6",
