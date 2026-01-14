@@ -121,14 +121,21 @@ export default function ImageClassCard({
         {/* IMAGE BLOCK */}
         {pic === "" || !pic ? EmptyImage() : imageBlock(pic)}
         {/* Text block */}
-        <div className="flex flex-none flex-col justify-center gap-1 rounded-b-[8px] p-2 md:rounded-b-[15px]">
+        <div className="bg-red- flex flex-none flex-col justify-center gap-0 rounded-b-[8px] px-2 pt-1.5 pb-2 md:rounded-b-[15px]">
           <div className="flex flex-1 flex-row items-center justify-between">
-            <div className="text-[12px] font-bold sm:text-[14px] md:text-[16px]">
-              CLASSIFICATION:
+            <div className="flex flex-row items-center justify-center gap-2">
+              <div className="text-[12px] font-bold sm:text-[14px] md:text-[16px]">
+                CLASSIFICATION:
+              </div>
+              <div
+                className={`${classification === 1 ? "hidden" : "block"} font text-center font-Inter text-[8px] tracking-tight sm:text-[0.75rem]`}
+              >
+                (with Nutrient Intervention)
+              </div>
             </div>
             {main ? (
               <button
-                className="mx-1 flex items-center justify-center rounded-full bg-amber-50 outline-0 transition-colors hover:bg-green-700 active:bg-green-900 md:mx-2"
+                className="mx-1 flex items-center justify-center rounded-full bg-amber-50 outline-0 transition-colors hover:bg-green-700 active:bg-green-900 md:mx-4"
                 title="Refresh"
                 onClick={() => HandleBTNClicks("RECLASSIFICATION", 1)} // <-- uses your useState
               >
@@ -149,14 +156,16 @@ export default function ImageClassCard({
               ""
             )}
           </div>
-          <div className="text-center text-[14px] tracking-wider sm:text-[16px] md:text-2xl">
-            {classification === 0
-              ? "NORMAL"
-              : classification === 1 ||
-                  classification === 2 ||
-                  classification === 3
-                ? " DEFICIENT"
-                : "NOT YET CLASSIFIED"}
+          <div className="flex flex-1 items-center justify-center gap-0 p-0">
+            <div className="gap-0 p-0 text-center text-[14px] tracking-widest sm:text-[16px] md:text-2xl">
+              {classification === 0
+                ? "NORMAL"
+                : classification === 1 ||
+                    classification === 2 ||
+                    classification === 3
+                  ? " DEFICIENT"
+                  : "NOT YET CLASSIFIED"}
+            </div>
           </div>
         </div>
       </div>
