@@ -33,10 +33,11 @@ function HistoryStatsRender() {
   function inputTextHandler(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.value !== "") {
       const num = Number(e.target.value);
+      console.log("SELECTED NUMBER: ", num);
 
-      if (num >= 1 && num <= historyData.length) {
+      if (num >= 0 && num <= historyData.length - 1) {
+        setloadData(historyData[num]);
         setIndexNumber(num);
-        setloadData(historyData[num - 1]);
       } else {
         setIndexNumber(loadData.age);
       }

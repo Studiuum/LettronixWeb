@@ -1,4 +1,4 @@
-import type { ChangeEvent } from "react";
+import { useRef, type ChangeEvent } from "react";
 import type {
   DailyDataProp,
   PreferencesProp,
@@ -67,6 +67,7 @@ export default function ImageClassCard({
     ? loadData.classification
     : preferenceData.lettuce_classify;
   const pic = loadData ? loadData.pic : preferenceData.lettuce_pic_url;
+  const maxAge = 21;
 
   return (
     <>
@@ -87,7 +88,14 @@ export default function ImageClassCard({
                   }
                 : () => {}
             }
-            onBlur={setIndexNumber ? () => setIndexNumber(age) : () => {}}
+            onBlur={() => setIndexNumber?.(age)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                // remove focus
+                setIndexNumber?.(age);
+                e.currentTarget.blur();
+              }
+            }}
             disabled={loadData ? false : true}
             className="focus: border-0.5 w-[2.5ch] flex-shrink transform-gpu appearance-none overflow-hidden border-lettronix-title-border py-0 text-center text-5xl leading-none font-bold text-ellipsis whitespace-nowrap outline-0 drop-shadow-btn-fx transition-all duration-200 ease-in-out focus:bg-white sm:h-[60px] sm:text-6xl md:h-[72px] md:text-7xl xl:text-[4.6875rem]"
           />
@@ -102,7 +110,7 @@ export default function ImageClassCard({
                 <div
                   style={{
                     width: `${Math.min(
-                      (age / (age > 30 ? age : 30)) * 100,
+                      (age / (age > maxAge ? age : maxAge)) * 100,
                       100,
                     )}%`,
                   }}
@@ -128,7 +136,7 @@ export default function ImageClassCard({
                 CLASSIFICATION:
               </div>
               <div
-                className={`${classification === 1 ? "hidden" : "block"} font text-center font-Inter text-[8px] tracking-tight sm:text-[0.75rem]`}
+                className={`${classification >= 0 ? "hidden" : "block"} font text-center font-Inter text-[8px] tracking-tight sm:text-[0.75rem]`}
               >
                 (with Nutrient Intervention)
               </div>
@@ -160,11 +168,13 @@ export default function ImageClassCard({
             <div className="gap-0 p-0 text-center text-[14px] tracking-widest sm:text-[16px] md:text-2xl">
               {classification === 0
                 ? "NORMAL"
-                : classification === 1 ||
-                    classification === 2 ||
-                    classification === 3
-                  ? " DEFICIENT"
-                  : "NOT YET CLASSIFIED"}
+                : Math.abs(classification) === 1
+                  ? "SLIGHT DEFICIENCY"
+                  : Math.abs(classification) === 2
+                    ? "MODERATE DEFICIENCY"
+                    : Math.abs(classification) === 3
+                      ? "SEVERE DEFICIENCY"
+                      : "NOT YET CLASSIFIED"}
             </div>
           </div>
         </div>
