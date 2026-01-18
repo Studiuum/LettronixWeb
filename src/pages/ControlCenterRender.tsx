@@ -62,9 +62,7 @@ function ControlCenterRender() {
       buttonLabels: ["LIGHT OFF", "LIGHT ON"],
       condition: [
         rpiControlData.light_status === 1 && rpiControlData.status !== 1,
-        ,
         rpiControlData.light_status === 0 && rpiControlData.status !== 1,
-        ,
       ],
       val: [0, 1],
       setFunc: setFunctions.setLightStatus,
