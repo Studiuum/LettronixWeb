@@ -90,7 +90,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
                 if (newRow[task.field] === 1)
                   infoToast(`${task.name} task has been ADDED!`);
                 else if (newRow[task.field] === 2)
-                  infoToast(`${task.name} task is in PROCESS!`);
+                  loadingToast(`${task.name} task is in PROCESS!`);
                 else if (newRow[task.field] === 0)
                   successToast(`${task.name} task is SUCCESSFUL!`);
               }
