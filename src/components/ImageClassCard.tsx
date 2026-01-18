@@ -167,13 +167,13 @@ export default function ImageClassCard({
           </div>
           <div className="flex flex-1 items-center justify-center gap-0 p-0">
             <div className="gap-0 p-0 text-center text-[14px] tracking-widest sm:text-[16px] md:text-2xl">
-              {classification === 0
+              {classification === 1
                 ? "NORMAL"
-                : Math.abs(classification) === 1
+                : Math.abs(classification) === 2
                   ? "SLIGHT DEFICIENCY"
-                  : Math.abs(classification) === 2
+                  : Math.abs(classification) === 3
                     ? "MODERATE DEFICIENCY"
-                    : Math.abs(classification) === 3
+                    : Math.abs(classification) === 4
                       ? "SEVERE DEFICIENCY"
                       : "NOT YET CLASSIFIED"}
             </div>
