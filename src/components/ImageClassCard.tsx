@@ -120,7 +120,11 @@ export default function ImageClassCard({
               </div>
             </div>
             <div className="flex-1 font-bold">START DATE TIME:</div>
-            <div className="flex-1 text-center">{preferenceData.date_time}</div>
+            <div className="flex-1 text-center">
+              {preferenceData.date_time === "Invalid Date"
+                ? "START CYCLE FIRST"
+                : preferenceData.date_time}
+            </div>
           </div>
         </div>
       </div>
@@ -167,15 +171,17 @@ export default function ImageClassCard({
           </div>
           <div className="flex flex-1 items-center justify-center gap-0 p-0">
             <div className="gap-0 p-0 text-center text-[14px] tracking-widest sm:text-[16px] md:text-2xl">
-              {classification === 1
-                ? "NORMAL"
-                : Math.abs(classification) === 2
-                  ? "SLIGHT DEFICIENCY"
-                  : Math.abs(classification) === 3
-                    ? "MODERATE DEFICIENCY"
-                    : Math.abs(classification) === 4
-                      ? "SEVERE DEFICIENCY"
-                      : "NOT YET CLASSIFIED"}
+              {classification == 0
+                ? "-"
+                : Math.abs(classification) === 1
+                  ? "NORMAL"
+                  : Math.abs(classification) === 2
+                    ? "SLIGHT DEFICIENCY"
+                    : Math.abs(classification) === 3
+                      ? "MODERATE DEFICIENCY"
+                      : Math.abs(classification) === 4
+                        ? "SEVERE DEFICIENCY"
+                        : "NOT YET CLASSIFIED"}
             </div>
           </div>
         </div>
