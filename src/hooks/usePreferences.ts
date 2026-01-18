@@ -35,10 +35,10 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
         (payload) => {
           const { old, new: newRow } = payload;
           if (old !== newRow) {
-            if (newRow.age != 0)
-              if (old.lettuce_classify !== newRow.lettuce_classify)
-                successToast("Classification has been Updated");
-              else infoToast("Overview Details Has been Updated");
+            if (old.age !== newRow.age)
+              infoToast("Overview Details Has been Updated");
+            else if (old.lettuce_pic_url !== newRow.lettuce_pic_url)
+              successToast("Reclassification has been completed");
           }
           handlePreferencePayload(payload.new as PreferencesProp);
         },

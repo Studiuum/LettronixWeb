@@ -11,8 +11,8 @@ export async function HandleBTNClicks(label: string, value: number) {
   else if (label.includes("LIGHT")) change = "light_status";
   else if (label.includes("FOLIAR")) change = "run_foliar";
   else if (label.includes("SPRINKLER")) change = "run_sprinkler";
-  else if (label.includes("DRAIN")) change = "run_drain";
   else if (label.includes("MIX")) change = "run_mix";
+  else if (label.includes("DRAIN")) change = "run_drain";
   else if (label.includes("RECLASSIFICATION"))
     change = "plant_reclassification";
 

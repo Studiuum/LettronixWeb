@@ -15,6 +15,7 @@ export type RPIControlStatusProp = {
   run_sprinkler: number;
   run_drain: number;
   run_mix: number;
+  plant_reclassification: number;
   source?: string;
 };
 
@@ -26,6 +27,7 @@ export type RPIControlSetupFunctions = {
   setRunSprinkler: (val: number) => void;
   setRunDrain: (val: number) => void;
   setRunMix: (val: number) => void;
+  setReclassification: (val: number) => void;
 };
 
 //////////////////////////////////////

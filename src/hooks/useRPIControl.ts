@@ -21,6 +21,9 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
   const [runSprinkler, setRunSprinkler] = useState(loaderData.run_sprinkler);
   const [runDrain, setRunDrain] = useState(loaderData.run_drain);
   const [runMix, setRunMix] = useState(loaderData.run_mix);
+  const [reclassification, setReclassification] = useState(
+    loaderData.plant_reclassification,
+  );
 
   const isCleanup = useRef<Boolean>(false);
   const channelRef = useRef<any>(null);
@@ -48,8 +51,6 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
         const { old, new: newRow } = payload;
 
         let message = "";
-        console.log("OLD: ", old);
-        console.log("NEW: ", newRow);
 
         if (old != newRow) {
           // Lettuce cycle status changes
@@ -75,23 +76,13 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
             // Light change
           } else if (old.light_status !== newRow.light_status) {
             message = `Light has been turned ${newRow.light_status ? "ON" : "OFF"}`;
-
-            // Plant reclassification
-          } else if (
-            old.plant_reclassification !== newRow.plant_reclassification
-          ) {
-            if (newRow.plant_reclassification === 1) {
-              infoToast("Reclassification task has been ADDED!");
-            } else if (newRow.plant_reclassification === 2) {
-              loadingToast("Reclassification in PROCESS!");
-            }
-            // Tasks: Drain, Foliar, Mix, Sprinkler
           } else {
             const tasks: { field: string; name: string }[] = [
               { field: "run_drain", name: "DRAIN" },
               { field: "run_foliar", name: "FOLIAR" },
               { field: "run_mix", name: "MIX" },
               { field: "run_prinkler", name: "SPRINKLER" },
+              { field: "plant_reclassification", name: "RECLASSIFICATION" },
             ];
 
             tasks.forEach((task) => {
@@ -106,7 +97,6 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
             });
           }
         }
-
         // Show message toast if any
         if (message) successToast(message);
 
@@ -196,6 +186,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
     setRunSprinkler(payload.run_sprinkler);
     setRunDrain(payload.run_drain);
     setRunMix(payload.run_mix);
+    setReclassification(payload.plant_reclassification);
   }
 
   const values: RPIControlStatusProp = {
@@ -207,6 +198,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
       run_sprinkler: runSprinkler,
       run_drain: runDrain,
       run_mix: runMix,
+      plant_reclassification: reclassification,
     },
     setFunctions: RPIControlSetupFunctions = {
       setStatus: setStatus,
@@ -216,6 +208,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
       setRunSprinkler: setRunSprinkler,
       setRunDrain: setRunDrain,
       setRunMix: setRunMix,
+      setReclassification: setReclassification,
     };
   return { values, setFunctions, setupControlRealtime };
 }

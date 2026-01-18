@@ -11,6 +11,7 @@ function imageBlock(pic: string) {
       {/* Image block */}
       <div className="flex flex-col overflow-hidden sm:h-125 md:h-110 xl:flex-1">
         <img
+          key={pic}
           src={pic}
           alt="LETTUCE PLANT"
           className="h-full w-full object-cover object-center"
@@ -53,7 +54,7 @@ export default function ImageClassCard({
   setIndexNumber,
   loadData,
   inputTextHandler,
-  main = false,
+  main,
 }: {
   preferenceData: PreferencesProp;
   indexNumber?: number | string;
@@ -141,15 +142,15 @@ export default function ImageClassCard({
                 (with Nutrient Intervention)
               </div>
             </div>
-            {main ? (
+            {main !== undefined ? (
               <button
-                className="mx-1 flex items-center justify-center rounded-full bg-amber-50 outline-0 transition-colors hover:bg-green-700 active:bg-green-900 md:mx-4"
-                title="Refresh"
+                disabled={!main}
+                className="mx-1 flex items-center justify-center rounded-full bg-amber-50 text-green-900 outline-0 transition-colors hover:bg-green-700 active:bg-green-900 active:text-green-700 disabled:text-green-900 disabled:hover:bg-amber-50 md:mx-4"
                 onClick={() => HandleBTNClicks("RECLASSIFICATION", 1)} // <-- uses your useState
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="md:x-[24px] h-[18px] text-green-900 active:text-green-700 md:h-full lg:h-full lg:p-[0.5px]"
+                  className="md:x-[24px] h-[18px] md:h-full lg:h-full lg:p-[0.5px]"
                   width={24}
                   height={24}
                   viewBox="0 0 24 24"
