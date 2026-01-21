@@ -2,6 +2,7 @@ import { useState, type ChangeEvent } from "react";
 import type {
   DailyDataProp,
   OutletContextProp,
+  ParamAutomationProp,
 } from "../data/dataProps/dataProps";
 
 import "../LettronixTheme.css";
@@ -13,11 +14,18 @@ import ImageClassCard from "../components/ImageClassCard";
 function HistoryStatsRender() {
   const { preferenceData } = useOutletContext<OutletContextProp>();
 
-  const historyData: DailyDataProp[] = useLoaderData();
-  console.log("HISTORY DATA", historyData);
+  const { historyData, paramAutomationData } = useLoaderData<{
+    historyData: DailyDataProp[];
+    paramAutomationData: ParamAutomationProp[];
+  }>();
+
+  // console.log("HISTORY DATA", historyData);
+  // console.log("PARAM AUTOMATION TORY DATA", paramAutomationData);
+
   const [loadData, setloadData] = useState<DailyDataProp>(
     historyData[historyData.length - 1],
   );
+
   const [indexNumber, setIndexNumber] = useState<number | string>(loadData.age);
 
   const [param, setParam] = useState("TDS");
@@ -25,10 +33,11 @@ function HistoryStatsRender() {
   function inputTextHandler(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.value !== "") {
       const num = Number(e.target.value);
+      console.log("SELECTED NUMBER: ", num);
 
-      if (num >= 1 && num <= historyData.length) {
+      if (num >= 0 && num <= historyData.length - 1) {
+        setloadData(historyData[num]);
         setIndexNumber(num);
-        setloadData(historyData[num - 1]);
       } else {
         setIndexNumber(loadData.age);
       }
@@ -107,7 +116,11 @@ function HistoryStatsRender() {
             </div>
           </div>
           <div className="max-h-[30vh] min-h-[30vh] w-full flex-1 sm:min-h-[50vh] xl:h-full xl:overflow-hidden">
-            <ParamGraph historyData={historyData} param={param} />
+            <ParamGraph
+              historyData={historyData}
+              paramAutomationData={paramAutomationData}
+              param={param}
+            />
           </div>
         </div>
       </div>

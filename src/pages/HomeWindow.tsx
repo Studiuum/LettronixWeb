@@ -82,7 +82,13 @@ function HomeWindowRender() {
         <div className="main-card flex-grow justify-start overflow-hidden xl:w-1/2">
           {/* OVERVIEW LINE */}
           <TitleCard label={"overview"} />
-          <ImageClassCard preferenceData={preferenceData} />
+          <ImageClassCard
+            preferenceData={preferenceData}
+            main={
+              rpiControlData.plant_reclassification === 0 &&
+              rpiControlData.status != 1
+            }
+          />
         </div>
 
         {/* RIGHT SIDE */}

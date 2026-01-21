@@ -23,12 +23,13 @@ export function useIsOnline() {
   };
 
   const updateSupabaseStatus = (checker: boolean = false) => {
-    if (checker) console.log("THIS IS FROM RETRY ATTEMPT");
+    // if (checker) console.log("THIS IS FROM RETRY ATTEMPT");
     supabaseStatus.current = supabase.realtime.isConnected();
-    console.log("supabase connection Status:", supabaseStatus.current);
+    if (checker)
+      console.log("supabase connection Status:", supabaseStatus.current);
     setFullyConnected(networkStatus.current && supabaseStatus.current && true);
     if (!supabaseStatus.current && !retryAttempt.current) {
-      console.log("THIS MODIFIES THE RETRY ATTEMPT");
+      // console.log("THIS MODIFIES THE RETRY ATTEMPT");
       retryAttempt.current = true;
     }
   };
@@ -39,7 +40,7 @@ export function useIsOnline() {
     // updateRunning.current = true;
     if (retryAttempt.current) {
       supabase.realtime.onHeartbeat(() => {
-        console.log("MANUAL HEARTBEAT");
+        // console.log("MANUAL HEARTBEAT");
       });
       reconnectSupabaseClient();
       await supabase.realtime.sendHeartbeat();
@@ -49,10 +50,10 @@ export function useIsOnline() {
       updateSupabaseStatus(true);
 
       if (supabase.realtime.isConnected()) {
-        console.log("SUPABASE CLIENT IS RECONNECTED");
+        // console.log("SUPABASE CLIENT IS RECONNECTED");
         supabase.realtime.onHeartbeat(() => {});
         retryAttempt.current = false;
-        console.log("CHANNELS:", supabase.realtime.channels);
+        // console.log("CHANNELS:", supabase.realtime.channels);
         func.forEach((func) => func(true));
       }
     } else {
@@ -66,7 +67,7 @@ export function useIsOnline() {
     window.addEventListener("offline", updateNetworkStatus);
 
     return () => {
-      console.log("isONline cleanup runnning");
+      // console.log("isONline cleanup runnning");
       window.removeEventListener("offline", updateNetworkStatus);
       window.removeEventListener("online", updateNetworkStatus);
       sendHeartbeatCheck.current = false;

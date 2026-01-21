@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { PreferencesProp } from "../data/dataProps/dataProps";
 import { supabase } from "../supabase";
 import { fetchPreferencesData } from "./fetchInitialData";
+import { infoToast, successToast } from "../utils/toast";
 
 export function usePreferences(initialPreferenceData: PreferencesProp) {
   const [preferenceData, setPreferenceData] = useState<PreferencesProp>(
@@ -32,6 +33,13 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
           table: "preferences",
         },
         (payload) => {
+          const { old, new: newRow } = payload;
+          if (old !== newRow) {
+            if (old.age !== newRow.age)
+              infoToast("Overview Details Has been Updated");
+            else if (old.lettuce_pic_url !== newRow.lettuce_pic_url)
+              successToast("Reclassification has been completed");
+          }
           handlePreferencePayload(payload.new as PreferencesProp);
         },
       )
@@ -66,7 +74,7 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
 
         if (retryRef.current) {
           const initialData = await fetchPreferencesData();
-          console.log("PREFERENCES FETCHED DATA:", initialData);
+          // console.log("PREFERENCES FETCHED DATA:", initialData);
           setPreferenceData(initialData as PreferencesProp);
 
           clearTimeout(retryRef.current);

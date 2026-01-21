@@ -1,8 +1,9 @@
-import type { ChangeEvent } from "react";
+import { type ChangeEvent } from "react";
 import type {
   DailyDataProp,
   PreferencesProp,
 } from "../data/dataProps/dataProps";
+import { HandleBTNClicks } from "../hooks/memos/ActuatorMemos";
 
 function imageBlock(pic: string) {
   return (
@@ -10,6 +11,7 @@ function imageBlock(pic: string) {
       {/* Image block */}
       <div className="flex flex-col overflow-hidden sm:h-125 md:h-110 xl:flex-1">
         <img
+          key={pic}
           src={pic}
           alt="LETTUCE PLANT"
           className="h-full w-full object-cover object-center"
@@ -52,18 +54,21 @@ export default function ImageClassCard({
   setIndexNumber,
   loadData,
   inputTextHandler,
+  main,
 }: {
   preferenceData: PreferencesProp;
   indexNumber?: number | string;
   setIndexNumber?: (val: number) => void;
   loadData?: DailyDataProp;
   inputTextHandler?: (e: ChangeEvent<HTMLInputElement>) => void;
+  main?: boolean;
 }) {
   const age = loadData ? loadData.age : preferenceData.age;
   const classification = loadData
     ? loadData.classification
     : preferenceData.lettuce_classify;
   const pic = loadData ? loadData.pic : preferenceData.lettuce_pic_url;
+  const maxAge = 21;
 
   return (
     <>
@@ -84,7 +89,14 @@ export default function ImageClassCard({
                   }
                 : () => {}
             }
-            onBlur={setIndexNumber ? () => setIndexNumber(age) : () => {}}
+            onBlur={() => setIndexNumber?.(age)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                // remove focus
+                setIndexNumber?.(age);
+                e.currentTarget.blur();
+              }
+            }}
             disabled={loadData ? false : true}
             className="focus: border-0.5 w-[2.5ch] flex-shrink transform-gpu appearance-none overflow-hidden border-lettronix-title-border py-0 text-center text-5xl leading-none font-bold text-ellipsis whitespace-nowrap outline-0 drop-shadow-btn-fx transition-all duration-200 ease-in-out focus:bg-white sm:h-[60px] sm:text-6xl md:h-[72px] md:text-7xl xl:text-[4.6875rem]"
           />
@@ -99,7 +111,7 @@ export default function ImageClassCard({
                 <div
                   style={{
                     width: `${Math.min(
-                      (age / (age > 30 ? age : 30)) * 100,
+                      (age / (age > maxAge ? age : maxAge)) * 100,
                       100,
                     )}%`,
                   }}
@@ -108,7 +120,11 @@ export default function ImageClassCard({
               </div>
             </div>
             <div className="flex-1 font-bold">START DATE TIME:</div>
-            <div className="flex-1 text-center">{preferenceData.date_time}</div>
+            <div className="flex-1 text-center">
+              {preferenceData.date_time === "Invalid Date"
+                ? "START CYCLE FIRST"
+                : preferenceData.date_time}
+            </div>
           </div>
         </div>
       </div>
@@ -118,16 +134,55 @@ export default function ImageClassCard({
         {/* IMAGE BLOCK */}
         {pic === "" || !pic ? EmptyImage() : imageBlock(pic)}
         {/* Text block */}
-        <div className="flex flex-none flex-col justify-center gap-1 rounded-b-[8px] p-2 md:rounded-b-[15px]">
-          <div className="text-[12px] font-bold sm:text-[14px] md:text-[16px]">
-            CLASSIFICATION:
+        <div className="bg-red- flex flex-none flex-col justify-center gap-0 rounded-b-[8px] px-2 pt-1.5 pb-2 md:rounded-b-[15px]">
+          <div className="flex flex-1 flex-row items-center justify-between">
+            <div className="flex flex-row items-center justify-center gap-2">
+              <div className="text-[12px] font-bold sm:text-[14px] md:text-[16px]">
+                CLASSIFICATION:
+              </div>
+              <div
+                className={`${classification >= 0 ? "hidden" : "block"} font text-center font-Inter text-[8px] tracking-tight sm:text-[0.75rem]`}
+              >
+                (with Nutrient Intervention)
+              </div>
+            </div>
+            {main !== undefined ? (
+              <button
+                disabled={!main}
+                className="mx-1 flex items-center justify-center rounded-full bg-amber-50 text-green-900 outline-0 transition-colors hover:bg-green-700 active:bg-green-900 active:text-green-700 disabled:text-green-900 disabled:hover:bg-amber-50 md:mx-4"
+                onClick={() => HandleBTNClicks("RECLASSIFICATION", 1)} // <-- uses your useState
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="md:x-[24px] h-[18px] md:h-full lg:h-full lg:p-[0.5px]"
+                  width={24}
+                  height={24}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M12 20q-3.35 0-5.675-2.325T4 12t2.325-5.675T12 4q1.725 0 3.3.712T18 6.75V5q0-.425.288-.712T19 4t.713.288T20 5v5q0 .425-.288.713T19 11h-5q-.425 0-.712-.288T13 10t.288-.712T14 9h3.2q-.8-1.4-2.187-2.2T12 6Q9.5 6 7.75 7.75T6 12t1.75 4.25T12 18q1.7 0 3.113-.862t2.187-2.313q.2-.35.563-.487t.737-.013q.4.125.575.525t-.025.75q-1.025 2-2.925 3.2T12 20"
+                  ></path>
+                </svg>
+              </button>
+            ) : (
+              ""
+            )}
           </div>
-          <div className="text-center text-[14px] tracking-wider sm:text-[16px] md:text-2xl">
-            {(classification === 0 || !classification) && "NOT YET CLASSIFIED"}
-            {classification === 4 && "NORMAL"}
-            {classification === 3 && "SLIGHT DEFICIENCY"}
-            {classification === 2 && "MODERATE DEFICIENCY"}
-            {classification === 1 && "SEVERE DEFICIENCY"}
+          <div className="flex flex-1 items-center justify-center gap-0 p-0">
+            <div className="gap-0 p-0 text-center text-[14px] tracking-widest sm:text-[16px] md:text-2xl">
+              {classification == 0
+                ? "-"
+                : Math.abs(classification) === 1
+                  ? "NORMAL"
+                  : Math.abs(classification) === 2
+                    ? "SLIGHT DEFICIENCY"
+                    : Math.abs(classification) === 3
+                      ? "MODERATE DEFICIENCY"
+                      : Math.abs(classification) === 4
+                        ? "SEVERE DEFICIENCY"
+                        : "NOT YET CLASSIFIED"}
+            </div>
           </div>
         </div>
       </div>

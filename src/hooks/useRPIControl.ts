@@ -6,6 +6,12 @@ import type {
 } from "../data/dataProps/dataProps";
 import { supabase } from "../supabase";
 import { fetchControlData } from "./fetchInitialData";
+import {
+  infoToast,
+  loadingToast,
+  successToast,
+  warnToast,
+} from "../utils/toast";
 
 export function useRPIControl(loaderData: RPIControlStatusProp) {
   const [status, setStatus] = useState(loaderData.status);
@@ -15,6 +21,9 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
   const [runSprinkler, setRunSprinkler] = useState(loaderData.run_sprinkler);
   const [runDrain, setRunDrain] = useState(loaderData.run_drain);
   const [runMix, setRunMix] = useState(loaderData.run_mix);
+  const [reclassification, setReclassification] = useState(
+    loaderData.plant_reclassification,
+  );
 
   const isCleanup = useRef<Boolean>(false);
   const channelRef = useRef<any>(null);
@@ -38,6 +47,59 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
         table: "rpi_control",
       },
       (payload) => {
+        // TOAST FOR RPI_CONTROL_CHANGES
+        const { old, new: newRow } = payload;
+
+        let message = "";
+
+        if (old != newRow) {
+          // Lettuce cycle status changes
+          if (old.status !== newRow.status) {
+            if (newRow.status === 1) {
+              message = "";
+              warnToast("Cycle has ENDED.");
+            } else if (old.status === 3 && newRow.status === 2) {
+              message = "";
+              successToast("Cycle has RESUMED.");
+            } else if (old.status === 1 && newRow.status === 2) {
+              message = "";
+              successToast("Cycle has STARTED.");
+            } else if (newRow.status === 3) {
+              message = "";
+              warnToast("Cycle is on PAUSE.");
+            }
+
+            // Water pump change
+          } else if (old.pump_status !== newRow.pump_status) {
+            message = `Water pump has been turned ${newRow.pump_status ? "ON" : "OFF"}`;
+
+            // Light change
+          } else if (old.light_status !== newRow.light_status) {
+            message = `Light has been turned ${newRow.light_status ? "ON" : "OFF"}`;
+          } else {
+            const tasks: { field: string; name: string }[] = [
+              { field: "run_drain", name: "DRAIN" },
+              { field: "run_foliar", name: "FOLIAR" },
+              { field: "run_mix", name: "MIX" },
+              { field: "run_prinkler", name: "SPRINKLER" },
+              { field: "plant_reclassification", name: "RECLASSIFICATION" },
+            ];
+
+            tasks.forEach((task) => {
+              if (old[task.field] !== newRow[task.field]) {
+                if (newRow[task.field] === 1)
+                  infoToast(`${task.name} task has been ADDED!`);
+                else if (newRow[task.field] === 2)
+                  loadingToast(`${task.name} task is in PROCESS!`);
+                else if (newRow[task.field] === 0)
+                  successToast(`${task.name} task is SUCCESSFUL!`);
+              }
+            });
+          }
+        }
+        // Show message toast if any
+        if (message) successToast(message);
+
         handlePayload(payload.new as RPIControlStatusProp);
       },
     );
@@ -124,6 +186,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
     setRunSprinkler(payload.run_sprinkler);
     setRunDrain(payload.run_drain);
     setRunMix(payload.run_mix);
+    setReclassification(payload.plant_reclassification);
   }
 
   const values: RPIControlStatusProp = {
@@ -135,6 +198,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
       run_sprinkler: runSprinkler,
       run_drain: runDrain,
       run_mix: runMix,
+      plant_reclassification: reclassification,
     },
     setFunctions: RPIControlSetupFunctions = {
       setStatus: setStatus,
@@ -144,6 +208,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
       setRunSprinkler: setRunSprinkler,
       setRunDrain: setRunDrain,
       setRunMix: setRunMix,
+      setReclassification: setReclassification,
     };
   return { values, setFunctions, setupControlRealtime };
 }

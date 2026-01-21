@@ -38,7 +38,7 @@ export function useSensor(intialSensorData: SensorDataProp) {
       {
         event: "UPDATE",
         schema: "public",
-        table: "rpi_sensor",
+        table: "realtimeDB",
       },
       (payload) => {
         handleSensorPayload(payload.new as SensorDataProp);
@@ -53,7 +53,7 @@ export function useSensor(intialSensorData: SensorDataProp) {
 
         if (retryRef.current) {
           const initialData = await fetchSensorData();
-          console.log("SENSOR FETCHED DATA:", initialData);
+          // console.log("SENSOR FETCHED DATA:", initialData);
           handleSensorPayload(initialData as SensorDataProp);
           clearTimeout(retryRef.current);
           retryRef.current = null;
