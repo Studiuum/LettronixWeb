@@ -31,7 +31,7 @@ function MainLayout() {
   // }
 
   useEffect(() => {
-    console.log("NUMBER OF SETUPS:", arraySetupRealtime);
+    // console.log("NUMBER OF SETUPS:", arraySetupRealtime);
 
     // document.addEventListener("visibilitychange", () => {
     //   document.visibilityState === "visible" && forceReconnection();

@@ -112,7 +112,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
 
         if (retryRef.current) {
           const initialData = await fetchControlData();
-          console.log("CONTROL FETCHED DATA:", initialData);
+          // console.log("CONTROL FETCHED DATA:", initialData);
           handlePayload(initialData as RPIControlStatusProp);
 
           clearTimeout(retryRef.current);
