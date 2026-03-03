@@ -13,6 +13,8 @@ export function ParamGraph({
   paramAutomationData: ParamAutomationProp[];
   param: string;
 }) {
+  const newHistory = historyData.slice(0, historyData.length - 1);
+
   function convertTime24to12(time24: string) {
     const [hrStr, minStr] = time24.split(":");
     let hr = parseInt(hrStr, 10);
@@ -32,29 +34,29 @@ export function ParamGraph({
     case "TDS":
       color = "#5eead4";
       contrast = "#008080";
-      dataGraph = historyData.map((row) => row.tds);
+      dataGraph = newHistory.map((row) => row.tds);
       break;
     case "pH":
       color = "#f9a8d4";
       contrast = "#c0006f";
-      dataGraph = historyData.map((row) => row.pH);
+      dataGraph = newHistory.map((row) => row.pH);
       break;
     case "TEMPERATURE":
       color = "#fcd34d";
       contrast = "#b37400";
-      dataGraph = historyData.map((row) => row.temp);
+      dataGraph = newHistory.map((row) => row.temp);
       break;
     case "HUMIDITY":
       color = "#7dd3fc";
       contrast = "#0055a5";
-      dataGraph = historyData.map((row) => row.hum);
+      dataGraph = newHistory.map((row) => row.hum);
       break;
   }
 
-  const x = historyData.map((row) => row.age);
+  const x = newHistory.map((row) => row.age);
 
   // Compute discrete markers for automation points
-  const discreteMarkers = historyData.flatMap((row, idx) => {
+  const discreteMarkers = newHistory.flatMap((row, idx) => {
     const match = paramAutomationData.find(
       (item) => item.sensor === param && Number(item.day) === Number(row.age),
     );
@@ -146,7 +148,7 @@ export function ParamGraph({
           marker: { show: true },
           custom: ({ series, seriesIndex, dataPointIndex }) => {
             const value = series[seriesIndex][dataPointIndex];
-            const day = historyData[dataPointIndex]?.age;
+            const day = newHistory[dataPointIndex]?.age;
             const updatedParamAutomationList = paramAutomationData.filter(
               (row) => row.sensor === param && row.day == day,
             );
