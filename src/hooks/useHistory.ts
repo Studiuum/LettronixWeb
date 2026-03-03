@@ -47,7 +47,7 @@ export function useHistory() {
     setIndexNumber(payload[payload.length - 1].age);
   }
 
-  console.log(historyData);
+  // console.log(historyData);
 
   return { historyData, loadData, setloadData, indexNumber, setIndexNumber };
 }

@@ -34,7 +34,7 @@ export const fetchControlData = async () => {
       run_mix: 0,
       plant_reclassification: 0,
     };
-    console.log(defaultControlData);
+    // console.log(defaultControlData);
     return defaultControlData;
   } else if (data && data.length > 0) {
     const row = data[0];
