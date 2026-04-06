@@ -33,6 +33,7 @@ export const fetchControlData = async () => {
       run_drain: 0,
       run_mix: 0,
       plant_reclassification: 0,
+      drained: 0,
     };
     // console.log(defaultControlData);
     return defaultControlData;
