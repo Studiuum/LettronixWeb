@@ -85,7 +85,7 @@ function ControlCenterRender() {
       condition: [
         rpiControlData.run_foliar === 0 &&
           rpiControlData.run_sprinkler == 0 &&
-          rpiControlData.status !== 1,
+          rpiControlData.status === 2,
       ],
       val: [1],
       setFunc: setFunctions.setRunFoliar,
@@ -99,8 +99,8 @@ function ControlCenterRender() {
       buttonLabels: ["START SPRINKLER"],
       condition: [
         rpiControlData.run_foliar === 0 &&
-          rpiControlData.run_sprinkler == 0 &&
-          rpiControlData.status !== 1,
+          rpiControlData.run_sprinkler === 0 &&
+          rpiControlData.status === 2,
       ],
       val: [1],
       setFunc: setFunctions.setRunSprinkler,
@@ -116,7 +116,8 @@ function ControlCenterRender() {
         rpiControlData.run_mix === 0 &&
           rpiControlData.run_drain === 0 &&
           rpiControlData.status !== 1 &&
-          rpiControlData.drained === 0,
+          rpiControlData.drained === 0 &&
+          rpiControlData.status === 2,
       ],
       val: [1],
       setFunc: setFunctions.setRunDrain,
@@ -131,7 +132,8 @@ function ControlCenterRender() {
       condition: [
         rpiControlData.run_mix === 0 &&
           rpiControlData.run_drain === 0 &&
-          rpiControlData.status !== 1,
+          rpiControlData.status !== 1 &&
+          rpiControlData.status === 2,
       ],
       val: [1],
       setFunc: setFunctions.setRunMix,
