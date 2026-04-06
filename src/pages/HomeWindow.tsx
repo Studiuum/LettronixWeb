@@ -86,7 +86,9 @@ function HomeWindowRender() {
             preferenceData={preferenceData}
             main={
               rpiControlData.plant_reclassification === 0 &&
-              rpiControlData.status != 1
+              rpiControlData.status != 1 &&
+              rpiControlData.run_sprinkler === 0 &&
+              rpiControlData.run_foliar === 0
             }
           />
         </div>

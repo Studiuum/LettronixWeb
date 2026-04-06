@@ -44,12 +44,14 @@ function ControlCenterRender() {
         rpiControlData.pump_status === 1 &&
           rpiControlData.run_drain == 0 &&
           rpiControlData.run_mix == 0 &&
-          rpiControlData.status !== 1,
+          rpiControlData.status !== 1 &&
+          rpiControlData.drained === 0,
 
         rpiControlData.pump_status === 0 &&
           rpiControlData.run_drain == 0 &&
           rpiControlData.run_mix == 0 &&
-          rpiControlData.status !== 1,
+          rpiControlData.status !== 1 &&
+          rpiControlData.drained === 0,
       ],
       val: [0, 1],
       setFunc: setFunctions.setPumpStatus,
@@ -61,8 +63,14 @@ function ControlCenterRender() {
       generalFieldCondition: rpiControlData.light_status,
       buttonLabels: ["LIGHT OFF", "LIGHT ON"],
       condition: [
-        rpiControlData.light_status === 1 && rpiControlData.status !== 1,
-        rpiControlData.light_status === 0 && rpiControlData.status !== 1,
+        rpiControlData.light_status === 1 &&
+          rpiControlData.status !== 1 &&
+          rpiControlData.run_sprinkler === 0 &&
+          rpiControlData.run_foliar === 0,
+        rpiControlData.light_status === 0 &&
+          rpiControlData.status !== 1 &&
+          rpiControlData.run_sprinkler === 0 &&
+          rpiControlData.run_foliar === 0,
       ],
       val: [0, 1],
       setFunc: setFunctions.setLightStatus,
@@ -107,7 +115,8 @@ function ControlCenterRender() {
       condition: [
         rpiControlData.run_mix === 0 &&
           rpiControlData.run_drain === 0 &&
-          rpiControlData.status !== 1,
+          rpiControlData.status !== 1 &&
+          rpiControlData.drained === 0,
       ],
       val: [1],
       setFunc: setFunctions.setRunDrain,

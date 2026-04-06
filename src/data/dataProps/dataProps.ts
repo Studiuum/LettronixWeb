@@ -17,6 +17,7 @@ export type RPIControlStatusProp = {
   run_mix: number;
   plant_reclassification: number;
   source?: string;
+  drained: number;
 };
 
 export type RPIControlSetupFunctions = {

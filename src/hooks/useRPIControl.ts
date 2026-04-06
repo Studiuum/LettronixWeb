@@ -24,6 +24,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
   const [reclassification, setReclassification] = useState(
     loaderData.plant_reclassification,
   );
+  const [drained, setDrained] = useState(loaderData.drained);
 
   const isCleanup = useRef<Boolean>(false);
   const channelRef = useRef<any>(null);
@@ -187,6 +188,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
     setRunDrain(payload.run_drain);
     setRunMix(payload.run_mix);
     setReclassification(payload.plant_reclassification);
+    setDrained(payload.drained);
   }
 
   const values: RPIControlStatusProp = {
@@ -199,6 +201,7 @@ export function useRPIControl(loaderData: RPIControlStatusProp) {
       run_drain: runDrain,
       run_mix: runMix,
       plant_reclassification: reclassification,
+      drained: drained,
     },
     setFunctions: RPIControlSetupFunctions = {
       setStatus: setStatus,
