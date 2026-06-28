@@ -77,7 +77,6 @@ function HomeWindowRender() {
   return (
     <>
       <div className="flex w-full flex-1 flex-col justify-center gap-2 overflow-hidden lg:gap-3 xl:flex-row xl:gap-10">
-        {/* <div className="flex w-full flex-1 justify-center gap-10"> */}
         {/* LEFT SIDE */}
         <div className="main-card flex-grow justify-start overflow-hidden xl:w-1/2">
           {/* OVERVIEW LINE */}

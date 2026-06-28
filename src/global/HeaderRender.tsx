@@ -1,7 +1,5 @@
 import { MemoHeaderStatus } from "../hooks/memos/SensorMemos";
-
 import "../LettronixTheme.css";
-// "flex items-center justify-center py-4 divide-x rounded-[15px] divide-black  bg-lettronix-head-foot-bg drop-shadow-btn-fx"
 
 function HeaderRender({
   fullyconnected,

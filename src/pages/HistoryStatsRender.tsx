@@ -19,9 +19,6 @@ function HistoryStatsRender() {
     paramAutomationData: ParamAutomationProp[];
   }>();
 
-  // console.log("HISTORY DATA", historyData);
-  // console.log("PARAM AUTOMATION TORY DATA", paramAutomationData);
-
   const [loadData, setloadData] = useState<DailyDataProp>(
     historyData[historyData.length - 1],
   );
@@ -33,7 +30,6 @@ function HistoryStatsRender() {
   function inputTextHandler(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.value !== "") {
       const num = Number(e.target.value);
-      // console.log("SELECTED NUMBER: ", num);
 
       if (num >= 0 && num <= historyData.length - 1) {
         setloadData(historyData[num]);

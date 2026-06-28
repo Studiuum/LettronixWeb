@@ -26,24 +26,11 @@ function MainLayout() {
   ]);
   const { fullyConnected, updateReconnectStatus } = useIsOnline();
 
-  // function forceReconnection() {
-  //   console.log("THIS IS WORKING");
-  // }
-
   useEffect(() => {
-    // console.log("NUMBER OF SETUPS:", arraySetupRealtime);
-
-    // document.addEventListener("visibilitychange", () => {
-    //   document.visibilityState === "visible" && forceReconnection();
-    // });
-
     const updateStatusInterval = setInterval(() => {
       updateReconnectStatus(arraySetupRealtime);
     }, 3000);
     return () => {
-      // document.removeEventListener("visibilitychange", () => {
-      //   document.visibilityState === "visible" && forceReconnection();
-      // });
       clearInterval(updateStatusInterval);
     };
   }, [arraySetupRealtime]);

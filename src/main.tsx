@@ -17,14 +17,6 @@ const HomePage = lazy(() => import("./pages/HomeWindow"));
 const ControlCenter = lazy(() => import("./pages/ControlCenterRender"));
 const HistoryStatsPage = lazy(() => import("./pages/HistoryStatsRender"));
 
-// const SkeletonHomePage = lazy(() => import("./skeleton/SkeletonHomeWindow"));
-// const SkeletonControlCenter = lazy(
-//   () => import("./skeleton/SkeletonControlCenterRender"),
-// );
-// const SkeletonHistoryStatsPage = lazy(
-//   () => import("./skeleton/SkeletonHistoryStatsRender"),
-// );
-
 const routes = createBrowserRouter([
   {
     path: "/",
