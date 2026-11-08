@@ -270,7 +270,7 @@ function OtherMessages({ dataList }: { dataList: OtherNotifDataProps[] }) {
                   {notif.status === 5 && (
                     <>
                       <img
-                        src="public\assets\lettuce.png"
+                        src="/assets/lettuce.png"
                         alt="lettuce.icon"
                         className="h-[10%] w-[10%] object-contain"
                       />
