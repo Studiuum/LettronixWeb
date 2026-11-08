@@ -68,7 +68,7 @@ function ImportantMessage({
                     </span>
                   </div>
                   <div
-                    className={`${sensorData.npk_tank == 1 ? "hidden" : ""}`}
+                    className={`ml-2 md:ml-4 ${sensorData.npk_tank == 1 ? "hidden" : ""}`}
                   >
                     NPK <span className="hidden md:inline">Tank</span> :{" "}
                     <span className="font-[550]">
@@ -76,7 +76,7 @@ function ImportantMessage({
                     </span>
                   </div>
                   <div
-                    className={`${sensorData.cal_tank == 1 ? "hidden" : ""}`}
+                    className={`ml-2 md:ml-4 ${sensorData.cal_tank == 1 ? "hidden" : ""}`}
                   >
                     Calcium <span className="hidden md:inline">Tank</span> :{" "}
                     <span className="font-[550]">
@@ -84,7 +84,7 @@ function ImportantMessage({
                     </span>
                   </div>
                   <div
-                    className={`${sensorData.mag_tank == 1 ? "hidden" : ""}`}
+                    className={`ml-2 md:ml-4 ${sensorData.mag_tank == 1 ? "hidden" : ""}`}
                   >
                     Magnesium <span className="hidden md:inline">Tank</span> :{" "}
                     <span className="font-[550]">
@@ -92,7 +92,7 @@ function ImportantMessage({
                     </span>
                   </div>
                   <div
-                    className={`${sensorData.ph_down_tank == 1 ? "hidden" : ""}`}
+                    className={`ml-2 md:ml-4 ${sensorData.ph_down_tank == 1 ? "hidden" : ""}`}
                   >
                     pH Down <span className="hidden md:inline">Tank</span> :{" "}
                     <span className="font-[550]">
@@ -100,7 +100,7 @@ function ImportantMessage({
                     </span>
                   </div>
                   <div
-                    className={`${sensorData.ph_up_tank == 1 ? "hidden" : ""}`}
+                    className={`ml-2 md:ml-4 ${sensorData.ph_up_tank == 1 ? "hidden" : ""}`}
                   >
                     pH Up <span className="hidden md:inline">Tank</span> :{" "}
                     <span className="font-[550]">
@@ -108,7 +108,7 @@ function ImportantMessage({
                     </span>
                   </div>
                   <div
-                    className={`${sensorData.cal_mag_tank == 1 ? "hidden" : ""}`}
+                    className={`ml-2 md:ml-4 ${sensorData.cal_mag_tank == 1 ? "hidden" : ""}`}
                   >
                     Cal-Mag <span className="hidden md:inline">Tank</span> :{" "}
                     <span className="font-[550]">
@@ -170,276 +170,324 @@ function ImportantMessage({
 }
 
 function OtherMessages({ dataList }: { dataList: OtherNotifDataProps[] }) {
+  let checker = dataList.length > 0 ? true : false;
+
   return (
     <>
       <div className="mx-0 flex flex-1 flex-col-reverse">
-        {dataList.map((notif: OtherNotifDataProps) => {
-          let dateTime: string;
-          try {
-            dateTime = new Date(
-              notif.created_at.replace(" ", "T"),
-            ).toLocaleString("en-US", {
-              year: "numeric",
-              month: "short", // e.g., July
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: true,
-            });
-          } catch (error: unknown) {
-            dateTime = "Unavailable DateTime Format";
-          }
+        {checker &&
+          dataList.map((notif: OtherNotifDataProps) => {
+            let dateTime: string;
+            try {
+              dateTime = new Date(
+                notif.created_at.replace(" ", "T"),
+              ).toLocaleString("en-US", {
+                year: "numeric",
+                month: "short", // e.g., July
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              });
+            } catch (error: unknown) {
+              dateTime = "Unavailable DateTime Format";
+            }
 
-          let titleMessage = "MAIN SYSTEM CONTROLS";
-          let background = "bg-bg-success/60";
-          let color = "fill-status-active/60";
-          let icon = "success";
-          let contentMessage = "The cycle has resumed (or has started).";
+            let titleMessage = "MAIN SYSTEM CONTROLS";
+            let background = "bg-bg-success/60";
+            let color = "fill-status-active/60";
+            let icon = "success";
+            let contentMessage = "The cycle has resumed (or has started).";
 
-          if (notif.status === 5) {
-            icon = "";
-            let conce = notif.field.split(":")[1].replace(" ", "");
-            contentMessage = `Solution mixed at new concentration (${conce})`;
-            titleMessage = "NUTRIENT INTEREVENTION";
-            background = "bg-[#a2e62e]/30";
-            color = "fill-status-pause/60";
-          } else if (
-            notif.field === "MAIN" &&
-            (notif.status === 1 || notif.status === 3)
-          ) {
-            background = "bg-bg-warn/60";
-            color = "fill-status-pause/60";
-            icon = "warn";
-            contentMessage =
-              notif.status === 1
-                ? "The cycle has Ended."
-                : "The cycle has been Paused";
-          } else if (notif.field === "PUMP") {
-            titleMessage = "PUMP CONTROLS";
-            contentMessage =
-              notif.status === 1
-                ? "Water pump has been turned ON."
-                : "Water pump has been turned OFF";
-          } else if (notif.field === "LIGHT") {
-            titleMessage = "LIGHT CONTROLS";
-            contentMessage =
-              notif.status === 1
-                ? "Grow lights has been turned ON."
-                : "Grow lights has been turned OFF";
-          } else if (notif.field !== "MAIN") {
-            titleMessage = `${notif.field} OPERATIONS`;
-            contentMessage =
-              notif.status === 1
-                ? `${notif.field} task has been added to the queue.`
-                : notif.status === 2
-                  ? `${notif.field} task is being processed`
-                  : `${notif.field} task has been completed.`;
+            if (notif.status === 5) {
+              icon = "";
+              let conce = notif.field.split(":")[1].replace(" ", "");
+              contentMessage = `Solution mixed at new concentration (${conce})`;
+              titleMessage = "NUTRIENT INTEREVENTION";
+              background = "bg-[#a2e62e]/30";
+              color = "fill-status-pause/60";
+            } else if (
+              notif.field === "MAIN" &&
+              (notif.status === 1 || notif.status === 3)
+            ) {
+              background = "bg-bg-warn/60";
+              color = "fill-status-pause/60";
+              icon = "warn";
+              contentMessage =
+                notif.status === 1
+                  ? "The cycle has Ended."
+                  : "The cycle has been Paused";
+            } else if (notif.field === "PUMP") {
+              titleMessage = "PUMP CONTROLS";
+              contentMessage =
+                notif.status === 1
+                  ? "Water pump has been turned ON."
+                  : "Water pump has been turned OFF";
+            } else if (notif.field === "LIGHT") {
+              titleMessage = "LIGHT CONTROLS";
+              contentMessage =
+                notif.status === 1
+                  ? "Grow lights has been turned ON."
+                  : "Grow lights has been turned OFF";
+            } else if (notif.field !== "MAIN") {
+              titleMessage = `${notif.field} OPERATIONS`;
+              contentMessage =
+                notif.status === 1
+                  ? `${notif.field} task has been added to the queue.`
+                  : notif.status === 2
+                    ? `${notif.field} task is being processed`
+                    : `${notif.field} task has been completed.`;
 
-            background =
-              notif.status === 1
-                ? "bg-bg-info/30"
-                : notif.status === 2
-                  ? "bg-bg-load/60"
-                  : "bg-bg-success/60";
+              background =
+                notif.status === 1
+                  ? "bg-bg-info/30"
+                  : notif.status === 2
+                    ? "bg-bg-load/60"
+                    : "bg-bg-success/60";
 
-            icon =
-              notif.status === 1
-                ? "info"
-                : notif.status === 2
-                  ? "load"
-                  : "success";
+              icon =
+                notif.status === 1
+                  ? "info"
+                  : notif.status === 2
+                    ? "load"
+                    : "success";
 
-            color =
-              notif.status === 1
-                ? "fill-fg-info/60"
-                : notif.status === 2
-                  ? "fill-fg-load/60"
-                  : "fill-status-active/60";
-          }
-          let controller = notif.rpi ? "Automation" : "Manual";
-          titleMessage = `${titleMessage} - ${controller}`;
-          return (
-            <div
-              key={`notification-${notif.id}`}
-              className={`md:text-s flex flex-1 flex-col text-[0.625rem] sm:text-[0.875rem] lg:text-[1rem]`}
-            >
+              color =
+                notif.status === 1
+                  ? "fill-fg-info/60"
+                  : notif.status === 2
+                    ? "fill-fg-load/60"
+                    : "fill-status-active/60";
+            }
+            let controller = notif.rpi ? "Automation" : "Manual";
+            titleMessage = `${titleMessage} - ${controller}`;
+            return (
               <div
-                className={`flex-1 border-b-1 border-lettronix-progressbar-bg/20 ${background} py-2`}
+                key={`notification-${notif.id}`}
+                className={`md:text-s flex flex-1 flex-col text-[0.625rem] sm:text-[0.875rem] lg:text-[1rem]`}
               >
-                <div className="flex flex-row items-center gap-3 px-3 pb-1 sm:gap-4 md:px-5">
-                  {notif.status === 5 && (
-                    <>
-                      <img
-                        src="/assets/lettuce.png"
-                        alt="lettuce.icon"
-                        className="h-[10%] w-[10%] object-contain"
-                      />
-                    </>
-                  )}
-                  {icon === "success" && (
-                    <>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="100%"
-                        height="100%"
-                        viewBox="0 0 24 24"
-                        className="h-[10%] w-[10%] opacity-80"
-                      >
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <g fill="none">
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10.22"
-                            className={`${color}`}
-                            transform="rotate(90 12 12)"
-                          />
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10.22"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                            opacity={0.5}
-                            transform="rotate(90 12 12)"
-                          />
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                            opacity={0.5}
-                            d="m7.18 12.77l1.55 1.9c.71.88 1.07 1.32 1.55 1.32s.83-.45 1.55-1.33l5-6.16"
-                          />
-                        </g>
-                      </svg>
-                    </>
-                  )}
+                <div
+                  className={`flex-1 border-b-1 border-lettronix-progressbar-bg/20 ${background} py-2`}
+                >
+                  <div className="flex flex-row items-center gap-3 px-3 pb-1 sm:gap-4 md:px-5">
+                    {notif.status === 5 && (
+                      <>
+                        <img
+                          src="/assets/lettuce.png"
+                          alt="lettuce.icon"
+                          className="h-[10%] w-[10%] object-contain"
+                        />
+                      </>
+                    )}
+                    {icon === "success" && (
+                      <>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="100%"
+                          height="100%"
+                          viewBox="0 0 24 24"
+                          className="h-[10%] w-[10%] opacity-80"
+                        >
+                          <path d="M0 0h24v24H0z" fill="none" />
+                          <g fill="none">
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="10.22"
+                              className={`ml-4 ${color}`}
+                              transform="rotate(90 12 12)"
+                            />
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="10.22"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                              opacity={0.5}
+                              transform="rotate(90 12 12)"
+                            />
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                              opacity={0.5}
+                              d="m7.18 12.77l1.55 1.9c.71.88 1.07 1.32 1.55 1.32s.83-.45 1.55-1.33l5-6.16"
+                            />
+                          </g>
+                        </svg>
+                      </>
+                    )}
 
-                  {icon === "warn" && (
-                    <>
-                      {/* className="h-[15%] w-[15%] opacity-100" */}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="100%"
-                        height="100%"
-                        viewBox="0 0 24 24"
-                        className="h-[10%] w-[10%] opacity-80"
-                      >
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <g fill="none">
-                          <path
-                            className={`${color}`}
-                            d="m8.47 5.56l-5.21 9.48C1.8 17.68 1.08 19 1.66 19.98s2.09.99 5.1.99h10.46c3.02 0 4.53 0 5.11-.99c.58-.98-.15-2.3-1.61-4.95l-5.24-9.48c-1.56-2.8-2.33-4.21-3.51-4.21S10 2.74 8.47 5.56"
-                          />
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                            opacity={1}
-                            d="m6.72 8.3l-2.3 4.2c-2.18 3.97-3.27 5.95-2.4 7.42s3.13 1.47 7.65 1.47h4.63c4.53 0 6.8 0 7.67-1.47c.87-1.48-.23-3.46-2.42-7.43l-2.32-4.2C14.9 4.1 13.73 2 11.97 2C10.2 2 9.04 4.1 6.72 8.32m5.28-.2v4.83"
-                          />
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                            opacity={1}
-                            d="M12.59 17.07a.59.59 0 1 1-1.18 0a.59.59 0 0 1 1.18 0"
-                          />
-                        </g>
-                      </svg>
-                    </>
-                  )}
-                  {icon === "info" && (
-                    <>
-                      {/* className="h-[15%] w-[15%] opacity-100" */}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="100%"
-                        height="100%"
-                        viewBox="0 0 24 24"
-                        className="h-[10%] w-[10%] opacity-80"
-                      >
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <g fill="none">
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10.18"
-                            opacity="1"
-                            transform="rotate(90 12 12)"
-                            className={`${color}`}
-                          />
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10.18"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                            transform="rotate(90 12 12)"
-                          />
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                            d="M10.6 10.67h.4c.47 0 .7 0 .85.14s.15.39.15.86v5.76m-1.74 0h3.48"
-                          />
-                          <path
-                            fill="currentColor"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M12.57 7.08a.57.57 0 1 1-1.14 0a.57.57 0 0 1 1.14 0"
-                          />
-                        </g>
-                      </svg>
-                    </>
-                  )}
-                  {icon === "load" && (
-                    <>
-                      {/* className="h-[15%] w-[15%] opacity-100" */}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="100%"
-                        height="100%"
-                        viewBox="0 0 24 24"
-                        className="h-[10%] w-[10%] opacity-80"
-                      >
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <g fill="none">
-                          <path
-                            className={`${color}`}
-                            d="m6.55 15.86l-1.37 6h13.5l-1.15-6L15.21 13l-3.4-1.68L8.86 13z"
-                            opacity="1"
-                          />
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                            d="M5.22 21.69c0-5.46 3.04-9.88 6.78-9.88s6.78 4.42 6.78 9.88M5.22 2.3c0 5.25 3.04 9.5 6.78 9.5s6.78-4.25 6.78-9.5m1.26 19.39H3.96M20.04 2.3H3.96"
-                          />
-                        </g>
-                      </svg>
-                    </>
-                  )}
-                  <div className="flex flex-col">
-                    <div className="font-[400]">{dateTime}</div>
-                    <div className="font-bold">{titleMessage}</div>
-                    <div className="italic">{contentMessage}</div>
+                    {icon === "warn" && (
+                      <>
+                        {/* className="h-[15%] w-[15%] opacity-100" */}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="100%"
+                          height="100%"
+                          viewBox="0 0 24 24"
+                          className="h-[10%] w-[10%] opacity-80"
+                        >
+                          <path d="M0 0h24v24H0z" fill="none" />
+                          <g fill="none">
+                            <path
+                              className={`ml-4 ${color}`}
+                              d="m8.47 5.56l-5.21 9.48C1.8 17.68 1.08 19 1.66 19.98s2.09.99 5.1.99h10.46c3.02 0 4.53 0 5.11-.99c.58-.98-.15-2.3-1.61-4.95l-5.24-9.48c-1.56-2.8-2.33-4.21-3.51-4.21S10 2.74 8.47 5.56"
+                            />
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                              opacity={1}
+                              d="m6.72 8.3l-2.3 4.2c-2.18 3.97-3.27 5.95-2.4 7.42s3.13 1.47 7.65 1.47h4.63c4.53 0 6.8 0 7.67-1.47c.87-1.48-.23-3.46-2.42-7.43l-2.32-4.2C14.9 4.1 13.73 2 11.97 2C10.2 2 9.04 4.1 6.72 8.32m5.28-.2v4.83"
+                            />
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                              opacity={1}
+                              d="M12.59 17.07a.59.59 0 1 1-1.18 0a.59.59 0 0 1 1.18 0"
+                            />
+                          </g>
+                        </svg>
+                      </>
+                    )}
+                    {icon === "info" && (
+                      <>
+                        {/* className="h-[15%] w-[15%] opacity-100" */}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="100%"
+                          height="100%"
+                          viewBox="0 0 24 24"
+                          className="h-[10%] w-[10%] opacity-80"
+                        >
+                          <path d="M0 0h24v24H0z" fill="none" />
+                          <g fill="none">
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="10.18"
+                              opacity="1"
+                              transform="rotate(90 12 12)"
+                              className={`ml-4 ${color}`}
+                            />
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="10.18"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                              transform="rotate(90 12 12)"
+                            />
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                              d="M10.6 10.67h.4c.47 0 .7 0 .85.14s.15.39.15.86v5.76m-1.74 0h3.48"
+                            />
+                            <path
+                              fill="currentColor"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12.57 7.08a.57.57 0 1 1-1.14 0a.57.57 0 0 1 1.14 0"
+                            />
+                          </g>
+                        </svg>
+                      </>
+                    )}
+                    {icon === "load" && (
+                      <>
+                        {/* className="h-[15%] w-[15%] opacity-100" */}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="100%"
+                          height="100%"
+                          viewBox="0 0 24 24"
+                          className="h-[10%] w-[10%] opacity-80"
+                        >
+                          <path d="M0 0h24v24H0z" fill="none" />
+                          <g fill="none">
+                            <path
+                              className={`ml-4 ${color}`}
+                              d="m6.55 15.86l-1.37 6h13.5l-1.15-6L15.21 13l-3.4-1.68L8.86 13z"
+                              opacity="1"
+                            />
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                              d="M5.22 21.69c0-5.46 3.04-9.88 6.78-9.88s6.78 4.42 6.78 9.88M5.22 2.3c0 5.25 3.04 9.5 6.78 9.5s6.78-4.25 6.78-9.5m1.26 19.39H3.96M20.04 2.3H3.96"
+                            />
+                          </g>
+                        </svg>
+                      </>
+                    )}
+                    <div className="flex flex-col">
+                      <div className="font-[400]">{dateTime}</div>
+                      <div className="font-bold">{titleMessage}</div>
+                      <div className="italic">{contentMessage}</div>
+                    </div>
                   </div>
                 </div>
               </div>
+            );
+          })}
+
+        {!checker && (
+          <>
+            <div className="flex flex-1 items-center justify-center gap-2 py-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100%"
+                height="100%"
+                viewBox="0 0 24 24"
+                className="h-[10%] w-[10%] opacity-80"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <g fill="none">
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10.22"
+                    className={`fill-status-active/50`}
+                    transform="rotate(90 12 12)"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10.22"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    opacity={0.5}
+                    transform="rotate(90 12 12)"
+                  />
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    opacity={0.5}
+                    d="m7.18 12.77l1.55 1.9c.71.88 1.07 1.32 1.55 1.32s.83-.45 1.55-1.33l5-6.16"
+                  />
+                </g>
+              </svg>
+              No notifications
             </div>
-          );
-        })}
+          </>
+        )}
       </div>
     </>
   );
@@ -461,7 +509,7 @@ function Popup({
   const color = sensorStatus === 0 ? "bg-[#D6F5D6]" : "bg-red-600/20";
   return (
     <div
-      className="absolute top-[110%] right-0 z-[100] flex h-fit max-h-[80vh] w-[80vw] flex-1 flex-col overflow-x-hidden overflow-y-scroll scroll-smooth rounded-lg bg-green-400 shadow-[0px_5px_20px_rgba(0,0,0,0.3)] lg:rounded-xl xl:h-fit xl:max-h-[50vh] xl:w-[40vw]"
+      className="absolute top-[110%] right-0 z-[100] flex h-fit max-h-[80vh] w-[80vw] flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth rounded-lg bg-green-400 shadow-[0px_5px_20px_rgba(0,0,0,0.3)] lg:rounded-xl xl:h-fit xl:max-h-[50vh] xl:w-[40vw] [&::-webkit-scrollbar]:w-0"
       onClick={(e) => {
         if ((e.target as HTMLElement).tagName === "A") {
           toggleNotifPopUp();
