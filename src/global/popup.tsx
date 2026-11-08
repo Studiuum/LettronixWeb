@@ -161,7 +161,7 @@ function ImportantMessage({
                 />
               </g>
             </svg>
-            No issues Detected
+            No Issues Detected
           </div>
         </>
       )}
@@ -446,45 +446,8 @@ function OtherMessages({ dataList }: { dataList: OtherNotifDataProps[] }) {
 
         {!checker && (
           <>
-            <div className="flex flex-1 items-center justify-center gap-2 py-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="100%"
-                height="100%"
-                viewBox="0 0 24 24"
-                className="h-[10%] w-[10%] opacity-80"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <g fill="none">
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10.22"
-                    className={`fill-status-active/50`}
-                    transform="rotate(90 12 12)"
-                  />
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10.22"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    opacity={0.5}
-                    transform="rotate(90 12 12)"
-                  />
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    opacity={0.5}
-                    d="m7.18 12.77l1.55 1.9c.71.88 1.07 1.32 1.55 1.32s.83-.45 1.55-1.33l5-6.16"
-                  />
-                </g>
-              </svg>
-              No notifications
+            <div className="flex flex-1 items-center justify-center gap-2 bg-[#D6F5D6] py-6">
+              No Notifications
             </div>
           </>
         )}
