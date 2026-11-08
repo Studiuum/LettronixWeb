@@ -24,12 +24,12 @@ type otherControlProps = {
 };
 
 function ControlCenterRender() {
-  const { contextData } = useOutletContext<OutletContextProp>();
+  const { contextData, rpiSensorData, preferenceData } =
+    useOutletContext<OutletContextProp>();
 
   // CONTROL DATA
   const rpiControlData = contextData.values;
   const setFunctions = contextData.setFunctions;
-
   const otherBtnData: otherControlProps[] = [
     {
       label: "Pump Control",
@@ -80,12 +80,19 @@ function ControlCenterRender() {
       tips: "The foliar system uses the sprinkler but adds Cal-Mag to deliver nutrients directly to the leaves.",
       generalField: "FOLIAR",
       generalFieldCondition:
-        rpiControlData.run_sprinkler === 1 ? 2 : rpiControlData.run_foliar,
+        rpiControlData.run_sprinkler === 1
+          ? 2
+          : Math.abs(rpiSensorData.cal_mag_tank) < 20 + 10 &&
+              rpiSensorData.cal_mag_tank !== 1
+            ? 3
+            : rpiControlData.run_foliar,
       buttonLabels: ["START FOLIAR"],
       condition: [
         rpiControlData.run_foliar === 0 &&
           rpiControlData.run_sprinkler == 0 &&
-          rpiControlData.status === 2,
+          rpiControlData.status === 2 &&
+          (Math.abs(rpiSensorData.cal_mag_tank) >= 20 + 10 ||
+            rpiSensorData.cal_mag_tank === 1),
       ],
       val: [1],
       setFunc: setFunctions.setRunFoliar,
@@ -127,13 +134,40 @@ function ControlCenterRender() {
       tips: " Drain + Mix removes the existing solution and immediately mixes a new batch. This changes the entire nutrient composition.",
       generalField: "DRAIN & MIX",
       generalFieldCondition:
-        rpiControlData.run_drain === 1 ? 2 : rpiControlData.run_mix,
+        rpiControlData.run_drain === 1
+          ? 2
+          : (Math.abs(rpiSensorData.npk_tank) <
+                224 * preferenceData.concentration + 50 &&
+                rpiSensorData.npk_tank !== 1) ||
+              (Math.abs(rpiSensorData.cal_tank) < 224 + 50 &&
+                rpiSensorData.cal_tank !== 1) ||
+              (Math.abs(rpiSensorData.mag_tank) < 224 + 50 &&
+                rpiSensorData.mag_tank !== 1) ||
+              (Math.abs(rpiSensorData.ph_down_tank) < 168 + 50 &&
+                rpiSensorData.ph_down_tank !== 1) ||
+              (Math.abs(rpiSensorData.ph_up_tank) < 168 + 50 &&
+                rpiSensorData.ph_up_tank !== 1)
+            ? 3
+            : rpiControlData.run_mix,
       buttonLabels: ["START DRAIN + MIX"],
       condition: [
         rpiControlData.run_mix === 0 &&
           rpiControlData.run_drain === 0 &&
           rpiControlData.status !== 1 &&
-          rpiControlData.status === 2,
+          rpiControlData.status === 2 &&
+          (Math.abs(rpiSensorData.npk_tank) >=
+            224 * preferenceData.concentration + 50 ||
+            rpiSensorData.npk_tank === 1) &&
+          (Math.abs(rpiSensorData.cal_tank) >= 224 + 50 ||
+            rpiSensorData.cal_tank === 1) &&
+          (Math.abs(rpiSensorData.mag_tank) >= 224 + 50 ||
+            rpiSensorData.mag_tank === 1) &&
+          (Math.abs(rpiSensorData.ph_down_tank) >= 168 + 50 ||
+            rpiSensorData.ph_down_tank === 1) &&
+          (Math.abs(rpiSensorData.ph_up_tank) >= 168 + 50 ||
+            rpiSensorData.ph_up_tank === 1),
+
+        ,
       ],
       val: [1],
       setFunc: setFunctions.setRunMix,
@@ -190,8 +224,13 @@ function ControlCenterRender() {
 
   function StatusMSG(label: string, status: number) {
     let message;
-
-    if (
+    if (status === 1) {
+      message = `STATUS: ${label} is running`;
+    } else if (status === 0) {
+      message = `STATUS: ${label} is not running`;
+    } else if (status === 3) {
+      message = `STATUS: Please Refill ${label === "FOLIAR" ? "CALMAG TANK" : "Nutrient Tank(s)"}`;
+    } else if (
       ["FOLIAR", "SPRINKLER", "DRAIN", "DRAIN & MIX", "PUMP"].includes(label) &&
       status === 2
     ) {
@@ -211,13 +250,7 @@ function ControlCenterRender() {
 
       message = `STATUS: Conflicting w/ ${running}!`;
     } else {
-      if (status === 1) {
-        message = `STATUS: ${label} is running`;
-      } else if (status === 0) {
-        message = `STATUS: ${label} is not running`;
-      } else {
-        message = `STATUS: Unknown status for ${label} ${status}`;
-      }
+      message = `STATUS: Unknown status for ${label} ${status}`;
     }
 
     return message;

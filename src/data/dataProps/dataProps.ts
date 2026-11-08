@@ -4,6 +4,7 @@ export type PreferencesProp = {
   age: number;
   lettuce_classify: number;
   lettuce_pic_url: string;
+  concentration: number;
 };
 
 export type RPIControlStatusProp = {
@@ -41,12 +42,12 @@ export type SensorDataProp = {
   hum: number;
   nutrient_tank: boolean;
   foliar_tank: boolean;
-  cal_tank: boolean;
-  npk_tank: boolean;
-  mag_tank: boolean;
-  ph_up_tank: boolean;
-  ph_down_tank: boolean;
-  cal_mag_tank: boolean;
+  cal_tank: number;
+  npk_tank: number;
+  mag_tank: number;
+  ph_up_tank: number;
+  ph_down_tank: number;
+  cal_mag_tank: number;
 };
 
 export type DailyDataProp = {
@@ -57,6 +58,7 @@ export type DailyDataProp = {
   hum: number;
   pic: string;
   classification: number;
+  concentration: number;
 };
 
 export type ParamAutomationProp = {
@@ -76,4 +78,14 @@ export type OutletContextProp = {
   };
   preferenceData: PreferencesProp;
   setArraySetupRealtime: (prev: any) => void;
+  rpiSensorData: SensorDataProp;
+};
+
+export type OtherNotifDataProps = {
+  id: number;
+  created_at: string;
+  field: string;
+  status: number;
+  seen: boolean;
+  rpi: boolean;
 };

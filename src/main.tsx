@@ -8,6 +8,7 @@ import {
   fetchParamAutomation,
   fetchPreferencesData,
   fetchSensorData,
+  fetchNotificationData,
 } from "./hooks/fetchInitialData";
 import MainLayout from "./global/_MainLayout";
 
@@ -22,9 +23,24 @@ const routes = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     loader: async () => {
-      const initialControlData = await fetchControlData();
-      const initialpreferenceData = await fetchPreferencesData();
-      return { initialControlData, initialpreferenceData };
+      const [
+        initialControlData,
+        initialpreferenceData,
+        initialNotificationData,
+        initialSensorData,
+      ] = await Promise.all([
+        fetchControlData(),
+        fetchPreferencesData(),
+        fetchNotificationData(),
+        fetchSensorData(),
+      ]);
+
+      return {
+        initialControlData,
+        initialpreferenceData,
+        initialNotificationData,
+        initialSensorData,
+      };
     },
     children: [
       {

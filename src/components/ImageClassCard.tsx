@@ -64,6 +64,9 @@ export default function ImageClassCard({
   main?: boolean;
 }) {
   const age = loadData ? loadData.age : preferenceData.age;
+  const concentration = loadData
+    ? loadData.concentration
+    : preferenceData.concentration;
   const classification = loadData
     ? loadData.classification
     : preferenceData.lettuce_classify;
@@ -143,7 +146,7 @@ export default function ImageClassCard({
               <div
                 className={`${classification >= 0 ? "hidden" : "block"} font text-center font-Inter text-[8px] tracking-tight sm:text-[0.75rem]`}
               >
-                (with Nutrient Intervention)
+                with Nutrient Intervention - {concentration.toFixed(2)}
               </div>
             </div>
             {main !== undefined ? (

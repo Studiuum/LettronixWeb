@@ -2,13 +2,12 @@ import { MemoHum, MemopH, MemoTDS, MemoTemp } from "../hooks/memos/SensorMemos";
 import "../LettronixTheme.css";
 import { MemoTank } from "../hooks/memos/TankLevelMemos";
 import { MemoBtn } from "../hooks/memos/ActuatorMemos";
-import { useLoaderData, useOutletContext } from "react-router";
+import { useOutletContext } from "react-router";
 import type { OutletContextProp } from "../data/dataProps/dataProps";
-import { useSensor } from "../hooks/useSensor";
 
-import { useEffect, type FC } from "react";
 import TitleCard from "../components/TitleCards";
 import ImageClassCard from "../components/ImageClassCard";
+import type { FC } from "react";
 
 function RenderSensorReadingsCard({
   label,
@@ -48,31 +47,30 @@ function RenderSensorReadingsCard({
 }
 
 function HomeWindowRender() {
-  const { contextData, preferenceData, setArraySetupRealtime } =
+  const { contextData, preferenceData, setArraySetupRealtime, rpiSensorData } =
     useOutletContext<OutletContextProp>();
   const rpiControlData = contextData.values;
 
   // SENSOR DATA AND PREFERENCE DATA
-  const initialSensorData = useLoaderData();
+  // const initialSensorData = useLoaderData();
   // // SENSOR DATA
-  const { rpiSensorData, setupSensorRealtime } = useSensor(initialSensorData);
 
   // ATTACHED THE SETUPREALTIME CONNECTION TO ENABLE RECONNECTION
-  useEffect(() => {
-    console.log("SENSOR REALTIME LISTENER ATTACHED TO RECONNECTION");
-    setArraySetupRealtime((prev: (() => void)[]) => [
-      ...prev,
-      setupSensorRealtime,
-    ]);
-    return () => {
-      console.log("SENSOR REALTIME LISTENER REMOVED TO RECONNECTION");
-      setArraySetupRealtime((prev: (() => void)[]) =>
-        prev.filter((x) => {
-          return x !== setupSensorRealtime;
-        }),
-      );
-    };
-  }, []);
+  // useEffect(() => {
+  //   console.log("SENSOR REALTIME LISTENER ATTACHED TO RECONNECTION");
+  //   setArraySetupRealtime((prev: (() => void)[]) => [
+  //     ...prev,
+  //     setupSensorRealtime,
+  //   ]);
+  //   return () => {
+  //     console.log("SENSOR REALTIME LISTENER REMOVED TO RECONNECTION");
+  //     setArraySetupRealtime((prev: (() => void)[]) =>
+  //       prev.filter((x) => {
+  //         return x !== setupSensorRealtime;
+  //       }),
+  //     );
+  //   };
+  // }, []);
 
   return (
     <>

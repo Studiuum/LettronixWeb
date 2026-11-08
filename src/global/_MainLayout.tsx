@@ -10,20 +10,31 @@ import SkeletonHomeWindowRender from "../skeleton/SkeletonHomeWindow";
 import SkeletonControlCenterRender from "../skeleton/SkeletonControlCenterRender";
 import SkeletonHistoryStatsRender from "../skeleton/SkeletonHistoryStatsRender";
 import { Toaster } from "react-hot-toast";
+import { useSensor } from "../hooks/useSensor";
 
 function MainLayout() {
   // Fetch initial data from the loader
-  const { initialControlData, initialpreferenceData } = useLoaderData();
+  const {
+    initialControlData,
+    initialpreferenceData,
+    initialNotificationData,
+    initialSensorData,
+  } = useLoaderData();
+
   const contextData = useRPIControl(initialControlData);
   const { preferenceData, setupPreferencesRealtime } = usePreferences(
     initialpreferenceData,
   );
 
+  const { rpiSensorData, setupSensorRealtime } = useSensor(initialSensorData);
+
   // RealtimeClient Checker
   const [arraySetupRealtime, setArraySetupRealtime] = useState<(() => void)[]>([
     contextData.setupControlRealtime,
     setupPreferencesRealtime,
+    setupSensorRealtime,
   ]);
+
   const { fullyConnected, updateReconnectStatus } = useIsOnline();
 
   useEffect(() => {
@@ -54,17 +65,30 @@ function MainLayout() {
 
   return (
     <>
-      <div className="mx-7 mt-15 flex flex-col gap-1 pb-12 sm:mx-9 sm:mt-18 md:mx-12 md:mt-20 lg:mt-26 xl:mx-15 xl:mt-3 xl:h-[calc(100vh_-_(0.75rem)_-_(2.375rem)_-_(0.75rem)_-_(0.75rem))] xl:gap-3 xl:pb-0 mid-xl-2xl-1500:mx-40 mid-xl-2xl-1500:justify-evenly 2xl:mx-50">
+      <div
+        className="mx-7 mt-15 flex flex-col gap-1 pb-12 sm:mx-9 sm:mt-18 md:mx-12 md:mt-20 lg:mt-26 xl:mx-15 xl:mt-3 xl:h-[calc(100vh_-_(0.75rem)_-_(2.375rem)_-_(0.75rem)_-_(0.75rem))] xl:gap-3 xl:pb-0 mid-xl-2xl-1500:mx-40 mid-xl-2xl-1500:justify-evenly 2xl:mx-50"
+        // onClick={() => {
+        //   if (notifPopUp) toggleNotifPopUp();
+        // }}
+      >
         <Suspense fallback={<div>Loading header...</div>}>
           <HeaderRender
             val={contextData.values.status}
             fullyconnected={fullyConnected}
+            notification={initialNotificationData}
+            sensorData={rpiSensorData}
+            setArraySetupRealtime={setArraySetupRealtime}
           />
           <Toaster position="top-right" reverseOrder={true}></Toaster>
         </Suspense>
         <Suspense fallback={getFallback()}>
           <Outlet
-            context={{ contextData, preferenceData, setArraySetupRealtime }}
+            context={{
+              contextData,
+              preferenceData,
+              setArraySetupRealtime,
+              rpiSensorData,
+            }}
           />
         </Suspense>
       </div>

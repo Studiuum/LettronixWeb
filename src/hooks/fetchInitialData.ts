@@ -2,6 +2,7 @@
 
 import type {
   DailyDataProp,
+  OtherNotifDataProps,
   ParamAutomationProp,
   PreferencesProp,
   RPIControlStatusProp,
@@ -12,7 +13,7 @@ import { supabase } from "../supabase";
 export const fetchControlData = async () => {
   console.log("FETCHING CONTROl DATA");
   const { data, error } = await supabase.from("rpi_control").select();
-  if (error || data.length === 0 || data === null) {
+  if (error || !data || data.length === 0) {
     console.log(
       "FETCH CONTROL DATA ERROR",
       error
@@ -62,6 +63,7 @@ export const fetchPreferencesData = async () => {
       age: 0,
       lettuce_classify: 0,
       lettuce_pic_url: "",
+      concentration: 1,
     };
     return defaultData;
   } else if (data && data.length > 0) {
@@ -104,12 +106,12 @@ export const fetchSensorData = async () => {
       hum: 0,
       nutrient_tank: false,
       foliar_tank: false,
-      cal_tank: false,
-      npk_tank: false,
-      mag_tank: false,
-      ph_up_tank: false,
-      ph_down_tank: false,
-      cal_mag_tank: false,
+      cal_tank: 0,
+      npk_tank: 0,
+      mag_tank: 0,
+      ph_up_tank: 0,
+      ph_down_tank: 0,
+      cal_mag_tank: 0,
     };
     return defaultData;
   } else if (data && data.length > 0) {
@@ -145,6 +147,7 @@ export const fetchHistoryData = async () => {
         hum: -1,
         pic: "",
         classification: 0,
+        concentration: 1.0,
       },
     ];
     return defaultData;
@@ -176,4 +179,35 @@ export const fetchParamAutomation = async () => {
   } else if (data && data.length > 0) {
     return data as ParamAutomationProp[];
   }
+};
+
+export const fetchNotificationData = async (): Promise<
+  [OtherNotifDataProps[], number]
+> => {
+  console.log("FETCHING NOTIFICATION DATA");
+
+  const { data, error } = await supabase
+    .from("notification_table")
+    .select()
+    .order("id", { ascending: true });
+
+  if (error || data.length === 0 || data === null) {
+    console.log(
+      "FETCH NOTIFICATION DATA ERROR",
+      error
+        ? error.message
+        : data === null
+          ? "NOTIFICATION DATA FETCH ERROR"
+          : data.length === 0
+            ? "No data found"
+            : "UNKNOWN ERROR",
+    );
+    const defaultData: OtherNotifDataProps[] = [];
+
+    return [defaultData, 1];
+  }
+  const notifications = data as OtherNotifDataProps[];
+  const lastData = notifications.at(-1);
+  const notifStat = lastData?.seen ? 1 : 2;
+  return [notifications, notifStat];
 };

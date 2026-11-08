@@ -1,10 +1,12 @@
 import { memo } from "react";
 
 export const MemoTank = memo(
-  ({ label, value }: { label: string; value: boolean }) => {
-    const path = value
-      ? "/assets/icons/waterlevel-good-icon.svg"
-      : "/assets/icons/waterlevel-bad-icon.svg";
+  ({ label, value }: { label: string; value: boolean | number }) => {
+    const path =
+      value == 1
+        ? "/assets/icons/waterlevel-good-icon.svg"
+        : "/assets/icons/waterlevel-bad-icon.svg";
+
     return (
       <>
         <div className="flex flex-row items-center justify-between md:h-auto md:w-auto">

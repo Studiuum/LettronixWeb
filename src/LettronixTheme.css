@@ -58,6 +58,19 @@
   /* FOOTER BUTTON */
   --color-lettronix-footer-hover: #eff7e5;
   --color-lettronix-footer-selected: #eff7e5;
+  /* NOTIFICATION COLORS */
+
+  --color-bg-success: #d6f5d6;
+  --color-fg-success: #1b4332;
+
+  --color-bg-warn: #fff5d6;
+  --color-fg-warn: #665c00;
+
+  --color-bg-info: #d6e0ff;
+  --color-fg-info: #003366;
+
+  --color-bg-load: #e0e0e0;
+  --color-fg-load: #333;
 
   /* FONT STYLES */
   --font-Inter: Inter, Times;
@@ -67,6 +80,18 @@
   --breakpoint-mid-xl-2xl-1400: 87.5rem;
   --breakpoint-mid-xl-2xl-1500: 94rem;
   --breakpoint-xl-height: ;
+
+  --animate-pulse: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1; /* Fully visible at start and end */
+    }
+    50% {
+      opacity: 0.15; /* Change this value to adjust the pulse depth! (Default is 0.5) */
+    }
+  }
 }
 
 @layer utilities {

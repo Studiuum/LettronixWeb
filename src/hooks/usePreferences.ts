@@ -39,6 +39,11 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
               infoToast("Overview Details Has been Updated");
             else if (old.lettuce_pic_url !== newRow.lettuce_pic_url)
               successToast("Reclassification has been completed");
+            if (old.concentration !== newRow.concentration) {
+              infoToast(
+                `System performed concentration adjustments from ${old.concentration.toFixed(2)} to ${newRow.concentration.toFixed(2)}.`,
+              );
+            }
           }
           handlePreferencePayload(payload.new as PreferencesProp);
         },
@@ -147,6 +152,7 @@ export function usePreferences(initialPreferenceData: PreferencesProp) {
         age: 0,
         lettuce_classify: 0,
         lettuce_pic_url: "",
+        concentration: 1.0,
       };
       setPreferenceData(defaultData);
     } else {

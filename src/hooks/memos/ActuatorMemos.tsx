@@ -1,29 +1,76 @@
 import { memo, useEffect, useState } from "react";
 import { supabase } from "../../supabase";
-
+import { infoToast } from "../../utils/toast";
 /* =========================
    SUPABASE ACTION
 ========================= */
 export async function HandleBTNClicks(label: string, value: number) {
   let change = "status";
-
-  if (label.includes("PUMP")) change = "pump_status";
-  else if (label.includes("LIGHT")) change = "light_status";
-  else if (label.includes("FOLIAR")) change = "run_foliar";
-  else if (label.includes("SPRINKLER")) change = "run_sprinkler";
-  else if (label.includes("MIX")) change = "run_mix";
-  else if (label.includes("DRAIN")) change = "run_drain";
-  else if (label.includes("RECLASSIFICATION"))
+  let field = "MAIN";
+  if (label.includes("PUMP")) {
+    change = "pump_status";
+    field = "PUMP";
+  } else if (label.includes("LIGHT")) {
+    change = "light_status";
+    field = "LIGHT";
+  } else if (label.includes("FOLIAR")) {
+    change = "run_foliar";
+    field = "SPRINKLER";
+  } else if (label.includes("SPRINKLER")) {
+    change = "run_sprinkler";
+    field = "SPRINKLER";
+  } else if (label.includes("MIX")) {
+    change = "run_mix";
+    field = "DRAIN";
+  } else if (label.includes("DRAIN")) {
+    change = "run_drain";
+    field = "DRAIN";
+  } else if (label.includes("RECLASSIFICATION")) {
     change = "plant_reclassification";
-
+    field = "RECLASSIFICATION";
+  }
   change = change.replace(" ", "");
 
-  const { error } = await supabase
-    .from("rpi_control")
-    .update({ [change]: value })
-    .eq("id", 1);
+  let error = undefined;
+  let response = undefined;
 
-  if (error) console.error("ERROR OCCURED: ", error);
+  try {
+    if (field === "LIGHT" || field === "PUMP") {
+      response = await supabase.from("status_change").insert({
+        original_id: 1,
+        general_field: field,
+        change_field: change,
+        rpi_response: 0,
+        new_status: value,
+      });
+    } else {
+      response = await supabase
+        .from("rpi_control")
+        .update({ [change]: value })
+        .eq("id", 1);
+    }
+
+    if (response.error) {
+      if (response.error.details?.includes("already exists"))
+        infoToast(`${field} operation already in queue. `);
+      else console.error("ERROR OCCURED: ", error);
+    }
+
+    // let change = "status";
+
+    // if (label.includes("PUMP")) change = "pump_status";
+    // else if (label.includes("LIGHT")) change = "light_status";
+    // else if (label.includes("FOLIAR")) change = "run_foliar";
+    // else if (label.includes("SPRINKLER")) change = "run_sprinkler";
+    // else if (label.includes("MIX")) change = "run_mix";
+    // else if (label.includes("DRAIN")) change = "run_drain";
+    // else if (label.includes("RECLASSIFICATION"))
+    //   change = "plant_reclassification";
+
+    // change = change.replace(" ", "");
+  } catch (err: unknown) {
+    console.log(err);
+  }
 }
 
 /* =========================
