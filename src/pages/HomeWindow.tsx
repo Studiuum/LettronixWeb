@@ -47,7 +47,7 @@ function RenderSensorReadingsCard({
 }
 
 function HomeWindowRender() {
-  const { contextData, preferenceData, setArraySetupRealtime, rpiSensorData } =
+  const { contextData, preferenceData, rpiSensorData } =
     useOutletContext<OutletContextProp>();
   const rpiControlData = contextData.values;
 

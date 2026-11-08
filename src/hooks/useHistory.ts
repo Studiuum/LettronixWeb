@@ -12,6 +12,7 @@ export function useHistory() {
       hum: -1,
       pic: "",
       classification: 0,
+      concentration: 0,
     },
   ]);
 
